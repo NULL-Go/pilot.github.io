@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
-    <title>Gridea</title>
-    <updated>2021-03-02T11:40:42.900Z</updated>
+    <title>PILOT</title>
+    <updated>2021-03-02T12:09:22.771Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Gridea</rights>
+    <rights>All rights reserved 2021, PILOT</rights>
     <entry>
-        <title type="html"><![CDATA[k]]></title>
+        <title type="html"><![CDATA[打我打]]></title>
         <id>https://null-go.github.io/post/k/</id>
         <link href="https://null-go.github.io/post/k/">
         </link>
         <updated>2021-03-02T11:37:57.000Z</updated>
-        <content type="html"><![CDATA[<p>k</p>
+        <content type="html"><![CDATA[<h1 id="学习javacsript">学习javacsript</h1>
+<ul>
+<li>学习java</li>
+<li>学习数据库<br>
+1 dawd</li>
+</ul>
+<ol>
+<li>学习java</li>
+<li>学习数据库<br>
+dawndaowd awdawdwdad<br>
+四个空格或者一个制表符tab键可以输入代码<br>
+{<br>
+gridIndex: 1,<br>
+type: &quot;category&quot;,<br>
+boundaryGap: false,<br>
+axisLine: { onZero: true },<br>
+data: this.timeData,<br>
+position: &quot;top&quot;,<br>
+}<br>
+这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
+我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
+[runoob]: http://www.runoob.com/</li>
+</ol>
 ]]></content>
     </entry>
     <entry>
