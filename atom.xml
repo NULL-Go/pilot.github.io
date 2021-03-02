@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-02T12:09:22.771Z</updated>
+    <updated>2021-03-02T12:17:48.192Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -24,21 +24,19 @@
 </ul>
 <ol>
 <li>学习java</li>
-<li>学习数据库<br>
-dawndaowd awdawdwdad<br>
-四个空格或者一个制表符tab键可以输入代码<br>
-{<br>
-gridIndex: 1,<br>
-type: &quot;category&quot;,<br>
-boundaryGap: false,<br>
-axisLine: { onZero: true },<br>
-data: this.timeData,<br>
-position: &quot;top&quot;,<br>
-}<br>
-这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
-我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
-[runoob]: http://www.runoob.com/</li>
+<li>学习数据库</li>
 </ol>
+<blockquote>
+<p>这是引用</p>
+<blockquote>
+<p>这是引用</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-javascript">  在此输入代码
+</code></pre>
+<p>这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
+我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
+[runoob]: http://www.runoob.com/</p>
 ]]></content>
     </entry>
     <entry>
