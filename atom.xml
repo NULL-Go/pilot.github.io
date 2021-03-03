@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-02T12:17:48.192Z</updated>
+    <updated>2021-03-03T13:03:00.479Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,52 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【JS】变量作用域与闭包]]></title>
+        <id>https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/</id>
+        <link href="https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/">
+        </link>
+        <updated>2021-03-03T11:16:19.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="词法环境">词法环境</h1>
+<h2 id="pointer1-变量">pointer1 变量</h2>
+<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象</em>）。</p>
+<p>词法环境对象由两部分组成：</p>
+<ol>
+<li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。</li>
+<li>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</li>
+</ol>
+<p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
+<h2 id="pointer2-函数声明">pointer2 函数声明</h2>
+<p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
+<h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
+<ol>
+<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量，还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
+若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
+<li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
+</ol>
+<h2 id="pointer4-创建函数">pointer4 创建函数</h2>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数被在哪儿调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
+<h1 id="闭包">闭包</h1>
+<ol>
+<li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>
+<li>所有函数都是天生的闭包除了<strong>new Function</strong>外</li>
+</ol>
+<p>本次学习的的tips：</p>
+<ol>
+<li>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong>未初始化（Uninitialized</strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</li>
+<li>关于为什么new funtion语法不能闭包的原因。</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HTTP]]></title>
+        <id>https://null-go.github.io/post/http/</id>
+        <link href="https://null-go.github.io/post/http/">
+        </link>
+        <updated>2021-03-03T07:13:38.000Z</updated>
+        <content type="html"><![CDATA[<p>p27 查询HTTP 服务器端支持的HTTP方法和类型</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[打我打]]></title>
         <id>https://null-go.github.io/post/k/</id>
@@ -37,24 +83,6 @@
 <p>这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
 我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
 [runoob]: http://www.runoob.com/</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[kk]]></title>
-        <id>https://null-go.github.io/post/kk/</id>
-        <link href="https://null-go.github.io/post/kk/">
-        </link>
-        <updated>2021-03-02T10:51:53.000Z</updated>
-        <content type="html"><![CDATA[<p>kk</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[kkkk]]></title>
-        <id>https://null-go.github.io/post/kkkk/</id>
-        <link href="https://null-go.github.io/post/kkkk/">
-        </link>
-        <updated>2021-03-02T10:32:29.000Z</updated>
-        <content type="html"><![CDATA[<p>kkkk</p>
 ]]></content>
     </entry>
     <entry>
