@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-03T13:03:00.479Z</updated>
+    <updated>2021-03-07T07:00:53.821Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -11,6 +11,61 @@
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
     <entry>
+        <title type="html"><![CDATA[【CSS】基础]]></title>
+        <id>https://null-go.github.io/post/css-ji-chu/</id>
+        <link href="https://null-go.github.io/post/css-ji-chu/">
+        </link>
+        <updated>2021-03-07T03:12:47.000Z</updated>
+        <content type="html"><![CDATA[<p>##引入CSS文件的三种形式</p>
+<ol>
+<li>外部样式表<br>
+即用link标签 <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</code> 一般放在head标签里面的最后一个</li>
+<li>内部样式表<br>
+即用<code>style</code>标签引用 也是放在head标签最后一个</li>
+<li>内联样式(难以维护，可读性变差)<br>
+即在元素内部使用 style属性加入css样式</li>
+</ol>
+<p>##浏览器加载网页是怎么样加载的</p>
+<ol>
+<li>浏览器将 HTML文件渲染成一个DOM树，该过程为深度遍历</li>
+<li>构建DOM树的同时，拉取额外资源，如图片，css，js文件(当遇到js代码时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构)</li>
+<li>当CSS解析完后生成CSSOM树</li>
+<li>将CSS与DOM合并，构建渲染树（rendering tree）<br>
+<img src="https://img2018.cnblogs.com/blog/907813/201907/907813-20190703103126126-878912400.png" alt="avatar" loading="lazy"><br>
+为了更好的用户体验，渲染引擎将会尽可能早的将内容呈现到屏幕上，并不会等到所有的html都解析完成之后再去构建和布局render树。它是解析完一部分内容就显示一部分内容，同时，可能还在通过网络下载其余内容。</li>
+<li>布局和绘制</li>
+</ol>
+<p>##选择器</p>
+<ol>
+<li>类选择器</li>
+</ol>
+<ul>
+<li>指向特定元素的类 类后面.className，例span.span-1</li>
+<li>多个类被应用时指向一个元素 两个类名连写，例.divBox.danger</li>
+</ul>
+<ol start="2">
+<li>标签属性选择器  根据标签上的属性匹配值</li>
+</ol>
+<ul>
+<li>[attr] 匹配带有attr属性的元素，例a[title] 匹配a标签且有title属性</li>
+<li>[attr=&quot;value&quot;] 匹配带有attr属性的元素，且属性的值仅为value，不能有多个，例一个div元素有class=&quot;divOne divTwo&quot;  div[class=&quot;divOne&quot;]无法匹配它</li>
+<li>[attr~=&quot;value&quot;] 解决了上述情况 单个值能匹配，多个属性值也能匹配(注:<strong>值是用空格隔开的</strong>)</li>
+<li>[attr|=&quot;value&quot;] 可以匹配恰好为value的属性值，也可以匹配值value后面紧随一个连字符的值<br>
+注：连字符 <strong>-</strong> [class|=&quot;div&quot;] 可以匹配class=&quot;div-1234&quot;<br>
+除此之外，还有 <em>三个子字符串匹配选择器</em></li>
+</ul>
+<ol start="3">
+<li>关系选择器</li>
+</ol>
+<ul>
+<li>空格 <strong>后代选择器</strong>，特点是继承关系长，间接子元素也能匹配</li>
+<li>&gt;  <strong>子代关系选择器</strong>，特点是只有直接子代能匹配</li>
+<li>+ <strong>邻接兄弟选择器</strong>，特点是同级且必须在前者之后邻接才能匹配，注：匹配的是+后面的元素</li>
+<li>~ <strong>通用兄弟选择符</strong>，特点是同级且不需要邻接，只需要之后，注：匹配的是~后面的元素</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[【JS】变量作用域与闭包]]></title>
         <id>https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/</id>
         <link href="https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/">
@@ -18,7 +73,7 @@
         <updated>2021-03-03T11:16:19.000Z</updated>
         <content type="html"><![CDATA[<h1 id="词法环境">词法环境</h1>
 <h2 id="pointer1-变量">pointer1 变量</h2>
-<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象</em>）。</p>
+<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象（函数叫活动对象）</em>）。</p>
 <p>词法环境对象由两部分组成：</p>
 <ol>
 <li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。</li>
@@ -29,12 +84,12 @@
 <p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
 <h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
 <ol>
-<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量，还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
+<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
 若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
 <li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
 </ol>
 <h2 id="pointer4-创建函数">pointer4 创建函数</h2>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数被在哪儿调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
 <h1 id="闭包">闭包</h1>
 <ol>
 <li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>

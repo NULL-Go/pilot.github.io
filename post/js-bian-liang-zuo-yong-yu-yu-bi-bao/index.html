@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】变量作用域与闭包 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1614776578363">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615100288305">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】变量作用域与闭包 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -23,7 +23,7 @@ pointer1 变量
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1614776578363" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615100288305" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -83,7 +83,7 @@ pointer1 变量
                 2021-03-03
               </span>
               <span>
-                3 min read
+                4 min read
               </span>
               
             </div>
@@ -92,7 +92,7 @@ pointer1 变量
               <div class="post-content">
                 <h1 id="词法环境">词法环境</h1>
 <h2 id="pointer1-变量">pointer1 变量</h2>
-<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象</em>）。</p>
+<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象（函数叫活动对象）</em>）。</p>
 <p>词法环境对象由两部分组成：</p>
 <ol>
 <li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。</li>
@@ -103,12 +103,12 @@ pointer1 变量
 <p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
 <h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
 <ol>
-<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量，还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
+<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
 若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
 <li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
 </ol>
 <h2 id="pointer4-创建函数">pointer4 创建函数</h2>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数被在哪儿调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
 <h1 id="闭包">闭包</h1>
 <ol>
 <li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>
