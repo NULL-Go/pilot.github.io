@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-07T07:41:47.023Z</updated>
+    <updated>2021-03-07T07:44:06.632Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -16,7 +16,7 @@
         <link href="https://null-go.github.io/post/css-ji-chu/">
         </link>
         <updated>2021-03-07T03:12:47.000Z</updated>
-        <content type="html"><![CDATA[<p>##引入CSS文件的三种形式</p>
+        <content type="html"><![CDATA[<h2 id="引入css文件的三种形式">引入CSS文件的三种形式</h2>
 <ol>
 <li>外部样式表<br>
 即用link标签 <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</code> 一般放在head标签里面的最后一个</li>
@@ -25,7 +25,7 @@
 <li>内联样式(难以维护，可读性变差)<br>
 即在元素内部使用 style属性加入css样式</li>
 </ol>
-<p>##浏览器加载网页是怎么样加载的</p>
+<h2 id="浏览器加载网页是怎么样加载的">浏览器加载网页是怎么样加载的</h2>
 <ol>
 <li>浏览器将 HTML文件渲染成一个DOM树，该过程为深度遍历</li>
 <li>构建DOM树的同时，拉取额外资源，如图片，css，js文件(当遇到js代码时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构)</li>
@@ -35,7 +35,7 @@
 为了更好的用户体验，渲染引擎将会尽可能早的将内容呈现到屏幕上，并不会等到所有的html都解析完成之后再去构建和布局render树。它是解析完一部分内容就显示一部分内容，同时，可能还在通过网络下载其余内容。</li>
 <li>布局和绘制</li>
 </ol>
-<p>##选择器</p>
+<h2 id="选择器">选择器</h2>
 <ol>
 <li>类选择器</li>
 </ol>
