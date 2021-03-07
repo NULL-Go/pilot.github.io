@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【CSS】基础知识汇总 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615100485187">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615102904038">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【CSS】基础知识汇总 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615100485187" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615102904038" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -105,9 +105,9 @@
 <ol>
 <li>浏览器将 HTML文件渲染成一个DOM树，该过程为深度遍历</li>
 <li>构建DOM树的同时，拉取额外资源，如图片，css，js文件(当遇到js代码时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构)</li>
-<li>当CSS解析完后生成CSSOM树</li>
-<li>将CSS与DOM合并，构建渲染树（rendering tree）<br>
-<img src="https://img2018.cnblogs.com/blog/907813/201907/907813-20190703103126126-878912400.png" alt="avatar" loading="lazy"><br>
+<li>当CSS解析完后生成CSS规则树(CSS rule tree)</li>
+<li>将CSS规则树与DOM树合并，构建渲染树（rendering tree）<br>
+<img src="https://upload-images.jianshu.io/upload_images/8646214-c6a28b94fa802b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/641/format/webp" alt="avatar" loading="lazy"><br>
 为了更好的用户体验，渲染引擎将会尽可能早的将内容呈现到屏幕上，并不会等到所有的html都解析完成之后再去构建和布局render树。它是解析完一部分内容就显示一部分内容，同时，可能还在通过网络下载其余内容。</li>
 <li>布局和绘制</li>
 </ol>
@@ -137,7 +137,9 @@
 <li>空格 <strong>后代选择器</strong>，特点是继承关系长，间接子元素也能匹配</li>
 <li>&gt;  <strong>子代关系选择器</strong>，特点是只有直接子代能匹配</li>
 <li>+ <strong>邻接兄弟选择器</strong>，特点是同级且必须在前者之后邻接才能匹配，注：匹配的是+后面的元素</li>
-<li>~ <strong>通用兄弟选择符</strong>，特点是同级且不需要邻接，只需要之后，注：匹配的是~后面的元素</li>
+<li>~ <strong>通用兄弟选择符</strong>，特点是同级且不需要邻接，只需要之后，注：匹配的是~后面的元素<br>
+tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻找匹配<br>
+以便<em>尽早过滤掉一些无关的样式规则和元素</em></li>
 </ul>
 
               </div>
