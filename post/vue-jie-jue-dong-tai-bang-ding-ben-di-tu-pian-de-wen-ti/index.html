@@ -2,36 +2,16 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Markdown语法汇总 | PILOT</title>
+<title>【Vue】解决动态绑定本地图片的问题 | PILOT</title>
 <link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615300052218">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Markdown语法汇总 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【Vue】解决动态绑定本地图片的问题 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="学习javacsript
-
-学习java
-学习数据库
-1 dawd
-
-
-学习java
-学习数据库
-
-
-这是引用
-
-这是引用
-
-
-  在此输入代码
-
-这是一个链接我的主页
-我们可以通过变量来设置一个链接，变量赋值在文档末尾进行
-[runoob..." />
+    <meta name="description" content="一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张本地的图片，传递过去src是一个变量，在img标签中单向绑定v-bind:src=。发现出错了，上网查找资料后发现是webpack的问题，..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -94,11 +74,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Markdown语法汇总
+              【Vue】解决动态绑定本地图片的问题
             </h2>
             <div class="post-info">
               <span>
-                2021-03-02
+                2021-03-09
               </span>
               <span>
                 1 min read
@@ -108,34 +88,14 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="学习javacsript">学习javacsript</h1>
-<ul>
-<li>学习java</li>
-<li>学习数据库<br>
-1 dawd</li>
-</ul>
-<ol>
-<li>学习java</li>
-<li>学习数据库</li>
-</ol>
-<blockquote>
-<p>这是引用</p>
-<blockquote>
-<p>这是引用</p>
-</blockquote>
-</blockquote>
-<pre><code class="language-javascript">  在此输入代码
+                <p>一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张<strong>本地</strong>的图片，传递过去src是一个变量，在img标签中单向绑定<strong>v-bind:src=</strong>。发现出错了，上网查找资料后发现是webpack的问题，webpack会将assets文件夹处理解析为<strong>模块依赖</strong>，具体原因不知道，因为对webpack还不了解😥😢。<br>
+然后尝试require纯地址路径，还是error找不到module，最终解决，解决方法：<strong>require(path) ,path</strong>至少要有三部分组成, 目录+文件名+后缀，即：</p>
+<pre><code>&lt;img :src=&quot;require('../../assets/images/'+pic+'.png')&quot;&gt;
 </code></pre>
-<p>这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
-我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
-[runoob]: http://www.runoob.com/</p>
 
               </div>
               <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li><a href="#%E5%AD%A6%E4%B9%A0javacsript">学习javacsript</a></li>
-</ul>
-
+                
               </div>
             </div>
           </article>
@@ -144,9 +104,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/hello-gridea/">
+            <a href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
               <h3 class="post-title">
-                Hello Gridea
+                【AJAX】同步和异步HTTP请求以混编模式
               </h3>
             </a>
           </div>

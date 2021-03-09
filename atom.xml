@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-07T07:44:06.632Z</updated>
+    <updated>2021-03-09T14:27:39.313Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【Vue】解决动态绑定本地图片的问题]]></title>
+        <id>https://null-go.github.io/post/vue-jie-jue-dong-tai-bang-ding-ben-di-tu-pian-de-wen-ti/</id>
+        <link href="https://null-go.github.io/post/vue-jie-jue-dong-tai-bang-ding-ben-di-tu-pian-de-wen-ti/">
+        </link>
+        <updated>2021-03-09T14:19:41.000Z</updated>
+        <content type="html"><![CDATA[<p>一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张<strong>本地</strong>的图片，传递过去src是一个变量，在img标签中单向绑定<strong>v-bind:src=</strong>。发现出错了，上网查找资料后发现是webpack的问题，webpack会将assets文件夹处理解析为<strong>模块依赖</strong>，具体原因不知道，因为对webpack还不了解😥😢。<br>
+然后尝试require纯地址路径，还是error找不到module，最终解决，解决方法：<strong>require(path) ,path</strong>至少要有三部分组成, 目录+文件名+后缀，即：</p>
+<pre><code>&lt;img :src=&quot;require('../../assets/images/'+pic+'.png')&quot;&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【AJAX】同步和异步HTTP请求以混编模式]]></title>
+        <id>https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/</id>
+        <link href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
+        </link>
+        <updated>2021-03-09T00:29:15.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="web开发混编模式">web开发混编模式</h2>
+<p>在html中嵌入php，jsp，asp等脚本语言(前后端不分离)，通过url地址请求页面加载不同的HTML页面的内容，所以每次页面有变化都需要重新请求服务器并等待服务器返回的HTML页面重新渲染，这样的方式是同步的。(用户必须等待服务器的返回后才进行其他操作)</p>
+<h2 id="mvc模式">MVC模式</h2>
+<h2 id="ajax-asynchronous-javascript-and-xml异步-javascript-和-xml">AJAX (“Asynchronous Javascript And XML”异步 JavaScript 和 XML)</h2>
+<p>前端使用JavaScript的方法直接向服务器发起HTTP请求，获取XML/JSON等数据后进行处理，在不刷新页面的情况在操作HTML以达到重新渲染页面的作用。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【CSS】基础知识汇总]]></title>
         <id>https://null-go.github.io/post/css-ji-chu/</id>
@@ -114,7 +139,7 @@ tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻�
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[打我打]]></title>
+        <title type="html"><![CDATA[Markdown语法汇总]]></title>
         <id>https://null-go.github.io/post/k/</id>
         <link href="https://null-go.github.io/post/k/">
         </link>
