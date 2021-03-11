@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【AJAX】同步和异步HTTP请求 混编模式 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615468428534">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615469168105">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【AJAX】同步和异步HTTP请求 混编模式 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -22,7 +22,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615468428534" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615469168105" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -110,7 +110,7 @@
 参数3:可选，表示是否异步 true为异步</li>
 <li>send &lt;发送请求&gt;</li>
 <li>setRequestHeader &lt;设置请求头&gt;<br>
-在POST 请求要传递参数时 调用xhr.setRequestHeader(header, value);<br>
+在POST 请求要传递参数时 必须要在open()之后 send()之前 调用xhr.setRequestHeader(header, value);<br>
 发送JSON数据格式<br>
 setRequestHeader(&quot;Content-type&quot;,&quot;application/json&quot;);<br>
 发送表单数据格式<br>
