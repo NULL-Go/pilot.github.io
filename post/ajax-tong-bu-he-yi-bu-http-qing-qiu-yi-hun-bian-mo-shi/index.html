@@ -2,11 +2,11 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>【AJAX】同步和异步HTTP请求以混编模式 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615300052218">
+<title>【AJAX】同步和异步HTTP请求 混编模式 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615467987961">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【AJAX】同步和异步HTTP请求以混编模式 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【AJAX】同步和异步HTTP请求 混编模式 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
@@ -22,7 +22,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615300052218" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615467987961" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -75,14 +75,14 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              【AJAX】同步和异步HTTP请求以混编模式
+              【AJAX】同步和异步HTTP请求 混编模式
             </h2>
             <div class="post-info">
               <span>
                 2021-03-09
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
               
             </div>
@@ -94,6 +94,39 @@
 <h2 id="mvc模式">MVC模式</h2>
 <h2 id="ajax-asynchronous-javascript-and-xml异步-javascript-和-xml">AJAX (“Asynchronous Javascript And XML”异步 JavaScript 和 XML)</h2>
 <p>前端使用JavaScript的方法直接向服务器发起HTTP请求，获取XML/JSON等数据后进行处理，在不刷新页面的情况在操作HTML以达到重新渲染页面的作用。</p>
+<h2 id="原生xmlhttprequest对象">原生XMLHttpRequest对象</h2>
+<p>XMLHttpRequest对象是js引擎内置的构造对象，IE5或6没有此对象，要使用ajax必须要用ActiveXObject对象。</p>
+<pre><code>if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+    httpRequest = new XMLHttpRequest();
+} else if (window.ActiveXObject) { // IE 6 and older
+    httpRequest = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+}
+</code></pre>
+<p>方法和属性</p>
+<ul>
+<li>open &lt;初始化请求&gt; <code>.open(参数1,参数2,参数3)</code><br>
+参数1:请求的方法 即&quot;GET&quot; &quot;POST&quot; &quot;HEAD&quot;<br>
+参数2:请求的url<br>
+参数3:可选，表示是否异步 true为异步</li>
+<li>send &lt;发送请求&gt;</li>
+<li>setRequestHeader &lt;设置请求头&gt;<br>
+在POST 请求要传递参数时 调用xhr.setRequestHeader(header, value);<br>
+发送JSON数据格式<br>
+setRequestHeader(&quot;Content-type&quot;,&quot;application/json&quot;);<br>
+发送表单数据格式<br>
+setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);</li>
+<li>onreadystatechange &lt;处理响应&gt; 将函数挂载在该属性上，在http请求的状态发生改变时会调用该回调函数。</li>
+<li>readyState 可读属性 返回一个 XMLHttpRequest 代理当前所处的状态。一个 XHR 代理总是处于下列状态中的一个：
+<ol>
+<li>0 (XMLHttpRequest.UNSENT) 代理被创建，但尚未调用 open() 方法。</li>
+<li>1 (XMLHttpRequest.OPENED) open() 方法已经被调用。</li>
+<li>2 (XMLHttpRequest.HEADER_RECEIVED) send() 方法已经被调用，并且头部和状态已经可获得。</li>
+<li>3 (XMLHttpRequest.LOADING) 下载中； responseText 属性已经包含部分数据。</li>
+<li>4 (XMLHttpRequest.DONE) 下载操作已完成。<br>
+注意与<strong>status</strong>属性区分，status属性表示<strong>响应中</strong>的数字状态码，status 的值是一个无符号短整型。在请求完成前，status的值为0。如果 XMLHttpRequest 出错，浏览器返回的 status 也为0。</li>
+</ol>
+</li>
+</ul>
 
               </div>
               <div class="toc-container">
@@ -103,6 +136,7 @@
 <li><a href="#web%E5%BC%80%E5%8F%91%E6%B7%B7%E7%BC%96%E6%A8%A1%E5%BC%8F">web开发混编模式</a></li>
 <li><a href="#mvc%E6%A8%A1%E5%BC%8F">MVC模式</a></li>
 <li><a href="#ajax-asynchronous-javascript-and-xml%E5%BC%82%E6%AD%A5-javascript-%E5%92%8C-xml">AJAX (“Asynchronous Javascript And XML”异步 JavaScript 和 XML)</a></li>
+<li><a href="#%E5%8E%9F%E7%94%9Fxmlhttprequest%E5%AF%B9%E8%B1%A1">原生XMLHttpRequest对象</a></li>
 </ul>
 </li>
 </ul>
