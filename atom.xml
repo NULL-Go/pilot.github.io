@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-12T02:41:08.090Z</updated>
+    <updated>2021-03-12T02:47:25.836Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【ES6】语法解析]]></title>
+        <id>https://null-go.github.io/post/es6-yu-fa-jie-xi/</id>
+        <link href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
+        </link>
+        <updated>2021-03-12T02:41:19.000Z</updated>
+        <content type="html"><![CDATA[<p>变量结构赋值</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【Vue】解决动态绑定本地图片的问题]]></title>
         <id>https://null-go.github.io/post/vue-jie-jue-dong-tai-bang-ding-ben-di-tu-pian-de-wen-ti/</id>
@@ -168,15 +177,15 @@ tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻�
 }
 a[6]();
 </code></pre>
-<p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:<br>
-<em>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。<br>
-另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</em></p>
+<p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:</p>
+<p><strong>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。<br>
+另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</strong></p>
 <pre><code>for (let i = 0; i &lt; 3; i++) {
   let i = 'abc';
   console.log(i);
 }
 </code></pre>
-<p>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</p>
+<p><strong>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</strong></p>
 ]]></content>
     </entry>
     <entry>
