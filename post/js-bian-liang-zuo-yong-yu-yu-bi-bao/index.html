@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】变量作用域与闭包 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615516040028">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615516850048">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】变量作用域与闭包 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -23,7 +23,7 @@ pointer1 变量
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615516040028" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615516850048" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -83,7 +83,7 @@ pointer1 变量
                 2021-03-03
               </span>
               <span>
-                4 min read
+                5 min read
               </span>
               
             </div>
@@ -118,7 +118,24 @@ pointer1 变量
 <ol>
 <li>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong>未初始化（Uninitialized</strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</li>
 <li>关于为什么new funtion语法不能闭包的原因。</li>
+<li>上次关于变量作用域产生了一个疑惑</li>
 </ol>
+<pre><code class="language-var">for (let i = 0; i &lt; 10; i++) {
+  a[i] = function () {
+    console.log(i);
+  };
+}
+a[6]();
+</code></pre>
+<p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:<br>
+<em>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。<br>
+另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</em></p>
+<pre><code>for (let i = 0; i &lt; 3; i++) {
+  let i = 'abc';
+  console.log(i);
+}
+</code></pre>
+<p>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</p>
 
               </div>
               <div class="toc-container">
