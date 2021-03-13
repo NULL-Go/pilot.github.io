@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>关于 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615517243427">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615634646072">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="关于 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -14,7 +14,8 @@
     <meta name="description" content="vue中的data是函数且必须有return {}
 v-bind绑定值时不能为数组带有下标
 vue原生img绑定src require  webpack打包问题
-" />
+typeof 打印出来的都是字符串
+函数声明整体提升，变量声明提升，赋值不提升..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +25,7 @@ vue原生img绑定src require  webpack打包问题
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615517243427" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615634646072" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -93,7 +94,20 @@ vue原生img绑定src require  webpack打包问题
               <div class="post-content">
                 <p>vue中的data是函数且必须有return {}<br>
 v-bind绑定值时不能为数组带有下标<br>
-vue原生img绑定src require  webpack打包问题</p>
+vue原生img绑定src require  webpack打包问题<br>
+typeof 打印出来的都是字符串<br>
+函数声明整体提升，变量声明提升，赋值不提升 var</p>
+<pre><code>function test(){
+    var a =b =1;
+}
+test();
+console.log(b); //1
+console.log(window.b); //1
+console.log(a); //报错
+</code></pre>
+<p>说明js中的连等号从右边往左指向<br>
+var a,b;和<br>
+var a =b =1;不同</p>
 
               </div>
               <div class="toc-container">

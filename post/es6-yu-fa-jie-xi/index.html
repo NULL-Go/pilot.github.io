@@ -2,17 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>【ES6】语法解析 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615517243427">
+<title>【ES6】语法简学 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615634646072">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【ES6】语法解析 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【ES6】语法简学 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="变量结构赋值
-" />
+    <meta name="description" content="let 和 const命令
+
+块级作用域和函数声明
+ES5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。
+但是，浏览器没有遵守这个规定，为了兼容以前的旧代码，还是支持在块级作用域之中声明函数，不会报错。
+ES6中明确..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -22,7 +26,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615517243427" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615634646072" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -75,25 +79,59 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              【ES6】语法解析
+              【ES6】语法简学
             </h2>
             <div class="post-info">
               <span>
                 2021-03-12
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>变量结构赋值</p>
+                <h1 id="let-和-const命令">let 和 const命令</h1>
+<ol>
+<li>块级作用域和函数声明<br>
+ES5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。<br>
+但是，浏览器没有遵守这个规定，为了兼容以前的旧代码，还是支持在块级作用域之中声明函数，不会报错。<br>
+ES6中明确规定，函数在块级作用域中声明类似于let，在块级作用域外不可见。<br>
+但是如果<strong>浏览器</strong>都明确遵守ES6中的函数声明，那必然会对老代码产生巨大的影响，所以<strong>浏览器</strong>(其他环境遵循ES6)有以下三条规则:</li>
+</ol>
+<blockquote>
+<p>允许在块级作用域内声明函数。<br>
+函数声明类似于var，即会提升到全局作用域或函数作用域的头部。<br>
+同时，函数声明还会提升到所在的块级作用域的头部。</p>
+</blockquote>
+<ol start="2">
+<li>
+<p>const<br>
+const声明的同时必须初始化，仅在块级作用域中有效，存在暂时性死区，不可重复声明。<br>
+const表示值不能发生改变，const声明的变量若等于简单类型数据，指变量的值不能发生改变，若等于引用类型数据，指变量指向的地址不能改变，但地址指向的数据结构可以改变。</p>
+</li>
+<li>
+<p>顶层对象的属性<br>
+顶层对象，在浏览器环境指的是window对象，在 Node 指的是global对象。ES5 之中，顶层对象的属性与全局变量是等价的。(var 和 function定义的全局变量会成为顶层对象的属性)。顶层对象是一个有实体含义的对象，也是不合适的。<br>
+ES6 为了改变这一点，一方面规定，为了保持兼容性，var命令和function命令声明的全局变量，依旧是顶层对象的属性；另一方面规定，let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。也就是说，从 ES6 开始，全局变量将逐步与顶层对象的属性脱钩。</p>
+</li>
+<li>
+<p>globleThis对象<br>
+JavaScript 语言存在一个顶层对象，它提供全局环境（即全局作用域），所有代码都是在这个环境中运行。</p>
+</li>
+</ol>
+<ul>
+<li>变量结构赋值</li>
+</ul>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li><a href="#let-%E5%92%8C-const%E5%91%BD%E4%BB%A4">let 和 const命令</a></li>
+</ul>
+
               </div>
             </div>
           </article>

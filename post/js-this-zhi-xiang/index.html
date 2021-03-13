@@ -2,17 +2,20 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HTTP | PILOT</title>
+<title>【JS】this指向 | PILOT</title>
 <link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615634646072">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="HTTP | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【JS】this指向 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="p27 查询HTTP 服务器端支持的HTTP方法和类型
-" />
+    <meta name="description" content="this的指向问题的几个重点 真的被搞晕了
+
+this可以用于任何函数或者方法。
+this是不受限制的。
+在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -75,11 +78,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              HTTP
+              【JS】this指向
             </h2>
             <div class="post-info">
               <span>
-                2021-03-03
+                2021-03-13
               </span>
               <span>
                 1 min read
@@ -89,11 +92,31 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>p27 查询HTTP 服务器端支持的HTTP方法和类型</p>
+                <h2 id="this的指向问题的几个重点-真的被搞晕了">this的指向问题的几个重点 真的被搞晕了</h2>
+<ol>
+<li>this可以用于任何函数或者方法。</li>
+<li>this是不受限制的。</li>
+<li>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对象。</li>
+</ol>
+<h1 id="作为对象的方法调用this指向本对象">作为对象的方法调用，this指向本对象</h1>
+<h1 id="在对象的构造函数中使用new方法this指向构造的那个对象">在对象的构造函数中，使用new方法，this指向构造的那个对象</h1>
+<h1 id="作为普通的函数调用严格模式在this指向undefined非严格模式下指向window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向window</h1>
+<h1 id="匿名函数this指向window">匿名函数this指向window</h1>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E7%82%B9-%E7%9C%9F%E7%9A%84%E8%A2%AB%E6%90%9E%E6%99%95%E4%BA%86">this的指向问题的几个重点 真的被搞晕了</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8this%E6%8C%87%E5%90%91%E6%9C%AC%E5%AF%B9%E8%B1%A1">作为对象的方法调用，this指向本对象</a></li>
+<li><a href="#%E5%9C%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8new%E6%96%B9%E6%B3%95this%E6%8C%87%E5%90%91%E6%9E%84%E9%80%A0%E7%9A%84%E9%82%A3%E4%B8%AA%E5%AF%B9%E8%B1%A1">在对象的构造函数中，使用new方法，this指向构造的那个对象</a></li>
+<li><a href="#%E4%BD%9C%E4%B8%BA%E6%99%AE%E9%80%9A%E7%9A%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E5%9C%A8this%E6%8C%87%E5%90%91undefined%E9%9D%9E%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%8C%87%E5%90%91window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向window</a></li>
+<li><a href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0this%E6%8C%87%E5%90%91window">匿名函数this指向window</a></li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -102,9 +125,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/k/">
+            <a href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
               <h3 class="post-title">
-                Markdown语法汇总
+                【ES6】语法简学
               </h3>
             </a>
           </div>

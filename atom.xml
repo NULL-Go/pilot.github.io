@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-12T02:47:25.836Z</updated>
+    <updated>2021-03-13T11:24:07.970Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -11,12 +11,61 @@
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
     <entry>
-        <title type="html"><![CDATA[【ES6】语法解析]]></title>
+        <title type="html"><![CDATA[【JS】this指向]]></title>
+        <id>https://null-go.github.io/post/js-this-zhi-xiang/</id>
+        <link href="https://null-go.github.io/post/js-this-zhi-xiang/">
+        </link>
+        <updated>2021-03-13T07:59:55.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="this的指向问题的几个重点-真的被搞晕了">this的指向问题的几个重点 真的被搞晕了</h2>
+<ol>
+<li>this可以用于任何函数或者方法。</li>
+<li>this是不受限制的。</li>
+<li>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对象。</li>
+</ol>
+<h1 id="作为对象的方法调用this指向本对象">作为对象的方法调用，this指向本对象</h1>
+<h1 id="在对象的构造函数中使用new方法this指向构造的那个对象">在对象的构造函数中，使用new方法，this指向构造的那个对象</h1>
+<h1 id="作为普通的函数调用严格模式在this指向undefined非严格模式下指向window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向window</h1>
+<h1 id="匿名函数this指向window">匿名函数this指向window</h1>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【ES6】语法简学]]></title>
         <id>https://null-go.github.io/post/es6-yu-fa-jie-xi/</id>
         <link href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
         </link>
         <updated>2021-03-12T02:41:19.000Z</updated>
-        <content type="html"><![CDATA[<p>变量结构赋值</p>
+        <content type="html"><![CDATA[<h1 id="let-和-const命令">let 和 const命令</h1>
+<ol>
+<li>块级作用域和函数声明<br>
+ES5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。<br>
+但是，浏览器没有遵守这个规定，为了兼容以前的旧代码，还是支持在块级作用域之中声明函数，不会报错。<br>
+ES6中明确规定，函数在块级作用域中声明类似于let，在块级作用域外不可见。<br>
+但是如果<strong>浏览器</strong>都明确遵守ES6中的函数声明，那必然会对老代码产生巨大的影响，所以<strong>浏览器</strong>(其他环境遵循ES6)有以下三条规则:</li>
+</ol>
+<blockquote>
+<p>允许在块级作用域内声明函数。<br>
+函数声明类似于var，即会提升到全局作用域或函数作用域的头部。<br>
+同时，函数声明还会提升到所在的块级作用域的头部。</p>
+</blockquote>
+<ol start="2">
+<li>
+<p>const<br>
+const声明的同时必须初始化，仅在块级作用域中有效，存在暂时性死区，不可重复声明。<br>
+const表示值不能发生改变，const声明的变量若等于简单类型数据，指变量的值不能发生改变，若等于引用类型数据，指变量指向的地址不能改变，但地址指向的数据结构可以改变。</p>
+</li>
+<li>
+<p>顶层对象的属性<br>
+顶层对象，在浏览器环境指的是window对象，在 Node 指的是global对象。ES5 之中，顶层对象的属性与全局变量是等价的。(var 和 function定义的全局变量会成为顶层对象的属性)。顶层对象是一个有实体含义的对象，也是不合适的。<br>
+ES6 为了改变这一点，一方面规定，为了保持兼容性，var命令和function命令声明的全局变量，依旧是顶层对象的属性；另一方面规定，let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。也就是说，从 ES6 开始，全局变量将逐步与顶层对象的属性脱钩。</p>
+</li>
+<li>
+<p>globleThis对象<br>
+JavaScript 语言存在一个顶层对象，它提供全局环境（即全局作用域），所有代码都是在这个环境中运行。</p>
+</li>
+</ol>
+<ul>
+<li>变量结构赋值</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
@@ -145,7 +194,7 @@ tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻�
 <p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象（函数叫活动对象）</em>）。</p>
 <p>词法环境对象由两部分组成：</p>
 <ol>
-<li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。</li>
+<li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this,arguments 的值）的对象。</li>
 <li>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</li>
 </ol>
 <p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
@@ -153,17 +202,27 @@ tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻�
 <p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
 <h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
 <ol>
-<li>在一个函数在刚开始被调用时，会创建一个新的词法环境以储存调用的参数以及函数局部变量（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
+<li>在一个函数在<strong>刚开始被调用</strong>时，会创建一个新的词法环境以储存调用的参数以及函数局部变量(即<strong>预编译过程</strong>)（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
 若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
 <li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
 </ol>
+<p>预编译创建AO对象(函数,全局为GO,浏览器window)的过程（<strong>适用于ES5 var定义变量具有变量提升的时期</strong>）:</p>
+<blockquote>
+<p>创建AO对象<br>
+找形参和变量声明<br>
+将形参和变量声明相统一(将实参赋值给形参)<br>
+找函数声明<br>
+--&gt;执行函数 当执行函数时  a=1;要考虑是赋值还是变成了全局变量声明，如果AO对象中没有a变量，a变量将成为全局变量。在预编译已经执行的步骤执行中不再执行，比如函数声明。</p>
+</blockquote>
 <h2 id="pointer4-创建函数">pointer4 创建函数</h2>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
 <h1 id="闭包">闭包</h1>
 <ol>
 <li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>
 <li>所有函数都是天生的闭包除了<strong>new Function</strong>外</li>
 </ol>
+<h1 id="暂时性死区">暂时性死区</h1>
+<p>当一个词法环境被创建时，最先会在<strong>环境记录</strong>中填充所有变量的声明。(它们处于“未初始化（Uninitialized）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。) 所以在let声明变量a前使用变量，就算能在外部的词法环境中找到同名的a变量的值，它也会报错，因为它找到的是自己内部的还不能被使用的变量a。</p>
 <p>本次学习的的tips：</p>
 <ol>
 <li>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong>未初始化（Uninitialized</strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</li>
