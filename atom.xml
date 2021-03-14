@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-13T11:24:07.970Z</updated>
+    <updated>2021-03-14T13:20:33.818Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -16,16 +16,21 @@
         <link href="https://null-go.github.io/post/js-this-zhi-xiang/">
         </link>
         <updated>2021-03-13T07:59:55.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="this的指向问题的几个重点-真的被搞晕了">this的指向问题的几个重点 真的被搞晕了</h2>
+        <content type="html"><![CDATA[<h2 id="this的指向问题的几个重点">this的指向问题的几个重点</h2>
 <ol>
 <li>this可以用于任何函数或者方法。</li>
 <li>this是不受限制的。</li>
 <li>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对象。</li>
 </ol>
 <h1 id="作为对象的方法调用this指向本对象">作为对象的方法调用，this指向本对象</h1>
+<h1 id="对象原型上的方法中的this依然会指向new构造出来的对象实例">对象原型上的方法中的this依然会指向new构造出来的对象实例</h1>
 <h1 id="在对象的构造函数中使用new方法this指向构造的那个对象">在对象的构造函数中，使用new方法，this指向构造的那个对象</h1>
 <h1 id="作为普通的函数调用严格模式在this指向undefined非严格模式下指向window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向window</h1>
-<h1 id="匿名函数this指向window">匿名函数this指向window</h1>
+<h1 id="匿名函数this指向window若在绑定事件处理函数时传递函数作为参数改作为参数的匿名函数中的this指向绑定事件处理函数的元素">匿名函数this指向window，若在绑定事件处理函数时传递函数作为参数，改作为参数的匿名函数中的this指向绑定事件处理函数的元素</h1>
+<p><strong>修改this指向</strong><br>
+<em>apply/call</em>方法 立即执行 func.call(context, arg1, arg2, ...) func.apply(context, args)类数组对象<br>
+apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。<br>
+<em>bind</em> 复制一份新的函数</p>
 ]]></content>
     </entry>
     <entry>
