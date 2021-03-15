@@ -1,0 +1,201 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>【JS】数组内置方法 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615817432948">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="【JS】数组内置方法 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="forEach (返回值 undefined)
+forEach(callback(currentValue,index,array),thisArg)
+
+currentValue为当前值，index为索引，array为当前处理的数组
+thi..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://null-go.github.io">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615817432948" alt="">
+  </a>
+  <h1 class="site-title">
+    PILOT
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              【JS】数组内置方法
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-03-15
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="foreach-返回值-undefined">forEach (返回值 undefined)</h1>
+<p>forEach(callback(currentValue,index,array),thisArg)</p>
+<ol>
+<li>currentValue为当前值，index为索引，array为当前处理的数组</li>
+<li>thisArg用作回调函数this的值，若省略，this指向全局</li>
+<li>若使用箭头函数绑定了thisArg，则thisArg会被省略，因为箭头函数在词法上已经绑定了this</li>
+<li>在数组定义时省略的元素不会在forEach遍历时被列出，但是手动赋值为undefined的元素是会被列出的</li>
+<li>forEach() 遍历的范围在第一次调用 callback 前就会确定。调用 forEach 后添加到数组中的项不会被 callback 访问到</li>
+<li>如果已经存在的值被改变，则传递给 callback 的值是 forEach() 遍历到他们那一刻的值（表明值可以改变）。已删除的项不会被遍历到</li>
+<li>如果已访问的元素在迭代时被删除了（ 例如使用 shift() ），之后的元素将被跳过</li>
+<li><strong>除了抛出异常以外，没有办法中止或跳出 forEach() 循环</strong></li>
+</ol>
+<h1 id="concat-合并两个或多个数组-此方法不会更改现有数组返回值是一个新数组">concat (合并两个或多个数组。此方法不会更改现有数组，返回值是一个新数组)</h1>
+<p>concat(value1[, value2[, ...[, valueN]]])</p>
+<ol>
+<li>省略参数，将对数组做一次浅拷贝</li>
+</ol>
+<h1 id="join将所有元素用参数字符串分割返回值是一个字符串-可用于类数组对象">join(将所有元素用参数字符串分割，返回值是一个字符串。)  可用于类数组对象</h1>
+<ol>
+<li>如果数组只有一个项目，那么将返回该项目而不使用分割符</li>
+<li>如果不传入参数，则默认用逗号**,**作为分割符</li>
+<li>如果一个元素为 undefined 或 null，它会被转换为空字符串</li>
+</ol>
+<h1 id="push方法将一个或多个元素添加到数组的末尾并返回该数组的新长度-可用于类数组对象">push(方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度) 可用于类数组对象</h1>
+<ol>
+<li></li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#foreach-%E8%BF%94%E5%9B%9E%E5%80%BC-undefined">forEach (返回值 undefined)</a></li>
+<li><a href="#concat-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E6%95%B0%E7%BB%84-%E6%AD%A4%E6%96%B9%E6%B3%95%E4%B8%8D%E4%BC%9A%E6%9B%B4%E6%94%B9%E7%8E%B0%E6%9C%89%E6%95%B0%E7%BB%84%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E4%B8%80%E4%B8%AA%E6%96%B0%E6%95%B0%E7%BB%84">concat (合并两个或多个数组。此方法不会更改现有数组，返回值是一个新数组)</a></li>
+<li><a href="#join%E5%B0%86%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E7%94%A8%E5%8F%82%E6%95%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2-%E5%8F%AF%E7%94%A8%E4%BA%8E%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">join(将所有元素用参数字符串分割，返回值是一个字符串。)  可用于类数组对象</a></li>
+<li><a href="#push%E6%96%B9%E6%B3%95%E5%B0%86%E4%B8%80%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E5%85%83%E7%B4%A0%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%AB%E5%B0%BE%E5%B9%B6%E8%BF%94%E5%9B%9E%E8%AF%A5%E6%95%B0%E7%BB%84%E7%9A%84%E6%96%B0%E9%95%BF%E5%BA%A6-%E5%8F%AF%E7%94%A8%E4%BA%8E%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">push(方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度) 可用于类数组对象</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/">
+              <h3 class="post-title">
+                【JS】类数组对象和可迭代对象
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

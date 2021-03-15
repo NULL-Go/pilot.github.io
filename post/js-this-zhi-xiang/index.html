@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】this指向 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615727850599">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615817432948">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】this指向 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@ this是不受限制的。
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615727850599" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615817432948" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -106,7 +106,8 @@ this是不受限制的。
 <p><strong>修改this指向</strong><br>
 <em>apply/call</em>方法 立即执行 func.call(context, arg1, arg2, ...) func.apply(context, args)类数组对象<br>
 apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。<br>
-<em>bind</em> 复制一份新的函数</p>
+<em>bind</em> 复制一份新的函数<br>
+bind(context,arg1,arg2,..) 除了绑定上下文，还能预定给函数传入参数，在复制后的函数调用时自动传入，同时调用时传入的参数在预定参数之后传入。（这种方式称为<em>偏函数</em>）</p>
 
               </div>
               <div class="toc-container">

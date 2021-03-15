@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-14T13:20:33.818Z</updated>
+    <updated>2021-03-15T14:10:34.776Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,69 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【JS】数组内置方法]]></title>
+        <id>https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/</id>
+        <link href="https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/">
+        </link>
+        <updated>2021-03-15T11:48:51.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="foreach-返回值-undefined">forEach (返回值 undefined)</h1>
+<p>forEach(callback(currentValue,index,array),thisArg)</p>
+<ol>
+<li>currentValue为当前值，index为索引，array为当前处理的数组</li>
+<li>thisArg用作回调函数this的值，若省略，this指向全局</li>
+<li>若使用箭头函数绑定了thisArg，则thisArg会被省略，因为箭头函数在词法上已经绑定了this</li>
+<li>在数组定义时省略的元素不会在forEach遍历时被列出，但是手动赋值为undefined的元素是会被列出的</li>
+<li>forEach() 遍历的范围在第一次调用 callback 前就会确定。调用 forEach 后添加到数组中的项不会被 callback 访问到</li>
+<li>如果已经存在的值被改变，则传递给 callback 的值是 forEach() 遍历到他们那一刻的值（表明值可以改变）。已删除的项不会被遍历到</li>
+<li>如果已访问的元素在迭代时被删除了（ 例如使用 shift() ），之后的元素将被跳过</li>
+<li><strong>除了抛出异常以外，没有办法中止或跳出 forEach() 循环</strong></li>
+</ol>
+<h1 id="concat-合并两个或多个数组-此方法不会更改现有数组返回值是一个新数组">concat (合并两个或多个数组。此方法不会更改现有数组，返回值是一个新数组)</h1>
+<p>concat(value1[, value2[, ...[, valueN]]])</p>
+<ol>
+<li>省略参数，将对数组做一次浅拷贝</li>
+</ol>
+<h1 id="join将所有元素用参数字符串分割返回值是一个字符串-可用于类数组对象">join(将所有元素用参数字符串分割，返回值是一个字符串。)  可用于类数组对象</h1>
+<ol>
+<li>如果数组只有一个项目，那么将返回该项目而不使用分割符</li>
+<li>如果不传入参数，则默认用逗号**,**作为分割符</li>
+<li>如果一个元素为 undefined 或 null，它会被转换为空字符串</li>
+</ol>
+<h1 id="push方法将一个或多个元素添加到数组的末尾并返回该数组的新长度-可用于类数组对象">push(方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度) 可用于类数组对象</h1>
+<ol>
+<li></li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【JS】类数组对象和可迭代对象]]></title>
+        <id>https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/</id>
+        <link href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/">
+        </link>
+        <updated>2021-03-15T09:35:28.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="array-like-objects-类数组对象">array-like objects (类数组对象)</h1>
+<p><strong>即类似于数组的对象，有若干索引属性和length属性</strong><br>
+一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList 或者函数内部可用的 arguments 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 forEach() 方法。<br>
+这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
+<h1 id="iterable-object可迭代对象">Iterable object（可迭代对象）</h1>
+<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有**@@iterator方法**，可通过常量<strong>Symbol.iterator</strong>访问该属性。<br>
+该方法的返回值为一个对象(<strong>迭代器</strong>)，该对象必须含有next()方法，next对象的返回值：</p>
+<blockquote>
+<p>done（boolean）<br>
+如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）<br>
+value<br>
+迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
+</blockquote>
+<p>可迭代对象：Array，Set，String，Map<br>
+for..of..语句专用于可迭代对象，<strong>展开语法</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
+<p>#将类数组对象和可迭代对象转化为真正的数组<br>
+<strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);<br>
+arrayLike：想要转换成数组的类数组对象或可迭代对象。<br>
+mapFn：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数<br>
+thisArg：可选，指定回调函数的this值。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【JS】this指向]]></title>
         <id>https://null-go.github.io/post/js-this-zhi-xiang/</id>
@@ -30,7 +93,8 @@
 <p><strong>修改this指向</strong><br>
 <em>apply/call</em>方法 立即执行 func.call(context, arg1, arg2, ...) func.apply(context, args)类数组对象<br>
 apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。<br>
-<em>bind</em> 复制一份新的函数</p>
+<em>bind</em> 复制一份新的函数<br>
+bind(context,arg1,arg2,..) 除了绑定上下文，还能预定给函数传入参数，在复制后的函数调用时自动传入，同时调用时传入的参数在预定参数之后传入。（这种方式称为<em>偏函数</em>）</p>
 ]]></content>
     </entry>
     <entry>
@@ -288,38 +352,6 @@ a[6]();
 <p>这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
 我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
 [runoob]: http://www.runoob.com/</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://null-go.github.io/post/hello-gridea/</id>
-        <link href="https://null-go.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>

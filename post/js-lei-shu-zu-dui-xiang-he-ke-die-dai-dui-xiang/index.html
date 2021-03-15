@@ -2,24 +2,19 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hello Gridea | PILOT</title>
+<title>【JS】类数组对象和可迭代对象 | PILOT</title>
 <link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615817432948">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Hello Gridea | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="👏  欢迎使用 Gridea ！
-✍️  Gridea 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...
-
-Github
-Gridea 主页
-示例网站
-特性👇
-📝  你可以使用最酷的 Markdo..." />
-    <meta name="keywords" content="Gridea" />
+    <meta name="description" content="array-like objects (类数组对象)
+即类似于数组的对象，有若干索引属性和length属性
+一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList ..." />
+    <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -81,56 +76,46 @@ Gridea 主页
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Hello Gridea
+              【JS】类数组对象和可迭代对象
             </h2>
             <div class="post-info">
               <span>
-                2018-12-12
+                2021-03-15
               </span>
               <span>
                 2 min read
               </span>
               
-                <a href="https://null-go.github.io/tag/jZ8VDqnFn/" class="post-tag">
-                  # Gridea
-                </a>
-              
             </div>
-            
-              <img class="post-feature-image" src="https://null-go.github.io/post-images/hello-gridea.png" alt="">
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+                <h1 id="array-like-objects-类数组对象">array-like objects (类数组对象)</h1>
+<p><strong>即类似于数组的对象，有若干索引属性和length属性</strong><br>
+一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList 或者函数内部可用的 arguments 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 forEach() 方法。<br>
+这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
+<h1 id="iterable-object可迭代对象">Iterable object（可迭代对象）</h1>
+<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有**@@iterator方法**，可通过常量<strong>Symbol.iterator</strong>访问该属性。<br>
+该方法的返回值为一个对象(<strong>迭代器</strong>)，该对象必须含有next()方法，next对象的返回值：</p>
+<blockquote>
+<p>done（boolean）<br>
+如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）<br>
+value<br>
+迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
+</blockquote>
+<p>可迭代对象：Array，Set，String，Map<br>
+for..of..语句专用于可迭代对象，<strong>展开语法</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
+<p>#将类数组对象和可迭代对象转化为真正的数组<br>
+<strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);<br>
+arrayLike：想要转换成数组的类数组对象或可迭代对象。<br>
+mapFn：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数<br>
+thisArg：可选，指定回调函数的this值。</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E7%89%B9%E6%80%A7">特性👇</a></li>
-</ul>
-</li>
+<li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">array-like objects (类数组对象)</a></li>
+<li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">Iterable object（可迭代对象）</a></li>
 </ul>
 
               </div>
@@ -138,6 +123,15 @@ Gridea 主页
           </article>
         </div>
 
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://null-go.github.io/post/js-this-zhi-xiang/">
+              <h3 class="post-title">
+                【JS】this指向
+              </h3>
+            </a>
+          </div>
         
 
         
