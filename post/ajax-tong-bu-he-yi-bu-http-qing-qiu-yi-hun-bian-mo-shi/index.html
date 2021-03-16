@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【AJAX】同步和异步HTTP请求 混编模式 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615861664300">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615879317577">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【AJAX】同步和异步HTTP请求 混编模式 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -22,7 +22,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615861664300" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615879317577" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -126,6 +126,10 @@ setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencode
 注意与<strong>status</strong>属性区分，status属性表示<strong>响应中</strong>的数字状态码，status 的值是一个无符号短整型。在请求完成前，status的值为0。如果 XMLHttpRequest 出错，浏览器返回的 status 也为0。</li>
 </ol>
 </li>
+<li>response 可读属性 返回响应的正文。类型可以有很多种： ArrayBuffer 、 Blob 、 Document 、 JavaScript Object 或 DOMString；取决于responseType类型。</li>
+<li>response 可读属性 返回响应的DOMString 类型的文本信息。<br>
+当DOMString 为null时，表示请求失败了。当DOMString 为&quot;&quot;时，表示这个请求还没有被send()<br>
+当请求状态readyState变为XMLHttpRequest.DONE (4)，且status值为200（&quot;OK&quot;）时，responseText是全部后端的返回数据</li>
 </ul>
 
               </div>
