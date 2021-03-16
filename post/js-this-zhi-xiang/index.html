@@ -1,98 +1,92 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】this指向 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615855387149">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615855556652">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】this指向 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="this的指向问题的几个重点
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
-this可以用于任何函数或者方法。
-this是不受限制的。
-在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615855387149" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615855556652" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】this指向
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-03-13
-              </span>
-              <span>
-                2 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【JS】this指向</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-13</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="this的指向问题的几个重点">this的指向问题的几个重点</h2>
+          </div>
+          <div class="post-content">
+            <h2 id="this的指向问题的几个重点">this的指向问题的几个重点</h2>
 <ol>
 <li>this可以用于任何函数或者方法。</li>
 <li>this是不受限制的。</li>
@@ -109,88 +103,57 @@ apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行�
 <em>bind</em> 复制一份新的函数<br>
 bind(context,arg1,arg2,..) 除了绑定上下文，还能预定给函数传入参数，在复制后的函数调用时自动传入，同时调用时传入的参数在预定参数之后传入。（这种方式称为<em>偏函数</em>）</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E7%82%B9">this的指向问题的几个重点</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8this%E6%8C%87%E5%90%91%E6%9C%AC%E5%AF%B9%E8%B1%A1">作为对象的方法调用，this指向本对象</a></li>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E5%8E%9F%E5%9E%8B%E4%B8%8A%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9A%84this%E4%BE%9D%E7%84%B6%E4%BC%9A%E6%8C%87%E5%90%91new%E6%9E%84%E9%80%A0%E5%87%BA%E6%9D%A5%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B">对象原型上的方法中的this依然会指向new构造出来的对象实例</a></li>
-<li><a href="#%E5%9C%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8new%E6%96%B9%E6%B3%95this%E6%8C%87%E5%90%91%E6%9E%84%E9%80%A0%E7%9A%84%E9%82%A3%E4%B8%AA%E5%AF%B9%E8%B1%A1">在对象的构造函数中，使用new方法，this指向构造的那个对象</a></li>
-<li><a href="#%E4%BD%9C%E4%B8%BA%E6%99%AE%E9%80%9A%E7%9A%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E5%9C%A8this%E6%8C%87%E5%90%91undefined%E9%9D%9E%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%8C%87%E5%90%91window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向window</a></li>
-<li><a href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0this%E6%8C%87%E5%90%91window%E8%8B%A5%E5%9C%A8%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E6%97%B6%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E6%94%B9%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84this%E6%8C%87%E5%90%91%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E5%85%83%E7%B4%A0">匿名函数this指向window，若在绑定事件处理函数时传递函数作为参数，改作为参数的匿名函数中的this指向绑定事件处理函数的元素</a></li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
+            <a class="purple-link" href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
               <h3 class="post-title">
-                【ES6】语法简学
+                下一篇：【ES6】语法简学
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>
