@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-16T08:04:04.216Z</updated>
+    <updated>2021-03-16T10:36:14.382Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,36 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【JS】对象、原型链]]></title>
+        <id>https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/</id>
+        <link href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
+        </link>
+        <updated>2021-03-16T08:05:43.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="属性类型">属性类型</h1>
+<h2 id="数据属性">数据属性</h2>
+<h2 id="访问器属性">访问器属性</h2>
+<h1 id="创建对象">创建对象</h1>
+<h2 id="工厂模式">工厂模式</h2>
+<p>构造函数在new操作符作用后，默认返回的值是那个对象，但是工厂模式在函数内部创建了一个对象，并把这个对象返回了，这样修改了默认的返回值</p>
+<h2 id="构造函数模式-检测对象类型-instanceof操作符">构造函数模式 检测对象类型 instanceof操作符</h2>
+<h2 id="原型模式">原型模式</h2>
+<p>原型<br>
+getOwnPropertyDescriptor方法只能用于实例对象属性，要取得原型属性的描述符，必须直接在原型对象上调用Object.getOwnPropertyDescriptor方法<br>
+hasOwnProperty in 检测属性是存在于原型对象还是实例  in是无论存在实例还是原型中，均返回true<br>
+Object.keys()方法返回实例对象中可枚举的属性<br>
+getOwnPropertyNames返回实例对象中的属性，无论其可不可枚举<br>
+每创建一个函数，都会同时创建它的prototype对象，这个对象也会自动获得constructor属性<br>
+原型的动态性 实例和原型之间的连接仅仅是指针而已<br>
+<strong>实例中的【【ProtoType】】指针指向原型而不是指向构造函数</strong></p>
+<h2 id="组合使用构造函数模式和原型模式">组合使用构造函数模式和原型模式</h2>
+<h2 id="动态原型模式">动态原型模式</h2>
+<h2 id="寄生构造函数模式">寄生构造函数模式</h2>
+<h2 id="稳妥构造函数模式">稳妥构造函数模式</h2>
+<p>稳妥对象，指的是没有公共属性，并且方法中没有引用this<br>
+利用闭包访问自己的属性</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【JS】数组内置方法]]></title>
         <id>https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/</id>
@@ -367,35 +397,6 @@ a[6]();
         </link>
         <updated>2021-03-03T07:13:38.000Z</updated>
         <content type="html"><![CDATA[<p>p27 查询HTTP 服务器端支持的HTTP方法和类型</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Markdown语法汇总]]></title>
-        <id>https://null-go.github.io/post/k/</id>
-        <link href="https://null-go.github.io/post/k/">
-        </link>
-        <updated>2021-03-02T11:37:57.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="学习javacsript">学习javacsript</h1>
-<ul>
-<li>学习java</li>
-<li>学习数据库<br>
-1 dawd</li>
-</ul>
-<ol>
-<li>学习java</li>
-<li>学习数据库</li>
-</ol>
-<blockquote>
-<p>这是引用</p>
-<blockquote>
-<p>这是引用</p>
-</blockquote>
-</blockquote>
-<pre><code class="language-javascript">  在此输入代码
-</code></pre>
-<p>这是一个链接<a href="https://null-go.github.io/">我的主页</a><br>
-我们可以通过变量来设置一个链接，变量赋值在文档末尾进行<br>
-[runoob]: http://www.runoob.com/</p>
 ]]></content>
     </entry>
 </feed>
