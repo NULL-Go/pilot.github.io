@@ -1,114 +1,61 @@
-
-<!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【Vue】解决动态绑定本地图片的问题 | PILOT</title>
-<meta name="description" content="温故而知新">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615856143889">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1615856193306">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="【Vue】解决动态绑定本地图片的问题 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
+    <meta name="description" content="一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张本地的图片，传递过去src是一个变量，在img标签中单向绑定v-bind:src=。发现出错了，上网查找资料后发现是webpack的问题，..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://null-go.github.io">
-        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615856143889" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://null-go.github.io">
-        <h1 class="site-title">PILOT</h1>
-      </a>
-    </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://null-go.github.io">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1615856193306" alt="">
+  </a>
+  <h1 class="site-title">
+    PILOT
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            关于
-          </a>
-        
-      
-    </div>
-  </div>
-</transition>
-
-
-      <div class="content-container">
-        <div class="post-detail">
-          
-          <h2 class="post-title">【Vue】解决动态绑定本地图片的问题</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2021-03-09</span>
-            
-          </div>
-          <div class="post-content">
-            <p>一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张<strong>本地</strong>的图片，传递过去src是一个变量，在img标签中单向绑定<strong>v-bind:src=</strong>。发现出错了，上网查找资料后发现是webpack的问题，webpack会将assets文件夹处理解析为<strong>模块依赖</strong>，具体原因不知道，因为对webpack还不了解😥😢。<br>
-然后尝试require纯地址路径，还是error找不到module，最终解决，解决方法：<strong>require(path) ,path</strong>至少要有三部分组成, 目录+文件名+后缀，即：</p>
-<pre><code>&lt;img :src=&quot;require('../../assets/images/'+pic+'.png')&quot;&gt;
-</code></pre>
-
-          </div>
-        </div>
-
-        
-          <div class="next-post">
-            <a class="purple-link" href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
-              <h3 class="post-title">
-                下一篇：【AJAX】同步和异步HTTP请求 混编模式
-              </h3>
-            </a>
-          </div>
-          
-      </div>
-
-      
-
-      <div class="site-footer">
-  <div class="slogan">温故而知新</div>
   <div class="social-container">
     
       
@@ -122,26 +69,100 @@
       
     
   </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              【Vue】解决动态绑定本地图片的问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-03-09
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>一开始出现这个问题是源自于Vue组件化，将一个复用的模块做出组件后，要求向子组件传递一个src引用一张<strong>本地</strong>的图片，传递过去src是一个变量，在img标签中单向绑定<strong>v-bind:src=</strong>。发现出错了，上网查找资料后发现是webpack的问题，webpack会将assets文件夹处理解析为<strong>模块依赖</strong>，具体原因不知道，因为对webpack还不了解😥😢。<br>
+然后尝试require纯地址路径，还是error找不到module，最终解决，解决方法：<strong>require(path) ,path</strong>至少要有三部分组成, 目录+文件名+后缀，即：</p>
+<pre><code>&lt;img :src=&quot;require('../../assets/images/'+pic+'.png')&quot;&gt;
+</code></pre>
 
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
+              <h3 class="post-title">
+                【AJAX】同步和异步HTTP请求 混编模式
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
     </div>
-    <script type="application/javascript">
 
-hljs.initHighlightingOnLoad()
+    <script>
+      hljs.initHighlightingOnLoad()
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-</script>
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-
+    </script>
   </body>
 </html>
