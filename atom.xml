@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-16T01:01:21.900Z</updated>
+    <updated>2021-03-16T01:11:43.739Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -39,9 +39,14 @@
 <li>如果不传入参数，则默认用逗号**,**作为分割符</li>
 <li>如果一个元素为 undefined 或 null，它会被转换为空字符串</li>
 </ol>
-<h1 id="push方法将一个或多个元素添加到数组的末尾并返回该数组的新长度-可用于类数组对象">push(方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度) 可用于类数组对象</h1>
+<h1 id="push-pop-shift-unshift-均改变原数组-可用于类数组对象">push pop shift unshift (均改变原数组) 可用于类数组对象</h1>
 <ol>
-<li></li>
+<li>插入方法均返回值为新数组length，删除方法返回值为删除的项</li>
+</ol>
+<h1 id="slice-返回浅拷贝-可用于类数组对象">slice (返回浅拷贝) 可用于类数组对象</h1>
+<p>slice(start,end)</p>
+<ol>
+<li>end省略或者大于length，均返回到末尾</li>
 </ol>
 ]]></content>
     </entry>
