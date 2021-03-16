@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-16T01:21:51.411Z</updated>
+    <updated>2021-03-16T01:39:20.669Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -32,6 +32,7 @@
 <p>concat(value1[, value2[, ...[, valueN]]])</p>
 <ol>
 <li>省略参数，将对数组做一次浅拷贝</li>
+<li>该方法String类也有，但建议使用性能更高的 +=运算符</li>
 </ol>
 <h1 id="join将所有元素用参数字符串分割返回值是一个字符串-可用于类数组对象">join(将所有元素用参数字符串分割，返回值是一个字符串。)  可用于类数组对象</h1>
 <ol>
