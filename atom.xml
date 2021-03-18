@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-18T11:21:35.785Z</updated>
+    <updated>2021-03-18T13:20:48.590Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,46 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【JS】【DOM】]]></title>
+        <id>https://null-go.github.io/post/js-dom/</id>
+        <link href="https://null-go.github.io/post/js-dom/">
+        </link>
+        <updated>2021-03-18T12:20:47.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="document">Document</h1>
+<p>文档对象模型（Document Object Model）<br>
+document 对象是页面的主要入口点</p>
+<h1 id="dom树">DOM树</h1>
+<p>每个HTML标签都是一个对象，标签内的文本也是一个对象。<br>
+标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
+<strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
+<blockquote>
+<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。</p>
+</blockquote>
+<blockquote>
+<p>在控制台中选中元素，且对其进行操作<br>
+先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素<br>
+<strong>子节点</strong> 一层<br>
+<strong>子孙节点</strong> 多层<br>
+<strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。<br>
+如果元素存在子节点的 childNodes[0]==firstChild<br>
+childNodes[childNodes.length - 1]==lastChild<br>
+<strong>兄弟节点</strong> nextSibling previousSibling<br>
+把这些属性加上Element关键词，即可忽略文本节点</p>
+</blockquote>
+<ul>
+<li>children — 仅那些作为元素节点的子代的节点</li>
+<li>firstElementChild，lastElementChild — 第一个和最后一个子元素。</li>
+<li>previousElementSibling，nextElementSibling — 兄弟元素。</li>
+<li>parentElement — 父元素。</li>
+</ul>
+<h1 id="dom集合类数组的可迭代对象">DOM集合(类数组的可迭代对象)</h1>
+<ol>
+<li>可以用for of 迭代</li>
+<li>有length属性和下标但没有数组方法</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【JS】对象、原型链]]></title>
         <id>https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/</id>
@@ -49,7 +89,8 @@ ES6中的访问接口: <em>Object.getProtoypeOf()</em> 和 <em>Object.setPrototy
 <li>如果我们调用 obj.method()，而且 method 是从原型中获取的，this 仍然会引用 obj。因此，方法始终与当前对象一起使用，即使方法是继承的。</li>
 <li>请记住函数也是一个对象，它也有自己的原型。<pre><code>function f (){
 }
-console.log(f.__prototype == Function.prototype); //true
+console.log(f.prototype === Function.prototype); //flase
+console.log(f.__proto__ === Function.prototype); //true
 console.log(Function.__proto__ === Function.prototype); //true
 </code></pre>
 </li>
@@ -462,15 +503,6 @@ a[6]();
 }
 </code></pre>
 <p><strong>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</strong></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[HTTP]]></title>
-        <id>https://null-go.github.io/post/http/</id>
-        <link href="https://null-go.github.io/post/http/">
-        </link>
-        <updated>2021-03-03T07:13:38.000Z</updated>
-        <content type="html"><![CDATA[<p>p27 查询HTTP 服务器端支持的HTTP方法和类型</p>
 ]]></content>
     </entry>
 </feed>

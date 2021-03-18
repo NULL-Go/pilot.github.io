@@ -2,17 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HTTP | PILOT</title>
+<title>【JS】【DOM】 | PILOT</title>
 <link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616073645675">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="HTTP | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="p27 查询HTTP 服务器端支持的HTTP方法和类型
-" />
+    <meta name="description" content="Document
+文档对象模型（Document Object Model）
+document 对象是页面的主要入口点
+DOM树
+每个HTML标签都是一个对象，标签内的文本也是一个对象。
+标签称为元素节点，元素内的文本形成文本节点(一个文本..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -75,25 +79,61 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              HTTP
+              【JS】【DOM】
             </h2>
             <div class="post-info">
               <span>
-                2021-03-03
+                2021-03-18
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>p27 查询HTTP 服务器端支持的HTTP方法和类型</p>
+                <h1 id="document">Document</h1>
+<p>文档对象模型（Document Object Model）<br>
+document 对象是页面的主要入口点</p>
+<h1 id="dom树">DOM树</h1>
+<p>每个HTML标签都是一个对象，标签内的文本也是一个对象。<br>
+标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
+<strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
+<blockquote>
+<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。</p>
+</blockquote>
+<blockquote>
+<p>在控制台中选中元素，且对其进行操作<br>
+先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素<br>
+<strong>子节点</strong> 一层<br>
+<strong>子孙节点</strong> 多层<br>
+<strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。<br>
+如果元素存在子节点的 childNodes[0]==firstChild<br>
+childNodes[childNodes.length - 1]==lastChild<br>
+<strong>兄弟节点</strong> nextSibling previousSibling<br>
+把这些属性加上Element关键词，即可忽略文本节点</p>
+</blockquote>
+<ul>
+<li>children — 仅那些作为元素节点的子代的节点</li>
+<li>firstElementChild，lastElementChild — 第一个和最后一个子元素。</li>
+<li>previousElementSibling，nextElementSibling — 兄弟元素。</li>
+<li>parentElement — 父元素。</li>
+</ul>
+<h1 id="dom集合类数组的可迭代对象">DOM集合(类数组的可迭代对象)</h1>
+<ol>
+<li>可以用for of 迭代</li>
+<li>有length属性和下标但没有数组方法</li>
+</ol>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li><a href="#document">Document</a></li>
+<li><a href="#dom%E6%A0%91">DOM树</a></li>
+<li><a href="#dom%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">DOM集合(类数组的可迭代对象)</a></li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -102,9 +142,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/k/">
+            <a href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
               <h3 class="post-title">
-                Markdown语法汇总
+                【JS】对象、原型链
               </h3>
             </a>
           </div>

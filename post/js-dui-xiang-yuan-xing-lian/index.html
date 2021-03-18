@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】对象、原型链 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616066241103">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616073645675">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】对象、原型链 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -27,7 +27,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616066241103" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616073645675" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -127,7 +127,8 @@ ES6中的访问接口: <em>Object.getProtoypeOf()</em> 和 <em>Object.setPrototy
 <li>如果我们调用 obj.method()，而且 method 是从原型中获取的，this 仍然会引用 obj。因此，方法始终与当前对象一起使用，即使方法是继承的。</li>
 <li>请记住函数也是一个对象，它也有自己的原型。<pre><code>function f (){
 }
-console.log(f.__prototype == Function.prototype); //true
+console.log(f.prototype === Function.prototype); //flase
+console.log(f.__proto__ === Function.prototype); //true
 console.log(Function.__proto__ === Function.prototype); //true
 </code></pre>
 </li>
