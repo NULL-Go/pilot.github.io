@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-18T14:16:28.187Z</updated>
+    <updated>2021-03-18T14:20:21.730Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -24,11 +24,11 @@ document 对象是页面的主要入口点</p>
 标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
 <strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
 <blockquote>
-<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。</p>
+<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 &lt; tbody &gt;，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 &lt; tbody &gt;。</p>
 </blockquote>
-<p>&lt; html &gt; document.documentElement<br>
-&lt; body &gt; document.body<br>
-&lt; head &gt; document.head</p>
+<p>html 标签 document.documentElement<br>
+body 标签 document.body<br>
+head 标签 document.head</p>
 <blockquote>
 <p>在控制台中选中元素，且对其进行操作<br>
 先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素</p>
