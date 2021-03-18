@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616073645675">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616074471995">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616073645675" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616074471995" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -101,7 +101,10 @@ document 对象是页面的主要入口点</p>
 标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
 <strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
 <blockquote>
-<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。</p>
+<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。<br>
+&lt; html &gt; document.documentElement<br>
+&lt; body &gt; document.body<br>
+&lt; head &gt; document.head</p>
 </blockquote>
 <blockquote>
 <p>在控制台中选中元素，且对其进行操作<br>
@@ -112,6 +115,7 @@ document 对象是页面的主要入口点</p>
 如果元素存在子节点的 childNodes[0]==firstChild<br>
 childNodes[childNodes.length - 1]==lastChild<br>
 <strong>兄弟节点</strong> nextSibling previousSibling<br>
+<strong>父节点</strong> parentNode<br>
 把这些属性加上Element关键词，即可忽略文本节点</p>
 </blockquote>
 <ul>
