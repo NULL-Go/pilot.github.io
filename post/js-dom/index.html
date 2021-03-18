@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616074517612">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616076984218">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616074517612" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616076984218" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -86,7 +86,7 @@ DOM树
                 2021-03-18
               </span>
               <span>
-                2 min read
+                3 min read
               </span>
               
             </div>
@@ -101,15 +101,17 @@ document 对象是页面的主要入口点</p>
 标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
 <strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
 <blockquote>
-<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。<br>
-&lt; html &gt; document.documentElement<br>
+<p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 <tbody>，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 <tbody>。</p>
+</blockquote>
+<p>&lt; html &gt; document.documentElement<br>
 &lt; body &gt; document.body<br>
 &lt; head &gt; document.head</p>
-</blockquote>
 <blockquote>
 <p>在控制台中选中元素，且对其进行操作<br>
-先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素<br>
-<strong>子节点</strong> 一层<br>
+先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素</p>
+</blockquote>
+<h2 id="查找">查找</h2>
+<p><strong>子节点</strong> 一层<br>
 <strong>子孙节点</strong> 多层<br>
 <strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。<br>
 如果元素存在子节点的 childNodes[0]==firstChild<br>
@@ -117,25 +119,37 @@ childNodes[childNodes.length - 1]==lastChild<br>
 <strong>兄弟节点</strong> nextSibling previousSibling<br>
 <strong>父节点</strong> parentNode<br>
 把这些属性加上Element关键词，即可忽略文本节点</p>
-</blockquote>
 <ul>
 <li>children — 仅那些作为元素节点的子代的节点</li>
 <li>firstElementChild，lastElementChild — 第一个和最后一个子元素。</li>
 <li>previousElementSibling，nextElementSibling — 兄弟元素。</li>
-<li>parentElement — 父元素。</li>
+<li>parentElement — 父元素。<br>
+搜索DOM最常用的方法 document.querySelectorAll()和querySelector()<br>
+element.matches()方法 匹配给定的css选择器 返回true or false<br>
+element.closest()方法是matches方法的精简版，它只搜索它自己和它的祖先，返回值未第一个找到的元素</li>
 </ul>
+<p><strong>querySelector类型的方法和getElementsBy*类型的方法的区别</strong><br>
+所有的 &quot;getElementsBy*&quot; 方法都会返回一个 实时的（live） 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。(getElementById 返回一个元素，所有没有实时集合这一说法)<br>
+相反，querySelector类型返回的内容固定不变。</p>
 <h1 id="dom集合类数组的可迭代对象">DOM集合(类数组的可迭代对象)</h1>
 <ol>
 <li>可以用for of 迭代</li>
 <li>有length属性和下标但没有数组方法</li>
 </ol>
+<h1 id="dom的继承关系">DOM的继承关系</h1>
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"></figure>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
 <li><a href="#document">Document</a></li>
-<li><a href="#dom%E6%A0%91">DOM树</a></li>
+<li><a href="#dom%E6%A0%91">DOM树</a>
+<ul>
+<li><a href="#%E6%9F%A5%E6%89%BE">查找</a></li>
+</ul>
+</li>
 <li><a href="#dom%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">DOM集合(类数组的可迭代对象)</a></li>
+<li><a href="#dom%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB">DOM的继承关系</a></li>
 </ul>
 
               </div>
