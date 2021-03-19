@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616137667318">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616141607994">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616137667318" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616141607994" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -86,7 +86,7 @@ DOM树
                 2021-03-18
               </span>
               <span>
-                3 min read
+                5 min read
               </span>
               
             </div>
@@ -144,6 +144,42 @@ element.closest()方法是matches方法的精简版，它只搜索它自己和�
 <strong>outerHTML</strong> 属性包含了元素的完整 HTML。就像 innerHTML 加上元素本身一样。<br>
 outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的HTML内容&quot;; oEle元素并不会被修改，而是被替换，所有oEle对旧的HTML内容仍然可以引用，只是在DOM树中的位置被替换掉了。<br>
 <strong>hidden</strong>属性，从技术上来说，hidden 与 style=&quot;display:none&quot; 做的是相同的事。</p>
+<h1 id="dom特性attributes和属性properties">DOM特性(attributes)和属性(properties)</h1>
+<p>当浏览器解析HTML，它会从中生成DOM对象。对于元素节点，标准的特性(attributes)会变成DOM对象的属性(properties)。故可以通过点 . 运算符获取属性。<br>
+<strong>特性</strong> : 写在HTML中的内容<br>
+<strong>属性</strong> : DOM元素对象的属性<br>
+所有特性(大小写不敏感)都可以通过使用以下方法进行访问：</p>
+<ul>
+<li>elem.hasAttribute(name) — 检查特性是否存在。</li>
+<li>elem.getAttribute(name) — 获取这个特性值。</li>
+<li>elem.setAttribute(name, value) — 设置这个特性值。</li>
+<li>elem.removeAttribute(name) — 移除这个特性。</li>
+<li>elem.attributes属性读取所有特性<br>
+一般来说，当一个标准的特性所对应的属性是关联改变的。<br>
+例外：  input 的value 属性</li>
+</ul>
+<pre><code>  // 特性 =&gt; 属性
+  input.setAttribute('value', 'text');
+  alert(input.value); // text
+
+  // 这个操作无效，属性 =&gt; 特性
+  input.value = 'newValue';
+  alert(input.getAttribute('value')); // text（没有被更新！）
+  //这个“功能”在实际中会派上用场，因为用户行为可能会导致 value 的更改，然后在这些操作之后，如果我们想从 HTML 中恢复“原始”值，那么该值就在特性中。
+</code></pre>
+<h2 id="非标准的特性">非标准的特性</h2>
+<p>非标准的特性常常用来设置元素的样式</p>
+<pre><code>style : 
+.order[order-state=&quot;new&quot;] {
+    color: green;
+}
+dom :
+&lt;div class=&quot;order&quot; order-state=&quot;new&quot;&gt;
+  A new order.
+&lt;/div&gt;
+//特性值更容易管理。我们可以轻松地更改状态：
+  div.setAttribute(&quot;order-state&quot;,new);
+</code></pre>
 
               </div>
               <div class="toc-container">
@@ -156,6 +192,11 @@ outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的H
 </li>
 <li><a href="#dom%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">DOM集合(类数组的可迭代对象)</a></li>
 <li><a href="#dom%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB">DOM的继承关系</a></li>
+<li><a href="#dom%E7%89%B9%E6%80%A7attributes%E5%92%8C%E5%B1%9E%E6%80%A7properties">DOM特性(attributes)和属性(properties)</a>
+<ul>
+<li><a href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84%E7%89%B9%E6%80%A7">非标准的特性</a></li>
+</ul>
+</li>
 </ul>
 
               </div>
