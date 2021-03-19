@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【CSS】基础知识汇总 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616077218540">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616137565243">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【CSS】基础知识汇总 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616077218540" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616137565243" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -85,7 +85,7 @@
                 2021-03-07
               </span>
               <span>
-                3 min read
+                5 min read
               </span>
               
             </div>
@@ -141,6 +141,43 @@
 tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻找匹配<br>
 以便<em>尽早过滤掉一些无关的样式规则和元素</em></li>
 </ul>
+<h2 id="属性">属性</h2>
+<p>width和min-width 当width内容多于宽度时 内容换行 min-width设置横向滚动条<br>
+overflow 要隐藏移除的部分 hidden 隐藏 scroll 一直有滚动条 auto 溢出自动有滚动条<br>
+font-size设置字体高度 font-weight 有些字体没有某些属性 font-style italic斜体属性 color 字体颜色 transparent透明色<br>
+oblique两者都是斜体 当字体没有italic属性时，oblique强制倾斜<br>
+em默认样式是斜体，当设置font-style:normal;时，代表这是个强调的标签，但强调的方式不一定是斜体。<br>
+画一个红色下角的三角形</p>
+<pre><code>{ 
+    height: 0px;
+    width: 0px;
+    border-width: 100px;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: red;
+}
+</code></pre>
+<p>line-height 一行文本的高度，line-height = height 盒子内部文本垂直居中(单行文本)<br>
+相对单位：<br>
+em 在font-size中设置是相对于父元素的字体大小，在别的元素中是相对于自己的字体大小<br>
+1 em = 16px; 1px = 0.0625em 10px = 0.625em</p>
+<pre><code>html {
+    font-size:62.5%; // 1 em = 10px
+}
+//行高设置字体高度的1.2倍
+line-height : 1.2em;
+</code></pre>
+<p>rem 相对于根元素的字体大小 rem<br>
+vw vh 相对于视图窗口的宽高 1%<br>
+单行文本截断和显示省略号三大件:   white-space:nowrap; 不换行 overflow-x:hidden; 溢出部分隐藏 ;text-overflow:ellipsis 隐藏部分加省略号<br>
+label for属性和 input id属性相关联<br>
+opacity: .5 兼容性 filter:alpha(opacity:50)<br>
+伪类和伪元素<br>
+伪类:<br>
+:hover :first-child :last-child :nth-child(可填odd奇数|even偶数|普通数字) 第n个子元素 选择框:checed<br>
+容器内多行文本居中，容器display设置table，容器中的文本display设置成table-cell，容器中的文本vertical-align设置成middle<br>
+行内元素和行内块元素之间的文本分隔符<br>
+textarea换行写中间没有文字会有文本分隔符</p>
 
               </div>
               <div class="toc-container">
@@ -150,6 +187,7 @@ tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻�
 <li><a href="#%E5%BC%95%E5%85%A5css%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%89%E7%A7%8D%E5%BD%A2%E5%BC%8F">引入CSS文件的三种形式</a></li>
 <li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A0%E8%BD%BD%E7%BD%91%E9%A1%B5%E6%98%AF%E6%80%8E%E4%B9%88%E6%A0%B7%E5%8A%A0%E8%BD%BD%E7%9A%84">浏览器加载网页是怎么样加载的</a></li>
 <li><a href="#%E9%80%89%E6%8B%A9%E5%99%A8">选择器</a></li>
+<li><a href="#%E5%B1%9E%E6%80%A7">属性</a></li>
 </ul>
 </li>
 </ul>

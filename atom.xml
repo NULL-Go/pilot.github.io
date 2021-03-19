@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-18T14:20:27.165Z</updated>
+    <updated>2021-03-19T07:06:07.746Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -60,7 +60,13 @@ element.closest()方法是matches方法的精简版，它只搜索它自己和�
 <li>有length属性和下标但没有数组方法</li>
 </ol>
 <h1 id="dom的继承关系">DOM的继承关系</h1>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"></figure>
+<p><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"><br>
+<strong>nodeName</strong>属性适用于Node类 tagName适用于Element类。<br>
+<strong>innerHTML</strong>属性使用于元素，允许将元素中的 HTML 获取为字符串形式。文本元素等其他元素用data或nodeValue。<br>
+<strong>innerHTML</strong> innerHTML+= 会进行完全的重写 innerHTML = &quot;...&quot; + newHTML;这相当于整个HTML还是重新加载了，因此所有的图片和其他资源都将重写加载。<br>
+<strong>outerHTML</strong> 属性包含了元素的完整 HTML。就像 innerHTML 加上元素本身一样。<br>
+outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的HTML内容&quot;; oEle元素并不会被修改，而是被替换，所有oEle对旧的HTML内容仍然可以引用，只是在DOM树中的位置被替换掉了。<br>
+<strong>hidden</strong>属性，从技术上来说，hidden 与 style=&quot;display:none&quot; 做的是相同的事。</p>
 ]]></content>
     </entry>
     <entry>
@@ -452,6 +458,43 @@ setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencode
 tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻找匹配<br>
 以便<em>尽早过滤掉一些无关的样式规则和元素</em></li>
 </ul>
+<h2 id="属性">属性</h2>
+<p>width和min-width 当width内容多于宽度时 内容换行 min-width设置横向滚动条<br>
+overflow 要隐藏移除的部分 hidden 隐藏 scroll 一直有滚动条 auto 溢出自动有滚动条<br>
+font-size设置字体高度 font-weight 有些字体没有某些属性 font-style italic斜体属性 color 字体颜色 transparent透明色<br>
+oblique两者都是斜体 当字体没有italic属性时，oblique强制倾斜<br>
+em默认样式是斜体，当设置font-style:normal;时，代表这是个强调的标签，但强调的方式不一定是斜体。<br>
+画一个红色下角的三角形</p>
+<pre><code>{ 
+    height: 0px;
+    width: 0px;
+    border-width: 100px;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: red;
+}
+</code></pre>
+<p>line-height 一行文本的高度，line-height = height 盒子内部文本垂直居中(单行文本)<br>
+相对单位：<br>
+em 在font-size中设置是相对于父元素的字体大小，在别的元素中是相对于自己的字体大小<br>
+1 em = 16px; 1px = 0.0625em 10px = 0.625em</p>
+<pre><code>html {
+    font-size:62.5%; // 1 em = 10px
+}
+//行高设置字体高度的1.2倍
+line-height : 1.2em;
+</code></pre>
+<p>rem 相对于根元素的字体大小 rem<br>
+vw vh 相对于视图窗口的宽高 1%<br>
+单行文本截断和显示省略号三大件:   white-space:nowrap; 不换行 overflow-x:hidden; 溢出部分隐藏 ;text-overflow:ellipsis 隐藏部分加省略号<br>
+label for属性和 input id属性相关联<br>
+opacity: .5 兼容性 filter:alpha(opacity:50)<br>
+伪类和伪元素<br>
+伪类:<br>
+:hover :first-child :last-child :nth-child(可填odd奇数|even偶数|普通数字) 第n个子元素 选择框:checed<br>
+容器内多行文本居中，容器display设置table，容器中的文本display设置成table-cell，容器中的文本vertical-align设置成middle<br>
+行内元素和行内块元素之间的文本分隔符<br>
+textarea换行写中间没有文字会有文本分隔符</p>
 ]]></content>
     </entry>
     <entry>
