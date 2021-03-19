@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-19T08:24:51.819Z</updated>
+    <updated>2021-03-19T11:00:21.744Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -113,6 +113,20 @@ dom :
         <updated>2021-03-16T08:05:43.000Z</updated>
         <content type="html"><![CDATA[<h1 id="属性类型">属性类型</h1>
 <h2 id="数据属性">数据属性</h2>
+<p>属性标志：<br>
+value,writable,configurale,enumerable;<br>
+得到属性标识符对象:Object.getOwnPropertyDescriptor(obj,propertyName) 继承的属性不行<br>
+修改或创建属性:Object.defineProperty(obj, propertyName, descriptor) 在这种情况在descriptor对象中若有属性没有提供值，会默认为false<br>
+<strong>writable</strong>  属性无法改变 除非Object.defineProperty重新赋值<br>
+<strong>configurable</strong> 属性，不可配置的属性不能被删除<br>
+不可配置性对 defineProperty 施加了一些限制：</p>
+<ul>
+<li>不能修改 configurable 标志。</li>
+<li>不能修改 enumerable 标志。</li>
+<li>不能将 writable: false 修改为 true（反过来则可以）。</li>
+<li>不能修改访问者属性的 get/set（但是如果没有可以分配它们）。<br>
+<strong>enumerable</strong> 是否可枚举 for in   Object.keys()等等</li>
+</ul>
 <h2 id="访问器属性">访问器属性</h2>
 <h1 id="创建对象">创建对象</h1>
 <h2 id="工厂模式">工厂模式</h2>
@@ -120,7 +134,6 @@ dom :
 <h2 id="构造函数模式-检测对象类型-instanceof操作符">构造函数模式 检测对象类型 instanceof操作符</h2>
 <h2 id="原型模式">原型模式</h2>
 <p>原型<br>
-getOwnPropertyDescriptor方法只能用于实例对象属性，要取得原型属性的描述符，必须直接在原型对象上调用Object.getOwnPropertyDescriptor方法<br>
 hasOwnProperty in 检测属性是存在于原型对象还是实例  in是无论存在实例还是原型中，均返回true<br>
 Object.keys()方法返回实例对象中可枚举的属性<br>
 getOwnPropertyNames返回实例对象中的属性，无论其可不可枚举<br>
@@ -372,9 +385,8 @@ ES6 为了改变这一点，一方面规定，为了保持兼容性，var命令�
 JavaScript 语言存在一个顶层对象，它提供全局环境（即全局作用域），所有代码都是在这个环境中运行。</p>
 </li>
 </ol>
-<ul>
-<li>变量结构赋值</li>
-</ul>
+<h1 id="变量解构赋值">变量解构赋值</h1>
+<h1 id="class语法">Class语法</h1>
 ]]></content>
     </entry>
     <entry>
