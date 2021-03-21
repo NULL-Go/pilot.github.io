@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-21T01:49:52.568Z</updated>
+    <updated>2021-03-21T02:45:38.849Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -117,6 +117,8 @@ dom :
 value,writable,configurale,enumerable;<br>
 得到属性标识符对象:Object.getOwnPropertyDescriptor(obj,propertyName) 继承的属性不行<br>
 修改或创建属性:Object.defineProperty(obj, propertyName, descriptor) 在这种情况在descriptor对象中若有属性没有提供值，会默认为false<br>
+同类型的方法还有 getOwnPropertyDescriptors 和 defineProperties<br>
+<strong>克隆对象的一个更好的方法</strong><br>
 <strong>writable</strong>  属性无法改变 除非Object.defineProperty重新赋值<br>
 <strong>configurable</strong> 属性，不可配置的属性不能被删除<br>
 不可配置性对 defineProperty 施加了一些限制：</p>
@@ -128,6 +130,10 @@ value,writable,configurale,enumerable;<br>
 <strong>enumerable</strong> 是否可枚举 for in   Object.keys()等等</li>
 </ul>
 <h2 id="访问器属性">访问器属性</h2>
+<p>本质上是获取和设置属性的方法，但是从外部看起来就和普通的属性一样。写在对象中:<br>
+get 属性值(){}  set 属性值(){}<br>
+访问器标志：<br>
+get,set,enumerable,configurable 访问器属性值不能有value,writable</p>
 <h1 id="创建对象">创建对象</h1>
 <h2 id="工厂模式">工厂模式</h2>
 <p>构造函数在new操作符作用后，默认返回的值是那个对象，但是工厂模式在函数内部创建了一个对象，并把这个对象返回了，这样修改了默认的返回值</p>
@@ -552,7 +558,8 @@ border-width只有在border-style 不为none时才有用，否则会被重置为
 当两个盒子排列 前面的盒子定位为 absolute 后面未定位，那么前面盒子脱离文档流后 后面的盒子会流动上去，但是前面定位为absolute的盒子会在后面的盒子的上面，此时将后面的盒子同样设置为定位元素(如 relative) 这时后面的盒子会在前面的盒子的上面 (改变层级还能用z-index)<br>
 块级元素无法识别浮动流的位置（内联 内联块 浮动 溢出隐藏overf:hidden 纯文本可以识别浮动元素的位置）所以父元素内部元素float会导致高度塌陷，因为它无法识别<br>
 float会将元素变成内联块级元素<br>
-float 父元素高度塌陷 清除浮动</p>
+float 父元素高度塌陷 清除浮动<br>
+https://cssgridgarden.com/#zh-cn</p>
 ]]></content>
     </entry>
     <entry>

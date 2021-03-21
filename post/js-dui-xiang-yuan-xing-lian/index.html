@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】对象、原型链 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616291295296">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616294463202">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】对象、原型链 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@ value,writable,configurale,enumerable;
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616291295296" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616294463202" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -98,6 +98,8 @@ value,writable,configurale,enumerable;
 value,writable,configurale,enumerable;<br>
 得到属性标识符对象:Object.getOwnPropertyDescriptor(obj,propertyName) 继承的属性不行<br>
 修改或创建属性:Object.defineProperty(obj, propertyName, descriptor) 在这种情况在descriptor对象中若有属性没有提供值，会默认为false<br>
+同类型的方法还有 getOwnPropertyDescriptors 和 defineProperties<br>
+<strong>克隆对象的一个更好的方法</strong><br>
 <strong>writable</strong>  属性无法改变 除非Object.defineProperty重新赋值<br>
 <strong>configurable</strong> 属性，不可配置的属性不能被删除<br>
 不可配置性对 defineProperty 施加了一些限制：</p>
@@ -109,6 +111,10 @@ value,writable,configurale,enumerable;<br>
 <strong>enumerable</strong> 是否可枚举 for in   Object.keys()等等</li>
 </ul>
 <h2 id="访问器属性">访问器属性</h2>
+<p>本质上是获取和设置属性的方法，但是从外部看起来就和普通的属性一样。写在对象中:<br>
+get 属性值(){}  set 属性值(){}<br>
+访问器标志：<br>
+get,set,enumerable,configurable 访问器属性值不能有value,writable</p>
 <h1 id="创建对象">创建对象</h1>
 <h2 id="工厂模式">工厂模式</h2>
 <p>构造函数在new操作符作用后，默认返回的值是那个对象，但是工厂模式在函数内部创建了一个对象，并把这个对象返回了，这样修改了默认的返回值</p>
