@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616294463202">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616326518100">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616294463202" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616326518100" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -126,7 +126,7 @@ childNodes[childNodes.length - 1]==lastChild<br>
 <li>parentElement — 父元素。<br>
 搜索DOM最常用的方法 document.querySelectorAll()和querySelector()<br>
 element.matches()方法 匹配给定的css选择器 返回true or false<br>
-element.closest()方法是matches方法的精简版，它只搜索它自己和它的祖先，返回值未第一个找到的元素</li>
+element.closest()方法是matches方法的精简版，它只搜索它自己和它的祖先，返回值为第一个找到的元素</li>
 </ul>
 <p><strong>querySelector类型的方法和getElementsBy*类型的方法的区别</strong><br>
 所有的 &quot;getElementsBy*&quot; 方法都会返回一个 实时的（live） 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。(getElementById 返回一个元素，所有没有实时集合这一说法)<br>
@@ -155,7 +155,7 @@ outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的H
 <li>elem.setAttribute(name, value) — 设置这个特性值。</li>
 <li>elem.removeAttribute(name) — 移除这个特性。</li>
 <li>elem.attributes属性读取所有特性<br>
-一般来说，当一个标准的特性所对应的属性是关联改变的。<br>
+一般来说，一个标准的特性所对应的属性是关联改变的。<br>
 例外：  input 的value 属性</li>
 </ul>
 <pre><code>  // 特性 =&gt; 属性
@@ -180,6 +180,9 @@ dom :
 //特性值更容易管理。我们可以轻松地更改状态：
   div.setAttribute(&quot;order-state&quot;,new);
 </code></pre>
+<h1 id="修改文档">修改文档</h1>
+<p>创建元素节点： let div = document.createElement(&quot;div&quot;);<br>
+创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;)</p>
 
               </div>
               <div class="toc-container">
@@ -197,6 +200,7 @@ dom :
 <li><a href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84%E7%89%B9%E6%80%A7">非标准的特性</a></li>
 </ul>
 </li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3">修改文档</a></li>
 </ul>
 
               </div>
