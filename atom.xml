@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-21T12:13:32.006Z</updated>
+    <updated>2021-03-22T14:35:10.052Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -104,8 +104,30 @@ dom :
   div.setAttribute(&quot;order-state&quot;,new);
 </code></pre>
 <h1 id="修改文档">修改文档</h1>
+<h2 id="创建方法">创建方法</h2>
 <p>创建元素节点： let div = document.createElement(&quot;div&quot;);<br>
 创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;)</p>
+<h2 id="插入方法">插入方法</h2>
+<ul>
+<li>node.append(...nodes or strings) 在node直接子元素最末尾插入</li>
+<li>node.prepend(...nodes or strings) 在node直接子元素最开头插入</li>
+<li>node.before(...nodes or strings) 在node前面插入</li>
+<li>node.after(...nodes or strings) 在node后面插入</li>
+<li>node.replaceWith(...nodes or strings) 替换node节点<br>
+若插入的是字符串，文字将作为<strong>文本</strong>插入(不是HTML代码，即和node.innerHTML = &quot;&quot;不相同，和node.textContent相同)，自动将转化成<strong>文本节点</strong>，&lt;和&gt;等符号将会转义。所以这是一种更安全的方法插入文本，它并不会插入乱七八糟的元素。</li>
+</ul>
+<h2 id="eleinsertadjacenthtmltextelementwherecontent">ele.insertAdjacentHTML/Text/Element(where,content)</h2>
+<p><strong>where</strong> 参数的取值(4个):<br>
+beforebegin 元素之前 afterbegin 元素内部第一个子元素之前<br>
+beforeend 元素内部最后一个子元素之后 afterend 元素之后<br>
+<strong>content</strong> 参数的取值:<br>
+对应传入即可，但是Text和Element均已有方法支持了。即append等。</p>
+<h2 id="移除方法">移除方法</h2>
+<p>node.remove()<br>
+注:<strong>如果我们要将一个元素移到另外一个位置，不需要进行remove，所有的插入方法都会从原来的位置删除</strong></p>
+<h2 id="克隆节点">克隆节点</h2>
+<p>node.cloneNode(true); <strong>深拷贝</strong> 会拷贝其本身(具有特性 attributes)及所有子节点<br>
+node.cloneNode(true); <strong>浅拷贝</strong> 只拷贝其本身(具有特性 attributes)</p>
 ]]></content>
     </entry>
     <entry>
