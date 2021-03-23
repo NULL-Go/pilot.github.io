@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616423708529">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616459986083">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616423708529" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616459986083" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -139,7 +139,7 @@ element.closest()方法是matches方法的精简版，它只搜索它自己和�
 <h1 id="dom的继承关系">DOM的继承关系</h1>
 <p><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"><br>
 <strong>nodeName</strong>属性适用于Node类 tagName适用于Element类。<br>
-<strong>innerHTML</strong>属性使用于元素，允许将元素中的 HTML 获取为字符串形式。文本元素等其他元素用data或nodeValue。<br>
+<strong>innerHTML</strong>属性使用于元素，允许将元素中的 HTML 获取为<strong>字符串形式</strong>。文本元素等其他元素用data或nodeValue。<br>
 <strong>innerHTML</strong> innerHTML+= 会进行完全的重写 innerHTML = &quot;...&quot; + newHTML;这相当于整个HTML还是重新加载了，因此所有的图片和其他资源都将重写加载。<br>
 <strong>outerHTML</strong> 属性包含了元素的完整 HTML。就像 innerHTML 加上元素本身一样。<br>
 outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的HTML内容&quot;; oEle元素并不会被修改，而是被替换，所有oEle对旧的HTML内容仍然可以引用，只是在DOM树中的位置被替换掉了。<br>
@@ -183,7 +183,7 @@ dom :
 <h1 id="修改文档">修改文档</h1>
 <h2 id="创建方法">创建方法</h2>
 <p>创建元素节点： let div = document.createElement(&quot;div&quot;);<br>
-创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;)</p>
+创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;) (即符号不会进行转义，原原本本的当做字符串显示)</p>
 <h2 id="插入方法">插入方法</h2>
 <ul>
 <li>node.append(...nodes or strings) 在node直接子元素最末尾插入</li>
