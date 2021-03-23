@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616459986083">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616481300146">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616459986083" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616481300146" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -86,7 +86,7 @@ DOM树
                 2021-03-18
               </span>
               <span>
-                6 min read
+                8 min read
               </span>
               
             </div>
@@ -114,6 +114,7 @@ head 标签 document.head</p>
 <p><strong>子节点</strong> 一层<br>
 <strong>子孙节点</strong> 多层<br>
 <strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。<br>
+<strong>首尾子节点</strong><br>
 如果元素存在子节点的 childNodes[0]==firstChild<br>
 childNodes[childNodes.length - 1]==lastChild<br>
 <strong>兄弟节点</strong> nextSibling previousSibling<br>
@@ -205,6 +206,52 @@ beforeend 元素内部最后一个子元素之后 afterend 元素之后<br>
 <h2 id="克隆节点">克隆节点</h2>
 <p>node.cloneNode(true); <strong>深拷贝</strong> 会拷贝其本身(具有特性 attributes)及所有子节点<br>
 node.cloneNode(true); <strong>浅拷贝</strong> 只拷贝其本身(具有特性 attributes)</p>
+<p>如何删除一个元素内的所有内容</p>
+<pre><code>        // 错误做法
+        function clear(elem) {
+            //     1
+            for (let i = 0; i &lt; elem.childNodes.length; i++)
+                elem.childNodes[i].remove;
+            //     2
+            for (let item of elem.childNodes)
+                item.remove();
+
+        }
+        clear(elem); // 清除列表
+        //  正确做法
+        function clear(elem){
+            while(elem.firstChild)
+              elem.firstChild.remove();
+        }
+        clear(elem); // 清除列表
+</code></pre>
+<h1 id="样式和类">样式和类</h1>
+<h2 id="classname和classlist">className和classList</h2>
+<p>对className赋值，将会替换整个字符串。<br>
+classList是一个特殊的<strong>对象</strong>(可迭代，类数组。classList[0])。它<strong>对应</strong>&quot;class&quot; attribute<br>
+classList有下列的方法：</p>
+<ul>
+<li>element.add/remove(className) 添加或移除单个类</li>
+<li>element.toggle(className) 若类存在，则移除类，若类不存在，则添加类。</li>
+<li>element.contains(className) 检查给定类，返回true/false</li>
+</ul>
+<h2 id="元素样式">元素样式</h2>
+<p>elem.style 是一类特殊的对象。它<strong>对应</strong>&quot;style&quot; attribute<br>
+<strong>因为它对应的是style这个attribute特性，所以只有内联的样式它才能够读取到，像是在style标签里类定义的height，element.style.height得到是空字符串，通过赋值能改变样式的原因也是内联样式的优先级比较高</strong><br>
+对于多词（multi-word）属性，使用驼峰式 camelCase：</p>
+<blockquote>
+<p>background-color  =&gt; elem.style.backgroundColor<br>
+浏览器前缀- 也用大写字母表示</p>
+</blockquote>
+<p>不能像这样的 div.style=&quot;color: red; width: 100px&quot; 设置完整的属性，因为 div.style 是一个对象，并且它是只读的。<br>
+对于修改样式，我们可以通过elem.style.*=&quot;&quot; 修改内联样式的方法修改元素样式，如果想获取样式表中的样式，可以通过 getComputedStyle语法。<br>
+getComputed(element, [pseudo]) 需要完整的属性值，需要paddingLeft而不是padding<br>
+element：<br>
+需要被读取样式值的元素。<br>
+pseudo：<br>
+伪元素（如果需要），例如 ::before。空字符串或无参数则意味着元素本身。<br>
+同样返回一个具有样式属性的对象，像ele.style，但现在包括除内联外的其他样式了。<br>
+<img src="https://null-go.github.io/post-images/1616480743854.png" alt="" loading="lazy"></p>
 
               </div>
               <div class="toc-container">
@@ -229,6 +276,12 @@ node.cloneNode(true); <strong>浅拷贝</strong> 只拷贝其本身(具有特性
 <li><a href="#eleinsertadjacenthtmltextelementwherecontent">ele.insertAdjacentHTML/Text/Element(where,content)</a></li>
 <li><a href="#%E7%A7%BB%E9%99%A4%E6%96%B9%E6%B3%95">移除方法</a></li>
 <li><a href="#%E5%85%8B%E9%9A%86%E8%8A%82%E7%82%B9">克隆节点</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%B7%E5%BC%8F%E5%92%8C%E7%B1%BB">样式和类</a>
+<ul>
+<li><a href="#classname%E5%92%8Cclasslist">className和classList</a></li>
+<li><a href="#%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F">元素样式</a></li>
 </ul>
 </li>
 </ul>
