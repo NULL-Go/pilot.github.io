@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-23T12:30:29.853Z</updated>
+    <updated>2021-03-25T01:09:34.015Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,68 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【CSS】布局]]></title>
+        <id>https://null-go.github.io/post/css-bu-ju/</id>
+        <link href="https://null-go.github.io/post/css-bu-ju/">
+        </link>
+        <updated>2021-03-24T10:38:26.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="定位方案">定位方案</h1>
+<ul>
+<li>普通流(normal flow)     在普通文档流中的盒子属于一种<strong>格式化上下文</strong>（Formatting Context），常见的两种特殊的格式化上下文就是块格式化上下文（Block formatting context）和行内格式化上下文（Inline formatting context）。<br>
+破坏性属性 👇 即破坏普通流</li>
+<li>浮动(float) **脱离普通流。**在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移;  float属性最初只用于在成块的文本内浮动图像，文字环绕在它的左边或右边文本会环绕在它的周围，所以文本会环绕在浮动元素旁边。</li>
+<li>绝对定位 absolute 或fixed(absolute positioning) <strong>脱离普通流。</strong><br>
+https://www.cnblogs.com/chaixiaozhi/p/8481253.html</li>
+</ul>
+<h2 id="bfc">BFC</h2>
+<p>具有 BFC 特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且 BFC 具有普通容器所没有的一些特性。</p>
+<h1 id="bfc特性">BFC特性：</h1>
+<ul>
+<li>内部的Box会在垂直方向，一个接一个地放置。</li>
+<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠(BFC导致<strong>外边距折叠</strong>)</li>
+<li>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此(BFC导致浮动元素可能遮盖其他元素，文本不会被遮盖，文本会环绕浮动元素)</li>
+<li>BFC的区域不会与float box重叠。</li>
+<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素(一种自适应特性)。反之也如此。(当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。)</li>
+<li>计算BFC的高度时，浮动元素也参与计算(用来清除浮动)</li>
+</ul>
+<h1 id="产生bfc满足下列条件中的一个">产生BFC(满足下列条件中的一个)：</h1>
+<ul>
+<li>根元素</li>
+<li>float属性不为none</li>
+<li>position为absolute或fixed</li>
+<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
+<li>overflow不为visible</li>
+</ul>
+<h1 id="bfc的作用">BFC的作用：</h1>
+<ul>
+<li>自适应两栏布局，aside栏设置float：left，固定宽高，main栏设置高度，不设定宽度，main一部分会被浮动元素遮盖(即使文字不会)，将main元素设置为BFC元素，利用BFC特性：BFC的区域不会与float box重叠，可以实现main区域自适应宽度</li>
+<li>取消外边距折叠</li>
+<li>清除浮动</li>
+</ul>
+<h1 id="浮动">浮动</h1>
+<h2 id="工作原理浮动元素会脱离正常的文档布局流并吸附到其父容器的左边floatleft-在正常布局中位于该浮动元素之下的内容此时会围绕着浮动元素填满其右侧的空间">工作原理：浮动元素会脱离正常的文档布局流，并吸附到其父容器的左边(float:left)。在正常布局中位于该浮动元素之下的内容，此时会围绕着浮动元素，填满其右侧的空间。</h2>
+<h2 id="清除浮动">清除浮动</h2>
+<p>float会将元素变成内联块级元素<br>
+float 父元素高度塌陷 清除浮动<br>
+https://cssgridgarden.com/#zh-cn</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我要学什么 我要看什么]]></title>
+        <id>https://null-go.github.io/post/wo-yao-xue-shi-me-wo-yao-kan-shi-me/</id>
+        <link href="https://null-go.github.io/post/wo-yao-xue-shi-me-wo-yao-kan-shi-me/">
+        </link>
+        <updated>2021-03-23T12:33:38.000Z</updated>
+        <content type="html"><![CDATA[<p>学习 HTML5 CSS3： MDN 百度前端技术学院<br>
+学习 JavaScript：现代JavaScript教程 红宝书 阮一峰ES6<br>
+计算机网络：图解HTTP 自顶向下 看网课（挑重点）<br>
+Vue：看文档 找一个视频看 然后重构自己的项目 看一下那个template的原理<br>
+Node：自己写一些接口 看看能不能对接上自己的项目<br>
+jQuery：用过jQuery，有时间去看一下源码</p>
+<p>3.23-4.6 重新学习第一部分</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【JS】【DOM】]]></title>
         <id>https://null-go.github.io/post/js-dom/</id>
@@ -527,176 +589,6 @@ setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencode
 当DOMString 为null时，表示请求失败了。当DOMString 为&quot;&quot;时，表示这个请求还没有被send()<br>
 当请求状态readyState变为XMLHttpRequest.DONE (4)，且status值为200（&quot;OK&quot;）时，responseText是全部后端的返回数据</li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【CSS】基础知识汇总]]></title>
-        <id>https://null-go.github.io/post/css-ji-chu/</id>
-        <link href="https://null-go.github.io/post/css-ji-chu/">
-        </link>
-        <updated>2021-03-07T03:12:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="引入css文件的三种形式">引入CSS文件的三种形式</h2>
-<ol>
-<li>外部样式表<br>
-即用link标签 <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</code> 一般放在head标签里面的最后一个</li>
-<li>内部样式表<br>
-即用<code>style</code>标签引用 也是放在head标签最后一个</li>
-<li>内联样式(难以维护，可读性变差)<br>
-即在元素内部使用 style属性加入css样式</li>
-</ol>
-<h2 id="浏览器加载网页是怎么样加载的">浏览器加载网页是怎么样加载的</h2>
-<ol>
-<li>浏览器将 HTML文件渲染成一个DOM树，该过程为深度遍历</li>
-<li>构建DOM树的同时，拉取额外资源，如图片，css，js文件(当遇到js代码时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构)</li>
-<li>当CSS解析完后生成CSS规则树(CSS rule tree)</li>
-<li>将CSS规则树与DOM树合并，构建渲染树（rendering tree）<br>
-<img src="https://upload-images.jianshu.io/upload_images/8646214-c6a28b94fa802b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/641/format/webp" alt="avatar" loading="lazy"><br>
-为了更好的用户体验，渲染引擎将会尽可能早的将内容呈现到屏幕上，并不会等到所有的html都解析完成之后再去构建和布局render树。它是解析完一部分内容就显示一部分内容，同时，可能还在通过网络下载其余内容。</li>
-<li>布局和绘制</li>
-</ol>
-<h2 id="选择器">选择器</h2>
-<ol>
-<li>类选择器</li>
-</ol>
-<ul>
-<li>指向特定元素的类 类后面.className，例span.span-1</li>
-<li>多个类被应用时指向一个元素 两个类名连写，例.divBox.danger</li>
-</ul>
-<ol start="2">
-<li>标签属性选择器  根据标签上的属性匹配值</li>
-</ol>
-<ul>
-<li>[attr] 匹配带有attr属性的元素，例a[title] 匹配a标签且有title属性</li>
-<li>[attr=&quot;value&quot;] 匹配带有attr属性的元素，且属性的值仅为value，不能有多个，例一个div元素有class=&quot;divOne divTwo&quot;  div[class=&quot;divOne&quot;]无法匹配它</li>
-<li>[attr~=&quot;value&quot;] 解决了上述情况 单个值能匹配，多个属性值也能匹配(注:<strong>值是用空格隔开的</strong>)</li>
-<li>[attr|=&quot;value&quot;] 可以匹配恰好为value的属性值，也可以匹配值value后面紧随一个连字符的值<br>
-注：连字符 <strong>-</strong> [class|=&quot;div&quot;] 可以匹配class=&quot;div-1234&quot;<br>
-除此之外，还有 <em>三个子字符串匹配选择器</em></li>
-</ul>
-<ol start="3">
-<li>关系选择器</li>
-</ol>
-<ul>
-<li>空格 <strong>后代选择器</strong>，特点是继承关系长，间接子元素也能匹配</li>
-<li>&gt;  <strong>子代关系选择器</strong>，特点是只有直接子代能匹配</li>
-<li>+ <strong>邻接兄弟选择器</strong>，特点是同级且必须在前者之后邻接才能匹配，注：匹配的是+后面的元素</li>
-<li>~ <strong>通用兄弟选择符</strong>，特点是同级且不需要邻接，只需要之后，注：匹配的是~后面的元素<br>
-tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻找匹配<br>
-以便<em>尽早过滤掉一些无关的样式规则和元素</em></li>
-</ul>
-<h2 id="布局">布局</h2>
-<h2 id="属性">属性</h2>
-<p>width和min-width 当width内容多于宽度时 内容换行 min-width设置横向滚动条<br>
-overflow 要隐藏移除的部分 hidden 隐藏 scroll 一直有滚动条 auto 溢出自动有滚动条<br>
-font-size设置字体高度 font-weight 有些字体没有某些属性 font-style italic斜体属性 color 字体颜色 transparent透明色<br>
-oblique两者都是斜体 当字体没有italic属性时，oblique强制倾斜<br>
-em默认样式是斜体，当设置font-style:normal;时，代表这是个强调的标签，但强调的方式不一定是斜体。<br>
-画一个红色下角的三角形</p>
-<pre><code>{ 
-    height: 0px;
-    width: 0px;
-    border-width: 100px;
-    border-style: solid;
-    border-color: transparent;
-    border-bottom-color: red;
-}
-</code></pre>
-<p>line-height 一行文本的高度，line-height = height 盒子内部文本垂直居中(单行文本)<br>
-相对单位：<br>
-em 在font-size中设置是相对于父元素的字体大小，在别的元素中是相对于自己的字体大小<br>
-1 em = 16px; 1px = 0.0625em 10px = 0.625em</p>
-<pre><code>html {
-    font-size:62.5%; // 1 em = 10px
-}
-//行高设置字体高度的1.2倍
-line-height : 1.2em;
-</code></pre>
-<p>rem 相对于根元素的字体大小 rem<br>
-vw vh 相对于视图窗口的宽高 1%<br>
-单行文本截断和显示省略号三大件:   white-space:nowrap; 不换行 overflow-x:hidden; 溢出部分隐藏 ;text-overflow:ellipsis 隐藏部分加省略号<br>
-label for属性和 input id属性相关联<br>
-opacity: .5 兼容性 filter:alpha(opacity:50)<br>
-伪类和伪元素<br>
-伪类:<br>
-:hover :first-child :last-child :nth-child(可填odd奇数|even偶数|普通数字) 第n个子元素 选择框:checed<br>
-容器内多行文本居中，容器display设置table，容器中的文本display设置成table-cell，容器中的文本vertical-align设置成middle<br>
-行内元素和行内块元素之间的文本分隔符，vertical-align对行内块级元素的影响<br>
-textarea换行写中间没有文字会有文本分隔符<br>
-外层盒子固定宽高加一个padding 内层盒子宽高100%相当于居中了<br>
-box-sizing: border-box兼容性问题<br>
-background-color 包括padding以内<br>
-position: relative 保留原来文档流的位置 absolute不保留<br>
-设置absolute相对于最近的定位父元素<br>
-border-width只有在border-style 不为none时才有用，否则会被重置为0<br>
-当两个盒子排列 前面的盒子定位为 absolute 后面未定位，那么前面盒子脱离文档流后 后面的盒子会流动上去，但是前面定位为absolute的盒子会在后面的盒子的上面，此时将后面的盒子同样设置为定位元素(如 relative) 这时后面的盒子会在前面的盒子的上面 (改变层级还能用z-index)<br>
-块级元素无法识别浮动流的位置（内联 内联块 浮动 溢出隐藏overf:hidden 纯文本可以识别浮动元素的位置）所以父元素内部元素float会导致高度塌陷，因为它无法识别<br>
-float会将元素变成内联块级元素<br>
-float 父元素高度塌陷 清除浮动<br>
-https://cssgridgarden.com/#zh-cn</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【JS】变量作用域与闭包]]></title>
-        <id>https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/</id>
-        <link href="https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/">
-        </link>
-        <updated>2021-03-03T11:16:19.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="词法环境">词法环境</h1>
-<h2 id="pointer1-变量">pointer1 变量</h2>
-<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象（函数叫活动对象）</em>）。</p>
-<p>词法环境对象由两部分组成：</p>
-<ol>
-<li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this,arguments 的值）的对象。</li>
-<li>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</li>
-</ol>
-<p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
-<h2 id="pointer2-函数声明">pointer2 函数声明</h2>
-<p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
-<h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
-<ol>
-<li>在一个函数在<strong>刚开始被调用</strong>时，会创建一个新的词法环境以储存调用的参数以及函数局部变量(即<strong>预编译过程</strong>)（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
-若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
-<li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
-</ol>
-<p>预编译创建AO对象(函数,全局为GO,浏览器window)的过程（<strong>适用于ES5 var定义变量具有变量提升的时期</strong>）:</p>
-<blockquote>
-<p>创建AO对象<br>
-找形参和变量声明<br>
-将形参和变量声明相统一(将实参赋值给形参)<br>
-找函数声明<br>
---&gt;执行函数 当执行函数时  a=1;要考虑是赋值还是变成了全局变量声明，如果AO对象中没有a变量，a变量将成为全局变量。在预编译已经执行的步骤执行中不再执行，比如函数声明。</p>
-</blockquote>
-<h2 id="pointer4-创建函数">pointer4 创建函数</h2>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
-<h1 id="闭包">闭包</h1>
-<ol>
-<li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>
-<li>所有函数都是天生的闭包除了<strong>new Function</strong>外</li>
-</ol>
-<h1 id="暂时性死区">暂时性死区</h1>
-<p>当一个词法环境被创建时，最先会在<strong>环境记录</strong>中填充所有变量的声明。(它们处于“未初始化（Uninitialized）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。) 所以在let声明变量a前使用变量，就算能在外部的词法环境中找到同名的a变量的值，它也会报错，因为它找到的是自己内部的还不能被使用的变量a。</p>
-<p>本次学习的的tips：</p>
-<ol>
-<li>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong>未初始化（Uninitialized</strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</li>
-<li>关于为什么new funtion语法不能闭包的原因。</li>
-<li>上次关于变量作用域产生了一个疑惑</li>
-</ol>
-<pre><code class="language-var">for (let i = 0; i &lt; 10; i++) {
-  a[i] = function () {
-    console.log(i);
-  };
-}
-a[6]();
-</code></pre>
-<p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:</p>
-<p><strong>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。<br>
-另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</strong></p>
-<pre><code>for (let i = 0; i &lt; 3; i++) {
-  let i = 'abc';
-  console.log(i);
-}
-</code></pre>
-<p><strong>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</strong></p>
 ]]></content>
     </entry>
 </feed>

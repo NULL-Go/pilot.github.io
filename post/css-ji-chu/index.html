@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【CSS】基础知识汇总 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616485919873">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616634560550">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【CSS】基础知识汇总 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616485919873" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616634560550" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -141,7 +141,6 @@
 tips: css样式匹配是从右往左 从DOM树叶子节点往根节点进行寻找匹配<br>
 以便<em>尽早过滤掉一些无关的样式规则和元素</em></li>
 </ul>
-<h2 id="布局">布局</h2>
 <h2 id="属性">属性</h2>
 <p>width和min-width 当width内容多于宽度时 内容换行 min-width设置横向滚动条<br>
 overflow 要隐藏移除的部分 hidden 隐藏 scroll 一直有滚动条 auto 溢出自动有滚动条<br>
@@ -185,11 +184,7 @@ background-color 包括padding以内<br>
 position: relative 保留原来文档流的位置 absolute不保留<br>
 设置absolute相对于最近的定位父元素<br>
 border-width只有在border-style 不为none时才有用，否则会被重置为0<br>
-当两个盒子排列 前面的盒子定位为 absolute 后面未定位，那么前面盒子脱离文档流后 后面的盒子会流动上去，但是前面定位为absolute的盒子会在后面的盒子的上面，此时将后面的盒子同样设置为定位元素(如 relative) 这时后面的盒子会在前面的盒子的上面 (改变层级还能用z-index)<br>
-块级元素无法识别浮动流的位置（内联 内联块 浮动 溢出隐藏overf:hidden 纯文本可以识别浮动元素的位置）所以父元素内部元素float会导致高度塌陷，因为它无法识别<br>
-float会将元素变成内联块级元素<br>
-float 父元素高度塌陷 清除浮动<br>
-https://cssgridgarden.com/#zh-cn</p>
+当两个盒子排列 前面的盒子定位为 absolute 后面未定位，那么前面盒子脱离文档流后 后面的盒子会流动上去，但是前面定位为absolute的盒子会在后面的盒子的上面，此时将后面的盒子同样设置为定位元素(如 relative) 这时后面的盒子会在前面的盒子的上面 (改变层级还能用z-index)</p>
 
               </div>
               <div class="toc-container">
@@ -199,7 +194,6 @@ https://cssgridgarden.com/#zh-cn</p>
 <li><a href="#%E5%BC%95%E5%85%A5css%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%89%E7%A7%8D%E5%BD%A2%E5%BC%8F">引入CSS文件的三种形式</a></li>
 <li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A0%E8%BD%BD%E7%BD%91%E9%A1%B5%E6%98%AF%E6%80%8E%E4%B9%88%E6%A0%B7%E5%8A%A0%E8%BD%BD%E7%9A%84">浏览器加载网页是怎么样加载的</a></li>
 <li><a href="#%E9%80%89%E6%8B%A9%E5%99%A8">选择器</a></li>
-<li><a href="#%E5%B8%83%E5%B1%80">布局</a></li>
 <li><a href="#%E5%B1%9E%E6%80%A7">属性</a></li>
 </ul>
 </li>
