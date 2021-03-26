@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-25T01:14:42.495Z</updated>
+    <updated>2021-03-26T07:46:31.610Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -10,6 +10,44 @@
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, PILOT</rights>
+    <entry>
+        <title type="html"><![CDATA[【CSS3】基础]]></title>
+        <id>https://null-go.github.io/post/css3-ji-chu/</id>
+        <link href="https://null-go.github.io/post/css3-ji-chu/">
+        </link>
+        <updated>2021-03-25T11:32:43.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="border-radius">border-radius</h1>
+<p>单位：可以是 em rem vw等相对单位，还可以是百分比，相当于宽高。<br>
+多值：4个 左上角开始顺时针 3个 左上-&gt;对角线-&gt;右下 2个 左上右下-&gt;右上左下<br>
+拆分复合属性：左上 border-top/bottom-left/right-radius</p>
+<h1 id="box-shadow">box-shadow</h1>
+<p>语法：box-shadow: h-shadow v-shadow blur/模糊距离 spread/阴影大小 color inset;<br>
+blur：意思是从外到里经过多远变得不模糊<br>
+spread：阴影会向四周扩大的大小<br>
+inset：当设置为inset属性时，阴影变为内侧阴影</p>
+<pre><code>{
+    box-shadow:20px 20px 20px 0px red inset
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616678037534.png" alt="" loading="lazy"></figure>
+<h1 id="border-image">border-image</h1>
+<p>没看懂暂时</p>
+<h1 id="background-属性">background-*属性</h1>
+<h2 id="background-img">background-img</h2>
+<p>语法：background-img:url(&quot;&quot;);</p>
+<h2 id="background-repeat">background-repeat</h2>
+<p>设置背景图片的平铺 默认值repeat x,y轴平铺，repeat-x repeat-y no-repeat</p>
+<h2 id="background-clip-背景裁剪显示的区域">background-clip 背景裁剪显示的区域</h2>
+<p>值：border-box 默认 padding-box content-box</p>
+<h2 id="background-position-背景图像的起始位置">background-position 背景图像的起始位置</h2>
+<p>值：第一个值是水平位置 第二个值是垂直位置<br>
+水平位置用left right center ，垂直位置用top center bottom，只写一个另外一个为center<br>
+百分比 0% 0%，代表是left top 左上角也可以用，只写一个另外一个为50%<br>
+x pos y pos，离起点的偏移量，只写一个另外一个为50%</p>
+<h2 id="background-orgin-指定background-position属性应该是相对位置">background-orgin 指定background-position属性应该是相对位置</h2>
+<p>值：padding-box 默认 border-box content-box</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[【CSS】布局]]></title>
         <id>https://null-go.github.io/post/css-bu-ju/</id>
@@ -51,6 +89,7 @@ https://www.cnblogs.com/chaixiaozhi/p/8481253.html</li>
 </ul>
 <h1 id="浮动">浮动</h1>
 <h2 id="工作原理浮动元素会脱离正常的文档布局流并吸附到其父容器的左边floatleft-在正常布局中位于该浮动元素之下的内容此时会围绕着浮动元素填满其右侧的空间">工作原理：浮动元素会脱离正常的文档布局流，并吸附到其父容器的左边(float:left)。在正常布局中位于该浮动元素之下的内容，此时会围绕着浮动元素，填满其右侧的空间。</h2>
+<p>浮动元素表现的像inline-block一样</p>
 <h2 id="清除浮动">清除浮动</h2>
 <p>float会将元素变成内联块级元素<br>
 float 父元素高度塌陷 清除浮动<br>
@@ -539,56 +578,6 @@ JavaScript 语言存在一个顶层对象，它提供全局环境（即全局作
 然后尝试require纯地址路径，还是error找不到module，最终解决，解决方法：<strong>require(path) ,path</strong>至少要有三部分组成, 目录+文件名+后缀，即：</p>
 <pre><code>&lt;img :src=&quot;require('../../assets/images/'+pic+'.png')&quot;&gt;
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【AJAX】同步和异步HTTP请求 混编模式]]></title>
-        <id>https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/</id>
-        <link href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
-        </link>
-        <updated>2021-03-09T00:29:15.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="web开发混编模式">web开发混编模式</h2>
-<p>在html中嵌入php，jsp，asp等脚本语言(前后端不分离)，通过url地址请求页面加载不同的HTML页面的内容，所以每次页面有变化都需要重新请求服务器并等待服务器返回的HTML页面重新渲染，这样的方式是同步的。(用户必须等待服务器的返回后才进行其他操作)</p>
-<h2 id="mvc模式">MVC模式</h2>
-<h2 id="ajax-asynchronous-javascript-and-xml异步-javascript-和-xml">AJAX (“Asynchronous Javascript And XML”异步 JavaScript 和 XML)</h2>
-<p>前端使用JavaScript的方法直接向服务器发起HTTP请求，获取XML/JSON等数据后进行处理，在不刷新页面的情况在操作HTML以达到重新渲染页面的作用。</p>
-<h2 id="原生xmlhttprequest对象">原生XMLHttpRequest对象</h2>
-<p>XMLHttpRequest对象是js引擎内置的构造对象，IE5或6没有此对象，要使用ajax必须要用ActiveXObject对象。</p>
-<pre><code>if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
-    httpRequest = new XMLHttpRequest();
-} else if (window.ActiveXObject) { // IE 6 and older
-    httpRequest = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
-}
-</code></pre>
-<p>方法和属性</p>
-<ul>
-<li>open &lt;初始化请求&gt; <code>.open(参数1,参数2,参数3)</code><br>
-参数1:请求的方法 即&quot;GET&quot; &quot;POST&quot; &quot;HEAD&quot;<br>
-参数2:请求的url<br>
-参数3:可选，表示是否异步 true为异步</li>
-<li>send &lt;发送请求&gt;</li>
-<li>setRequestHeader &lt;设置请求头&gt;<br>
-在POST 请求要传递参数时 必须要在open()之后 send()之前 调用xhr.setRequestHeader(header, value);<br>
-发送JSON数据格式<br>
-setRequestHeader(&quot;Content-type&quot;,&quot;application/json&quot;);<br>
-发送表单数据格式<br>
-setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);</li>
-<li>onreadystatechange &lt;处理响应&gt; 将函数挂载在该属性上，在http请求的状态发生改变时会调用该回调函数。</li>
-<li>readyState 可读属性 返回一个 XMLHttpRequest 代理当前所处的状态。一个 XHR 代理总是处于下列状态中的一个：
-<ol>
-<li>0 (XMLHttpRequest.UNSENT) 代理被创建，但尚未调用 open() 方法。</li>
-<li>1 (XMLHttpRequest.OPENED) open() 方法已经被调用。</li>
-<li>2 (XMLHttpRequest.HEADER_RECEIVED) send() 方法已经被调用，并且头部和状态已经可获得。</li>
-<li>3 (XMLHttpRequest.LOADING) 下载中； responseText 属性已经包含部分数据。</li>
-<li>4 (XMLHttpRequest.DONE) 下载操作已完成。<br>
-注意与<strong>status</strong>属性区分，status属性表示<strong>响应中</strong>的数字状态码，status 的值是一个无符号短整型。在请求完成前，status的值为0。如果 XMLHttpRequest 出错，浏览器返回的 status 也为0。</li>
-</ol>
-</li>
-<li>response 可读属性 返回响应的正文。类型可以有很多种： ArrayBuffer 、 Blob 、 Document 、 JavaScript Object 或 DOMString；取决于responseType类型。</li>
-<li>response 可读属性 返回响应的DOMString 类型的文本信息。<br>
-当DOMString 为null时，表示请求失败了。当DOMString 为&quot;&quot;时，表示这个请求还没有被send()<br>
-当请求状态readyState变为XMLHttpRequest.DONE (4)，且status值为200（&quot;OK&quot;）时，responseText是全部后端的返回数据</li>
-</ul>
 ]]></content>
     </entry>
 </feed>

@@ -2,20 +2,19 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | PILOT</title>
+<title>【CSS3】基础 | PILOT</title>
 <link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616744746159">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【CSS3】基础 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="vue中的data是函数且必须有return {}
-v-bind绑定值时不能为数组带有下标
-vue原生img绑定src require  webpack打包问题
-typeof 打印出来的都是字符串
-函数声明整体提升，变量声明提升，赋值不提升..." />
+    <meta name="description" content="border-radius
+单位：可以是 em rem vw等相对单位，还可以是百分比，相当于宽高。
+多值：4个 左上角开始顺时针 3个 左上-&gt;对角线-&gt;右下 2个 左上右下-&gt;右上左下
+拆分复合属性：左上 border..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -78,11 +77,11 @@ typeof 打印出来的都是字符串
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              关于
+              【CSS3】基础
             </h2>
             <div class="post-info">
               <span>
-                2019-01-25
+                2021-03-25
               </span>
               <span>
                 2 min read
@@ -92,41 +91,68 @@ typeof 打印出来的都是字符串
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>vue中的data是函数且必须有return {}<br>
-v-bind绑定值时不能为数组带有下标<br>
-vue原生img绑定src require  webpack打包问题<br>
-typeof 打印出来的都是字符串<br>
-函数声明整体提升，变量声明提升，赋值不提升 var</p>
-<pre><code>function test(){
-    var a =b =1;
-}
-test();
-console.log(b); //1
-console.log(window.b); //1
-console.log(a); //报错
-</code></pre>
-<p>说明js中的连等号从右边往左指向<br>
-var a,b;和<br>
-var a =b =1;不同</p>
-<p>new Array(4) 生成一个长度为4的数组(值均为undefined)当只有一个数组元素且该元素为number类型时，这样写容易产生歧义</p>
-<p>如果你确定数组中没有一个元素的求值是false —— 如果你的数组只包含DOM节点，如下,你可以选择一个更高效的土法子:</p>
-<pre><code>var divs = document.getElementsByTagName('div');
-for (var i = 0, div; div = divs[i]; i++) {
-  /* Process div in some way */
+                <h1 id="border-radius">border-radius</h1>
+<p>单位：可以是 em rem vw等相对单位，还可以是百分比，相当于宽高。<br>
+多值：4个 左上角开始顺时针 3个 左上-&gt;对角线-&gt;右下 2个 左上右下-&gt;右上左下<br>
+拆分复合属性：左上 border-top/bottom-left/right-radius</p>
+<h1 id="box-shadow">box-shadow</h1>
+<p>语法：box-shadow: h-shadow v-shadow blur/模糊距离 spread/阴影大小 color inset;<br>
+blur：意思是从外到里经过多远变得不模糊<br>
+spread：阴影会向四周扩大的大小<br>
+inset：当设置为inset属性时，阴影变为内侧阴影</p>
+<pre><code>{
+    box-shadow:20px 20px 20px 0px red inset
 }
 </code></pre>
-<p>箭头函数的this和arguments都来自外部作用域<br>
-当 ...作用域函数参数时，代表折叠成数组，当用作其他地方时，代表展开。<br>
-当遇到setTimeout函数传入的函数有参数怕传入时被直接调用，可以用箭头函数代替，然后在箭头函数体中调用那个函数。</p>
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616678037534.png" alt="" loading="lazy"></figure>
+<h1 id="border-image">border-image</h1>
+<p>没看懂暂时</p>
+<h1 id="background-属性">background-*属性</h1>
+<h2 id="background-img">background-img</h2>
+<p>语法：background-img:url(&quot;&quot;);</p>
+<h2 id="background-repeat">background-repeat</h2>
+<p>设置背景图片的平铺 默认值repeat x,y轴平铺，repeat-x repeat-y no-repeat</p>
+<h2 id="background-clip-背景裁剪显示的区域">background-clip 背景裁剪显示的区域</h2>
+<p>值：border-box 默认 padding-box content-box</p>
+<h2 id="background-position-背景图像的起始位置">background-position 背景图像的起始位置</h2>
+<p>值：第一个值是水平位置 第二个值是垂直位置<br>
+水平位置用left right center ，垂直位置用top center bottom，只写一个另外一个为center<br>
+百分比 0% 0%，代表是left top 左上角也可以用，只写一个另外一个为50%<br>
+x pos y pos，离起点的偏移量，只写一个另外一个为50%</p>
+<h2 id="background-orgin-指定background-position属性应该是相对位置">background-orgin 指定background-position属性应该是相对位置</h2>
+<p>值：padding-box 默认 border-box content-box</p>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li><a href="#border-radius">border-radius</a></li>
+<li><a href="#box-shadow">box-shadow</a></li>
+<li><a href="#border-image">border-image</a></li>
+<li><a href="#background-%E5%B1%9E%E6%80%A7">background-*属性</a>
+<ul>
+<li><a href="#background-img">background-img</a></li>
+<li><a href="#background-repeat">background-repeat</a></li>
+<li><a href="#background-clip-%E8%83%8C%E6%99%AF%E8%A3%81%E5%89%AA%E6%98%BE%E7%A4%BA%E7%9A%84%E5%8C%BA%E5%9F%9F">background-clip 背景裁剪显示的区域</a></li>
+<li><a href="#background-position-%E8%83%8C%E6%99%AF%E5%9B%BE%E5%83%8F%E7%9A%84%E8%B5%B7%E5%A7%8B%E4%BD%8D%E7%BD%AE">background-position 背景图像的起始位置</a></li>
+<li><a href="#background-orgin-%E6%8C%87%E5%AE%9Abackground-position%E5%B1%9E%E6%80%A7%E5%BA%94%E8%AF%A5%E6%98%AF%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE">background-orgin 指定background-position属性应该是相对位置</a></li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
         </div>
 
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://null-go.github.io/post/css-bu-ju/">
+              <h3 class="post-title">
+                【CSS】布局
+              </h3>
+            </a>
+          </div>
         
 
         
