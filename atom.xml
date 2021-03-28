@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-03-26T07:46:31.610Z</updated>
+    <updated>2021-03-28T07:24:48.810Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
@@ -33,6 +33,8 @@ inset：当设置为inset属性时，阴影变为内侧阴影</p>
 <h1 id="border-image">border-image</h1>
 <p>没看懂暂时</p>
 <h1 id="background-属性">background-*属性</h1>
+<p>语法：<br>
+background:bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;</p>
 <h2 id="background-img">background-img</h2>
 <p>语法：background-img:url(&quot;&quot;);</p>
 <h2 id="background-repeat">background-repeat</h2>
@@ -46,6 +48,14 @@ inset：当设置为inset属性时，阴影变为内侧阴影</p>
 x pos y pos，离起点的偏移量，只写一个另外一个为50%</p>
 <h2 id="background-orgin-指定background-position属性应该是相对位置">background-orgin 指定background-position属性应该是相对位置</h2>
 <p>值：padding-box 默认 border-box content-box</p>
+<h1 id="渐变">渐变</h1>
+<h2 id="线性渐变-沿着一根轴线改变颜色从一边拉向另一边">线性渐变 沿着一根轴线改变颜色(从一边拉向另一边)</h2>
+<p><strong>语法一</strong>：linear-gradients(direction, color-stop1, color-stop2, ...);<br>
+默认不写direction为从上到下 direction分兼容性<br>
+若为 -webkit-内核 direction为开始方向，其他 内核 direction为结束方向<br>
+若不写兼容性，direction 标准为 to direction<br>
+<strong>语法二</strong>：linear-gradients(angle, color-stop1, color-stop2, ...);<br>
+<img src="https://null-go.github.io/post-images/1616916263966.jpg" alt="" loading="lazy"></p>
 ]]></content>
     </entry>
     <entry>
