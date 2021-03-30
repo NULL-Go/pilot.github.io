@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】【DOM】 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1616916285467">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1617094656078">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】【DOM】 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -11,12 +11,12 @@
 
 
 
-    <meta name="description" content="Document
+    <meta name="description" content="DOM
 文档对象模型（Document Object Model）
 document 对象是页面的主要入口点
 DOM树
 每个HTML标签都是一个对象，标签内的文本也是一个对象。
-标签称为元素节点，元素内的文本形成文本节点(一个文本..." />
+标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -26,7 +26,7 @@ DOM树
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1616916285467" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1617094656078" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -86,202 +86,338 @@ DOM树
                 2021-03-18
               </span>
               <span>
-                8 min read
+                11 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="document">Document</h1>
-<p>文档对象模型（Document Object Model）<br>
-document 对象是页面的主要入口点</p>
-<h1 id="dom树">DOM树</h1>
-<p>每个HTML标签都是一个对象，标签内的文本也是一个对象。<br>
-标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)<br>
-<strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
+                <h1 id="dom">DOM</h1>
+<p>文档对象模型（Document Object Model）</p>
+<p>document 对象是页面的主要入口点</p>
+<h1 id="dom树"><strong>DOM树</strong></h1>
+<p>每个HTML标签都是一个对象，标签内的文本也是一个对象。</p>
+<p>标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含一个字符串，它总是叶子节点)</p>
+<p><strong>空格和换行符</strong>都是完全有效的字符，它们可以形成文本节点。</p>
 <blockquote>
 <p>表格是一个有趣的“特殊的例子”。按照 DOM 规范，它们必须具有 &lt; tbody &gt;，但 HTML 文本却（官方的）忽略了它。然后浏览器在创建 DOM 时，自动地创建了 &lt; tbody &gt;。</p>
 </blockquote>
-<p>html 标签 document.documentElement<br>
-body 标签 document.body<br>
-head 标签 document.head</p>
+<p>html 标签 document.documentElement</p>
+<p>body 标签 document.body</p>
+<p>head 标签 document.head</p>
 <blockquote>
-<p>在控制台中选中元素，且对其进行操作<br>
-先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素</p>
+<p>在控制台中选中元素，且对其进行操作</p>
 </blockquote>
-<h2 id="查找">查找</h2>
-<p><strong>子节点</strong> 一层<br>
-<strong>子孙节点</strong> 多层<br>
-<strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。<br>
-<strong>首尾子节点</strong><br>
-如果元素存在子节点的 childNodes[0]==firstChild<br>
-childNodes[childNodes.length - 1]==lastChild<br>
-<strong>兄弟节点</strong> nextSibling previousSibling<br>
-<strong>父节点</strong> parentNode<br>
-把这些属性加上Element关键词，即可忽略文本节点</p>
+<p>先选元素 然后按ESC $0是最后一次选择的元素 $1是前一个选择的元素</p>
+<h2 id="查找"><strong>查找</strong></h2>
+<p><strong>子节点</strong> 一层</p>
+<p><strong>子孙节点</strong> 多层</p>
+<p><strong>childNodes</strong>属性 集合列出了所有子节点，包括文本节点。</p>
+<p><strong>首尾子节点</strong></p>
+<p>如果元素存在子节点的 childNodes[0]==firstChild</p>
+<p>​                               childNodes[childNodes.length - 1]==lastChild</p>
+<p><strong>兄弟节点</strong>nextSibling previousSibling</p>
+<p><strong>父节点</strong>parentNode</p>
+<p>把这些属性加上Element关键词，即可忽略文本节点</p>
 <ul>
-<li>children — 仅那些作为元素节点的子代的节点</li>
-<li>firstElementChild，lastElementChild — 第一个和最后一个子元素。</li>
-<li>previousElementSibling，nextElementSibling — 兄弟元素。</li>
-<li>parentElement — 父元素。<br>
-搜索DOM最常用的方法 document.querySelectorAll()和querySelector()<br>
-element.matches()方法 匹配给定的css选择器 返回true or false<br>
-element.closest()方法是matches方法的精简版，它只搜索它自己和它的祖先，返回值为第一个找到的元素</li>
+<li>
+<p>children — 仅那些作为元素节点的子代的节点</p>
+</li>
+<li>
+<p>firstElementChild，lastElementChild — 第一个和最后一个子元素。</p>
+</li>
+<li>
+<p>previousElementSibling，nextElementSibling — 兄弟元素。</p>
+</li>
+<li>
+<p>parentElement — 父元素。</p>
+</li>
 </ul>
-<p><strong>querySelector类型的方法和getElementsBy*类型的方法的区别</strong><br>
-所有的 &quot;getElementsBy*&quot; 方法都会返回一个 实时的（live） 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。(getElementById 返回一个元素，所有没有实时集合这一说法)<br>
-相反，querySelector类型返回的内容固定不变。</p>
-<h1 id="dom集合类数组的可迭代对象">DOM集合(类数组的可迭代对象)</h1>
+<p>搜索DOM最常用的方法 document.querySelectorAll()和querySelector()</p>
+<p>element.matches()方法 匹配给定的css选择器 返回true or false</p>
+<p>element.closest()方法是matches方法的精简版，它只搜索它自己和它的祖先，返回值为第一个找到的元素</p>
+<p><strong>querySelector类型的方法和getElementsBy*类型的方法的区别</strong></p>
+<p>所有的 &quot;getElementsBy*&quot; 方法都会返回一个 实时的（live） 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。(getElementById 返回一个元素，所有没有实时集合这一说法)</p>
+<p>相反，querySelector类型返回的内容固定不变。</p>
+<h2 id="dom集合类数组的可迭代对象">DOM集合(类数组的可迭代对象)</h2>
 <ol>
-<li>可以用for of 迭代</li>
-<li>有length属性和下标但没有数组方法</li>
+<li>
+<p>可以用for of 迭代</p>
+</li>
+<li>
+<p>有length属性和下标但没有数组方法</p>
+</li>
 </ol>
-<h1 id="dom的继承关系">DOM的继承关系</h1>
-<p><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"><br>
-<strong>nodeName</strong>属性适用于Node类 tagName适用于Element类。<br>
-<strong>innerHTML</strong>属性使用于元素，允许将元素中的 HTML 获取为<strong>字符串形式</strong>。文本元素等其他元素用data或nodeValue。<br>
-<strong>innerHTML</strong> innerHTML+= 会进行完全的重写 innerHTML = &quot;...&quot; + newHTML;这相当于整个HTML还是重新加载了，因此所有的图片和其他资源都将重写加载。<br>
-<strong>outerHTML</strong> 属性包含了元素的完整 HTML。就像 innerHTML 加上元素本身一样。<br>
-outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的HTML内容&quot;; oEle元素并不会被修改，而是被替换，所有oEle对旧的HTML内容仍然可以引用，只是在DOM树中的位置被替换掉了。<br>
-<strong>hidden</strong>属性，从技术上来说，hidden 与 style=&quot;display:none&quot; 做的是相同的事。</p>
+<h2 id="dom的继承关系">DOM的继承关系</h2>
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616076970054.png" alt="" loading="lazy"></figure>
+<p><strong>nodeName</strong>属性适用于Node类 tagName适用于Element类。</p>
+<p><strong>innerHTML</strong>属性使用于元素，允许将元素中的 HTML 获取为<strong>字符串形式</strong>。文本元素等其他元素用data或nodeValue。</p>
+<p><strong>innerHTML</strong> innerHTML+= 会进行完全的重写 innerHTML = &quot;...&quot; + newHTML;这相当于整个HTML还是重新加载了，因此所有的图片和其他资源都将重写加载。</p>
+<p><strong>outerHTML</strong> 属性包含了元素的完整 HTML。就像 innerHTML 加上元素本身一样。</p>
+<p>outHTML 和 innerHTML最不一样的地方在于， oEle.outHTML = &quot;新的HTML内容&quot;; oEle元素并不会被修改，而是被替换，所有oEle对旧的HTML内容仍然可以引用，只是在DOM树中的位置被替换掉了。</p>
+<p><strong>hidden</strong>属性，从技术上来说，hidden 与 style=&quot;display:none&quot; 做的是相同的事。</p>
 <h1 id="dom特性attributes和属性properties">DOM特性(attributes)和属性(properties)</h1>
-<p>当浏览器解析HTML，它会从中生成DOM对象。对于元素节点，标准的特性(attributes)会变成DOM对象的属性(properties)。故可以通过点 . 运算符获取属性。<br>
-<strong>特性</strong> : 写在HTML中的内容<br>
-<strong>属性</strong> : DOM元素对象的属性<br>
-所有特性(大小写不敏感)都可以通过使用以下方法进行访问：</p>
+<p>当浏览器解析HTML，它会从中生成DOM对象。对于元素节点，标准的特性(attributes)会变成DOM对象的属性(properties)。故可以通过点 . 运算符获取属性。</p>
+<p><strong>特性</strong> : 写在HTML中的内容</p>
+<p><strong>属性</strong> : DOM元素对象的属性</p>
+<p>所有特性(大小写不敏感)都可以通过使用以下方法进行访问：</p>
 <ul>
-<li>elem.hasAttribute(name) — 检查特性是否存在。</li>
-<li>elem.getAttribute(name) — 获取这个特性值。</li>
-<li>elem.setAttribute(name, value) — 设置这个特性值。</li>
-<li>elem.removeAttribute(name) — 移除这个特性。</li>
-<li>elem.attributes属性读取所有特性<br>
-一般来说，一个标准的特性所对应的属性是关联改变的。<br>
-例外：  input 的value 属性</li>
+<li>
+<p>elem.hasAttribute(name) — 检查特性是否存在。</p>
+</li>
+<li>
+<p>elem.getAttribute(name) — 获取这个特性值。</p>
+</li>
+<li>
+<p>elem.setAttribute(name, value) — 设置这个特性值。</p>
+</li>
+<li>
+<p>elem.removeAttribute(name) — 移除这个特性。</p>
+</li>
+<li>
+<p>elem.attributes属性读取所有特性</p>
+</li>
 </ul>
-<pre><code>  // 特性 =&gt; 属性
+<p>一般来说，一个标准的特性所对应的属性是关联改变的。</p>
+<p>例外：  input 的value 属性</p>
+<pre><code>// 特性 =&gt; 属性
+
   input.setAttribute('value', 'text');
+
   alert(input.value); // text
 
+
+
   // 这个操作无效，属性 =&gt; 特性
+
   input.value = 'newValue';
+
   alert(input.getAttribute('value')); // text（没有被更新！）
+
   //这个“功能”在实际中会派上用场，因为用户行为可能会导致 value 的更改，然后在这些操作之后，如果我们想从 HTML 中恢复“原始”值，那么该值就在特性中。
 </code></pre>
-<h2 id="非标准的特性">非标准的特性</h2>
+<h2 id="非标准的特性"><strong>非标准的特性</strong></h2>
 <p>非标准的特性常常用来设置元素的样式</p>
 <pre><code>style : 
+
 .order[order-state=&quot;new&quot;] {
+
     color: green;
+
 }
+
 dom :
+
 &lt;div class=&quot;order&quot; order-state=&quot;new&quot;&gt;
+
   A new order.
+
 &lt;/div&gt;
+
 //特性值更容易管理。我们可以轻松地更改状态：
+
   div.setAttribute(&quot;order-state&quot;,new);
 </code></pre>
-<h1 id="修改文档">修改文档</h1>
-<h2 id="创建方法">创建方法</h2>
-<p>创建元素节点： let div = document.createElement(&quot;div&quot;);<br>
-创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;) (即符号不会进行转义，原原本本的当做字符串显示)</p>
-<h2 id="插入方法">插入方法</h2>
+<h1 id="修改文档"><strong>修改文档</strong></h1>
+<h2 id="创建方法"><strong>创建方法</strong></h2>
+<p>创建元素节点： let div = document.createElement(&quot;div&quot;);</p>
+<p>创建文本节点： let textNode = document.createTextNode(&quot;Here is a text node&quot;) (即符号不会进行转义，原原本本的当做字符串显示)</p>
+<h2 id="插入方法"><strong>插入方法</strong></h2>
 <ul>
-<li>node.append(...nodes or strings) 在node直接子元素最末尾插入</li>
-<li>node.prepend(...nodes or strings) 在node直接子元素最开头插入</li>
-<li>node.before(...nodes or strings) 在node前面插入</li>
-<li>node.after(...nodes or strings) 在node后面插入</li>
-<li>node.replaceWith(...nodes or strings) 替换node节点<br>
-若插入的是字符串，文字将作为<strong>文本</strong>插入(不是HTML代码，即和node.innerHTML = &quot;&quot;不相同，和node.textContent相同)，自动将转化成<strong>文本节点</strong>，&lt;和&gt;等符号将会转义。所以这是一种更安全的方法插入文本，它并不会插入乱七八糟的元素。</li>
+<li>
+<p>node.append(...nodes or strings) 在node直接子元素最末尾插入</p>
+</li>
+<li>
+<p>node.prepend(...nodes or strings) 在node直接子元素最开头插入</p>
+</li>
+<li>
+<p>node.before(...nodes or strings) 在node前面插入</p>
+</li>
+<li>
+<p>node.after(...nodes or strings) 在node后面插入</p>
+</li>
+<li>
+<p>node.replaceWith(...nodes or strings) 替换node节点</p>
+</li>
 </ul>
+<p>若插入的是字符串，文字将作为<strong>文本</strong>插入(不是HTML代码，即和node.innerHTML = &quot;&quot;不相同，和node.textContent相同)，自动将转化成<strong>文本节点</strong>，&lt;和&gt;等符号将会转义。所以这是一种更安全的方法插入文本，它并不会插入乱七八糟的元素。</p>
 <h2 id="eleinsertadjacenthtmltextelementwherecontent">ele.insertAdjacentHTML/Text/Element(where,content)</h2>
-<p><strong>where</strong> 参数的取值(4个):<br>
-beforebegin 元素之前 afterbegin 元素内部第一个子元素之前<br>
-beforeend 元素内部最后一个子元素之后 afterend 元素之后<br>
-<strong>content</strong> 参数的取值:<br>
-对应传入即可，但是Text和Element均已有方法支持了。即append等。</p>
+<p><strong>where</strong> 参数的取值(4个):</p>
+<p>beforebegin 元素之前 afterbegin 元素内部第一个子元素之前</p>
+<p>beforeend 元素内部最后一个子元素之后 afterend 元素之后</p>
+<p><strong>content</strong> 参数的取值:</p>
+<p>对应传入即可，但是Text和Element均已有方法支持了。即append等。</p>
 <h2 id="移除方法">移除方法</h2>
-<p>node.remove()<br>
-注:<strong>如果我们要将一个元素移到另外一个位置，不需要进行remove，所有的插入方法都会从原来的位置删除</strong></p>
+<p>node.remove()</p>
+<p>注:<strong>如果我们要将一个元素移到另外一个位置，不需要进行remove，所有的插入方法都会从原来的位置删除</strong></p>
 <h2 id="克隆节点">克隆节点</h2>
-<p>node.cloneNode(true); <strong>深拷贝</strong> 会拷贝其本身(具有特性 attributes)及所有子节点<br>
-node.cloneNode(true); <strong>浅拷贝</strong> 只拷贝其本身(具有特性 attributes)</p>
+<p>node.cloneNode(true); <strong>深拷贝</strong> 会拷贝其本身(具有特性 attributes)及所有子节点</p>
+<p>node.cloneNode(true); <strong>浅拷贝</strong> 只拷贝其本身(具有特性 attributes)</p>
 <p>如何删除一个元素内的所有内容</p>
-<pre><code>        // 错误做法
+<pre><code>// 错误做法
+
         function clear(elem) {
+
             //     1
+
             for (let i = 0; i &lt; elem.childNodes.length; i++)
+
                 elem.childNodes[i].remove;
+
             //     2
+
             for (let item of elem.childNodes)
+
                 item.remove();
 
+
+
         }
+
         clear(elem); // 清除列表
+
         //  正确做法
+
         function clear(elem){
+
             while(elem.firstChild)
+
               elem.firstChild.remove();
+
         }
+
         clear(elem); // 清除列表
 </code></pre>
-<h1 id="样式和类">样式和类</h1>
+<p>​</p>
+<h1 id="样式和类"><strong>样式和类</strong></h1>
 <h2 id="classname和classlist">className和classList</h2>
-<p>对className赋值，将会替换整个字符串。<br>
-classList是一个特殊的<strong>对象</strong>(可迭代，类数组。classList[0])。它<strong>对应</strong>&quot;class&quot; attribute<br>
-classList有下列的方法：</p>
+<p>对className赋值，将会替换整个字符串。</p>
+<p>classList是一个特殊的<strong>对象</strong>(可迭代，类数组。classList[0])。它<strong>对应</strong>&quot;class&quot; attribute</p>
+<p>classList有下列的方法：</p>
 <ul>
-<li>element.add/remove(className) 添加或移除单个类</li>
-<li>element.toggle(className) 若类存在，则移除类，若类不存在，则添加类。</li>
-<li>element.contains(className) 检查给定类，返回true/false</li>
+<li>
+<p>element.add/remove(className) 添加或移除单个类</p>
+</li>
+<li>
+<p>element.toggle(className) 若类存在，则移除类，若类不存在，则添加类。</p>
+</li>
+<li>
+<p>element.contains(className) 检查给定类，返回true/false</p>
+</li>
 </ul>
 <h2 id="元素样式">元素样式</h2>
-<p>elem.style 是一类特殊的对象。它<strong>对应</strong>&quot;style&quot; attribute<br>
-<strong>因为它对应的是style这个attribute特性，所以只有内联的样式它才能够读取到，像是在style标签里类定义的height，element.style.height得到是空字符串，通过赋值能改变样式的原因也是内联样式的优先级比较高</strong><br>
-对于多词（multi-word）属性，使用驼峰式 camelCase：</p>
+<p>elem.style 是一类特殊的对象。它<strong>对应</strong>&quot;style&quot; attribute</p>
+<p><strong>因为它对应的是style这个attribute特性，所以只有内联的样式它才能够读取到，像是在style标签里定义的height，element.style.height得到是空字符串，通过赋值能改变样式的原因也是内联样式的优先级比较高</strong></p>
+<p>对于多词（multi-word）属性，使用驼峰式 camelCase：</p>
 <blockquote>
-<p>background-color  =&gt; elem.style.backgroundColor<br>
-浏览器前缀- 也用大写字母表示</p>
+<p>background-color  =&gt; elem.style.backgroundColor</p>
 </blockquote>
-<p>不能像这样的 div.style=&quot;color: red; width: 100px&quot; 设置完整的属性，因为 div.style 是一个对象，并且它是只读的。<br>
-对于修改样式，我们可以通过elem.style.*=&quot;&quot; 修改内联样式的方法修改元素样式，如果想获取样式表中的样式，可以通过 getComputedStyle语法。<br>
-getComputed(element, [pseudo]) 需要完整的属性值，需要paddingLeft而不是padding<br>
-element：<br>
-需要被读取样式值的元素。<br>
-pseudo：<br>
-伪元素（如果需要），例如 ::before。空字符串或无参数则意味着元素本身。<br>
-同样返回一个具有样式属性的对象，像ele.style，但现在包括除内联外的其他样式了。<br>
-<img src="https://null-go.github.io/post-images/1616480743854.png" alt="" loading="lazy"></p>
+<p>浏览器前缀- 也用大写字母表示</p>
+<pre><code>// 在单个语句中设置多个样式,相当于style attribute 内联样式对象被重置了
+elt.style.cssText = &quot;color: blue; border: 1px solid black&quot;;
+// 或者,也相当于style attribute 内联样式对象被重置了
+elt.setAttribute(&quot;style&quot;, &quot;color:red; border: 1px solid blue;&quot;);
+
+// 设置特定样式，同时保持其他内联样式值不变
+elt.style.color = &quot;blue&quot;;
+</code></pre>
+<p>不能像这样的 div.style=&quot;color: red; width: 100px&quot; 设置完整的属性，因为 CSSStyleDeclaration <strong>应当</strong>是只读的（尽管它在Firefox，Chrome中都能被赋值，是对象本身整体只读，它的属性的值可以改变）。</p>
+<pre><code>element.style = {}; 内联样式对象被清空了
+getComputedSyle(element,null) = {}; 直接报错了
+</code></pre>
+<p>对于修改样式，我们可以通过elem.style.*=&quot;&quot; 修改内联样式的方法修改元素样式，如果想获取样式表中的样式，可以通过 getComputedStyle语法。</p>
+<p>getComputed(element, [pseudo]) 需要完整的属性值，需要paddingLeft而不是padding</p>
+<p>element：</p>
+<p>需要被读取样式值的元素。</p>
+<p>pseudo：</p>
+<p>伪元素（如果需要），例如 ::before。空字符串或无参数则意味着元素本身。由于浏览器的兼容性问题，建议在选择元素本身时传入参数null。</p>
+<p>同样返回一个具有样式属性的对象，像ele.style，但现在包括除内联外的其他样式了。</p>
+<p><strong>Element.style 和 getComputedStyle(element,pseudo) 返回的均是一个 CSSStyleDeclaration对象</strong></p>
+<p>*<em>注意 element.style.<em>和getComputedStyle() 方法返回的对象所拥有的属性均是字符串形式，所以用来参与运算时要特别注意</em></em></p>
+<p>getComputedStyle 参与运算时单位要注意，这与下面说的几何属性不一致，几何属性均为<strong>数值</strong>且单位是px</p>
+<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1616480743854.png" alt="" loading="lazy"></figure>
+<h1 id="元素大小和滚动">元素大小和滚动</h1>
+<h2 id="元素结构">元素结构</h2>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210329102157711.png" alt="image-20210329102157711" style="zoom:80%;" />
+<p>这里设置的width本来是300px，但是滚动条占据了一部分内容宽度。(不同的浏览器对滚动条的处理不同)</p>
+<p>不包括margin，它本身不是元素的一部分。</p>
+<h2 id="几何">几何</h2>
+<h2 id="几何属性除-scrolltop和scrollleft外其他均只读">几何属性除 scrollTop和scrollLeft外，其他均只读</h2>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210329102509892.png" alt="image-20210329102509892" style="zoom: 80%;" />
+<p>这些属性值在技术上来讲是数字，实际上是“像素”，且仅在元素display不为none的情况下有属性值。</p>
+<p><strong>offsetParent</strong>：属性，指向最接近的祖先，最近的祖先为下列之一：</p>
+<ol>
+<li>css定位的元素(position为absolute,relative,fixed)</li>
+<li>或<code>&lt;td&gt;</code>,<code>&lt;th&gt;</code>,<code>&lt;table&gt;</code>,<code>&lt;body&gt;</code></li>
+</ol>
+<p><strong>offsetTop和offsetLeft</strong>：提供相对于祖先元素的偏移量，如图</p>
+<p>有以下几种情况下，<strong>offsetParent</strong> 的值为 <code>null</code>：</p>
+<ol>
+<li>对于未显示的元素（<code>display:none</code> 或者不在文档中）。</li>
+<li>对于 <code>&lt;body&gt;</code> 与 <code>&lt;html&gt;</code>。</li>
+<li>对于带有 <code>position:fixed</code> 的元素。</li>
+</ol>
+<p><strong>offsetWidth/offsetHeight</strong></p>
+<p>包括border及其以内的所有元素大小之和。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210329103659938.png" alt="image-20210329103659938" style="zoom:80%;" />
+<p><strong>clientWidth/clientHeight</strong></p>
+<p>border内(除border)大小，包括了 “content width” 和 “padding”，但不包括滚动条宽度（scrollbar）。</p>
+<p>**注：**内联元素和没有CSS样式的元素此属性为0</p>
+<p><strong>scrollWidth/scrollHeight</strong></p>
+<p>测量方式就像 <code>clientWidth/clientHeight</code>，但它们还包括滚动出（隐藏）的部分：</p>
+<p><strong>scrollTop/scrollLeft(可修改)</strong></p>
+<p>元素的隐藏、滚动部分的 width/height。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210329105848961.png" alt="image-20210329105848961" style="zoom:80%;" />
+<blockquote>
+<p>tips： 当<img>标签没有 width/height时（通过style标签attribute 或 CSS样式），浏览器会假定width和height为0，只到图片加载完成。在第一次加载完成后，浏览器通常会缓存图片，第二次加载时可以得到width/height。要解决第一次加载width/height的问题可以通过添加style标签attribute 或 CSS样式中的width和height解决。</p>
+</blockquote>
+<h2 id="css属性中width-和-几何属性中clientwidth-的区别">CSS属性中width 和 几何属性中clientWidth 的区别</h2>
+<p>即 getComputedStyle(element).width、element.style.width 与 element.clientWidth 的区别</p>
+<ol>
+<li>CSS属性中的width是以'px'结束的字符串形式，而clientWidth给出的是数值形式</li>
+<li>getComputedStyle(element).width对内联元素使用是auto，clientWidth对内联使用是0</li>
+<li>CSS属性中的width是根据box-sizing 决定的</li>
+<li>CSS属性中的width在不同的浏览器中对scroll的处理可能不一致（一些浏览器从width中抽取部分给scroll），而clientWidth总是不包括滚动条的。</li>
+</ol>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#document">Document</a></li>
-<li><a href="#dom%E6%A0%91">DOM树</a>
+<li><a href="#dom">DOM</a></li>
+<li><a href="#dom%E6%A0%91"><strong>DOM树</strong></a>
 <ul>
-<li><a href="#%E6%9F%A5%E6%89%BE">查找</a></li>
-</ul>
-</li>
+<li><a href="#%E6%9F%A5%E6%89%BE"><strong>查找</strong></a></li>
 <li><a href="#dom%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">DOM集合(类数组的可迭代对象)</a></li>
 <li><a href="#dom%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB">DOM的继承关系</a></li>
-<li><a href="#dom%E7%89%B9%E6%80%A7attributes%E5%92%8C%E5%B1%9E%E6%80%A7properties">DOM特性(attributes)和属性(properties)</a>
-<ul>
-<li><a href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84%E7%89%B9%E6%80%A7">非标准的特性</a></li>
 </ul>
 </li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3">修改文档</a>
+<li><a href="#dom%E7%89%B9%E6%80%A7attributes%E5%92%8C%E5%B1%9E%E6%80%A7properties">DOM特性(attributes)和属性(properties)</a>
 <ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95">创建方法</a></li>
-<li><a href="#%E6%8F%92%E5%85%A5%E6%96%B9%E6%B3%95">插入方法</a></li>
+<li><a href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84%E7%89%B9%E6%80%A7"><strong>非标准的特性</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3"><strong>修改文档</strong></a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95"><strong>创建方法</strong></a></li>
+<li><a href="#%E6%8F%92%E5%85%A5%E6%96%B9%E6%B3%95"><strong>插入方法</strong></a></li>
 <li><a href="#eleinsertadjacenthtmltextelementwherecontent">ele.insertAdjacentHTML/Text/Element(where,content)</a></li>
 <li><a href="#%E7%A7%BB%E9%99%A4%E6%96%B9%E6%B3%95">移除方法</a></li>
 <li><a href="#%E5%85%8B%E9%9A%86%E8%8A%82%E7%82%B9">克隆节点</a></li>
 </ul>
 </li>
-<li><a href="#%E6%A0%B7%E5%BC%8F%E5%92%8C%E7%B1%BB">样式和类</a>
+<li><a href="#%E6%A0%B7%E5%BC%8F%E5%92%8C%E7%B1%BB"><strong>样式和类</strong></a>
 <ul>
 <li><a href="#classname%E5%92%8Cclasslist">className和classList</a></li>
 <li><a href="#%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F">元素样式</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%83%E7%B4%A0%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%BB%9A%E5%8A%A8">元素大小和滚动</a>
+<ul>
+<li><a href="#%E5%85%83%E7%B4%A0%E7%BB%93%E6%9E%84">元素结构</a></li>
+<li><a href="#%E5%87%A0%E4%BD%95">几何</a></li>
+<li><a href="#%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7%E9%99%A4-scrolltop%E5%92%8Cscrollleft%E5%A4%96%E5%85%B6%E4%BB%96%E5%9D%87%E5%8F%AA%E8%AF%BB">几何属性除 scrollTop和scrollLeft外，其他均只读</a></li>
+<li><a href="#css%E5%B1%9E%E6%80%A7%E4%B8%ADwidth-%E5%92%8C-%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7%E4%B8%ADclientwidth-%E7%9A%84%E5%8C%BA%E5%88%AB">CSS属性中width 和 几何属性中clientWidth 的区别</a></li>
 </ul>
 </li>
 </ul>
@@ -291,15 +427,6 @@ pseudo：<br>
           </article>
         </div>
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
-              <h3 class="post-title">
-                【JS】对象、原型链
-              </h3>
-            </a>
-          </div>
         
 
         
