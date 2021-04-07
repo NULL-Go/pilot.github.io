@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】类数组对象和可迭代对象 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1617716934689">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1617782330447">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -23,7 +23,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1617716934689" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1617782330447" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -95,8 +95,8 @@
 一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList 或者函数内部可用的 arguments 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 forEach() 方法。<br>
 这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
 <h1 id="iterable-object可迭代对象">Iterable object（可迭代对象）</h1>
-<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有**@@iterator方法**，可通过常量<strong>Symbol.iterator</strong>访问该属性。<br>
-该方法的返回值为一个对象(<strong>迭代器</strong>)，该对象必须含有next()方法，next对象的返回值：</p>
+<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问该属性。<br>
+该方法的返回值为一个对象(<strong>迭代器</strong>)，该对象必须含有next()方法，next的返回值是一个对象，该对象包含两个属性：</p>
 <blockquote>
 <p>done（boolean）<br>
 如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）<br>
