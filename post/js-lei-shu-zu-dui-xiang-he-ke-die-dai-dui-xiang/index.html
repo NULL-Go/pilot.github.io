@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】类数组对象和可迭代对象 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1617782330447">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1618575492508">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -11,9 +11,10 @@
 
 
 
-    <meta name="description" content="array-like objects (类数组对象)
+    <meta name="description" content="类数组对象和可迭代对象
+array-like objects (类数组对象)
 即类似于数组的对象，有若干索引属性和length属性
-一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList ..." />
+一些 JavaScript 对象, 例如 document.getElementsByTagName() 返..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -23,7 +24,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1617782330447" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1618575492508" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -90,32 +91,42 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="array-like-objects-类数组对象">array-like objects (类数组对象)</h1>
-<p><strong>即类似于数组的对象，有若干索引属性和length属性</strong><br>
-一些 JavaScript 对象, 例如 document.getElementsByTagName() 返回的 NodeList 或者函数内部可用的 arguments 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 forEach() 方法。<br>
-这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
-<h1 id="iterable-object可迭代对象">Iterable object（可迭代对象）</h1>
-<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问该属性。<br>
-该方法的返回值为一个对象(<strong>迭代器</strong>)，该对象必须含有next()方法，next的返回值是一个对象，该对象包含两个属性：</p>
-<blockquote>
-<p>done（boolean）<br>
-如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）<br>
-value<br>
-迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
-</blockquote>
-<p>可迭代对象：Array，Set，String，Map，DOM集合<br>
-for..of..语句专用于可迭代对象，<strong>展开语法</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
-<p>#将类数组对象和可迭代对象转化为真正的数组<br>
-<strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);<br>
-arrayLike：想要转换成数组的类数组对象或可迭代对象。<br>
-mapFn：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数<br>
-thisArg：可选，指定回调函数的this值。</p>
+                <h1 id="类数组对象和可迭代对象">类数组对象和可迭代对象</h1>
+<h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
+<p><strong>即类似于数组的对象，有若干索引属性和length属性</strong></p>
+<p>一些 JavaScript 对象, 例如 <code>document.getElementsByTagName()</code> 返回的 <code>NodeList</code> 或者函数内部可用的 <code>arguments</code> 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 <code>forEach()</code>等数组专用方法。</p>
+<p>这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
+<h2 id="iterable-object可迭代对象"><strong><code>Iterable object</code>（可迭代对象）</strong></h2>
+<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问方法。</p>
+<p>该方法的返回值为一个对象(<strong>迭代器 iterator</strong>)，该对象必须含有next()方法，next的返回值是一个对象，该对象包含两个属性：</p>
+<ul>
+<li><code>done（boolean）</code></li>
+</ul>
+<p>如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）</p>
+<ul>
+<li><code>value</code></li>
+</ul>
+<p>迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
+<p>可迭代对象：Array，Set，String，Map，DOM集合</p>
+<p>for..of..语句专用于可迭代对象，<strong>展开语法</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
+<p>当用<code>for(let item of obj)</code>时，尝试调用 <code>obj</code>的<code>[Symbol.iterator]</code>方法返回一个迭代器，再调用<code>迭代器next()</code>方法，最后</p>
+<p><code>item</code>为<code>next</code>方法返回的对象的<code>value</code>值。</p>
+<h2 id="将类数组对象和可迭代对象转化为真正的数组"><strong>将类数组对象和可迭代对象转化为真正的数组</strong></h2>
+<p><strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);</p>
+<p><code>arrayLike</code>：想要转换成数组的类数组对象或可迭代对象。</p>
+<p><code>mapFn</code>：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数</p>
+<p><code>thisArg</code>：可选，指定回调函数的this值。</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">array-like objects (类数组对象)</a></li>
-<li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">Iterable object（可迭代对象）</a></li>
+<li><a href="#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">类数组对象和可迭代对象</a>
+<ul>
+<li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><strong><code>array-like objects</code> (类数组对象)</strong></a></li>
+<li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><strong><code>Iterable object</code>（可迭代对象）</strong></a></li>
+<li><a href="#%E5%B0%86%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%95%B0%E7%BB%84"><strong>将类数组对象和可迭代对象转化为真正的数组</strong></a></li>
+</ul>
+</li>
 </ul>
 
               </div>
