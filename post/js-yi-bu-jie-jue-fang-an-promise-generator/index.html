@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】异步解决方案(Promise Generator) | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1618575492508">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1618657613436">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】异步解决方案(Promise Generator) | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -25,7 +25,7 @@ Promise 对象
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1618575492508" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1618657613436" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -125,9 +125,9 @@ Promise 对象
 <p><code>Promise</code>构造函数接受一个函数作为参数，该函数的两个参数分别是<code>resolve</code>和<code>reject</code>。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。<code>resolve</code>函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>fulfilled</code>,reject函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>rejected</code></p>
 <h3 id="链式调用及错误处理">[链式调用]及[错误处理]</h3>
 <h4 id="then-thenonfulfilledonrejected">.then then(onFulfilled,onRejected)</h4>
-<p>**.then 方法：**接受两个回调函数(均可选)，第一个回调函数在状态变为<code>fulfilled</code>时调用，第二个回调函数在状态变为<code>rejected</code>时调用。也可以只传入一个函数。</p>
-<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407220550670.png" alt="image-20210407220550670" loading="lazy"></figure>
-<p><strong>.then：</strong> 特别注意这个新的<code>Promise</code>对象将以回调的返回值(该值不是新创建的Promise)来 <code>resolve</code>自己( <strong>代码一</strong>，所以此时的then会立即执行 )。若返回一个新Promise对象，相当于把默认的行为取消掉了( <strong>代码二</strong>，此时的then会等到返回的promise对象状态改变时执行 )。</p>
+<p>**.then 方法：**接受两个回调函数(均可选)，第一个回调函数在状态变为<code>fulfilled</code>时调用，第二个回调函数在状态变为<code>rejected</code>时调用。也可以只传入一个函数。<br>
+<img src="https://null-go.github.io/post-images/1618657450279.png" alt="" loading="lazy"><br>
+<strong>.then：</strong> 特别注意这个新的<code>Promise</code>对象将以回调的返回值(该值不是新创建的Promise)来 <code>resolve</code>自己( <strong>代码一</strong>，所以此时的then会立即执行 )。若返回一个新Promise对象，相当于把默认的行为取消掉了( <strong>代码二</strong>，此时的then会等到返回的promise对象状态改变时执行 )。</p>
 <pre><code class="language-javascript">new Promise((resolve) =&gt; {
   resolve(1);
 })
@@ -159,7 +159,7 @@ Promise 对象
 </code></pre>
 <h4 id="catch-catchonrejected">.catch catch(onRejected)</h4>
 <p><code>.catch</code>的行为等价于 .then(null,onRejected)。</p>
-<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210408211116447.png" alt="image-20210408211116447" style="zoom:80%;" />
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1618657494721.png" alt="" loading="lazy"></figure>
 <p>使用 <code>throw</code>语法抛出<code>Error</code>错误，catch 可以接收到。throw 抛出的错误会一直向链后冒泡，直到<code>.then</code>中的第二个函数捕获或catch方法捕获。</p>
 <pre><code class="language-javascript">// 抛出错误
 new Promise((resolve,reject)=&gt;{
@@ -170,7 +170,7 @@ new Promise((resolve,reject)=&gt;{
 </code></pre>
 <p>当在<strong>Promise</strong>中抛出了错误（或产生了语法错误）却没有被捕获时，JavaScript 引擎会跟踪此类 rejection，在这种情况下会生成一个全局的 error。这个error不会影响外部代码的继续执行。</p>
 <p>看下列问题：</p>
-<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210408220448045.png" alt="image-20210408220448045" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1618657518552.png" alt="" loading="lazy"></figure>
 <p>.catch 会被触发吗？不会。<strong>在Promise内同步的代码抛出的错误会被当成 rejected来处理，所有同步的错误可以被catch到</strong>，但现在不是同步的，故catch无法捕获错误( 控制台会打印出错误 )。</p>
 <p>// check: 这和事件轮询有关吗</p>
 <h4 id="finally-finallyonfinally">.finally finally(onFinally)</h4>
@@ -265,7 +265,7 @@ foo().then(null, (error) =&gt; {
   console.log(error);   // 拿到了错误 
 });
 </code></pre>
-<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210410142832659.png" alt="image-20210410142832659" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://null-go.github.io/post-images/1618657542313.png" alt="" loading="lazy"></figure>
 <p>上述 foo() 调用过程中，第三个<code>await</code>后接的Promise被rejected了，<strong>该async函数隐式返回了一个被rejected的Promise对象</strong>。这说明了在<code>async</code>中多次使用<code>await</code>，若有<code>await</code>后跟的Promise对象抛出了错误或者是rejected了。async函数它将自动捕获异常，<strong>async函数执行中断</strong>，并通过隐式返回rejected Promise将错误传递给出去。</p>
 <h2 id="generator-function-和-生成器对象">Generator function 和 生成器对象</h2>
 <h3 id="generator函数生成器函数-function">Generator函数(生成器函数)  function*</h3>
@@ -377,7 +377,7 @@ console.log(result); // [1,2,3,4,5]
 <h3 id="yield-是条双向路"><code>yield</code> 是条双向路</h3>
 <p><code>yield</code>不仅可以将值传递到<code>generator</code>外面，还能从<code>generator</code>外面将值传入到里面。</p>
 <p>调用 generator.next(arg);</p>
-<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210413093734515.png" alt="image-20210413093734515" style="zoom: 67%;" />
+<figure data-type="image" tabindex="4"><img src="https://null-go.github.io/post-images/1618657594069.png" alt="" loading="lazy"></figure>
 <p>**即：**当调用的是<code>next(arg)</code>,next包含参数，除第一次会忽略外，<code>arg</code>参数将会成为当前停止的yield的返回值。</p>
 <h3 id="异步可迭代对象">异步可迭代对象</h3>
 <p>改造可迭代对象：</p>
@@ -470,7 +470,7 @@ let gener = generatorMaker();
   for await (let item of gener) console.log(item); // 输出 2 3 4 5  for循环中只会返回 value部分
 })();
 </code></pre>
-<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210416151201755.png" alt="image-20210416151201755" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://null-go.github.io/post-images/1618657611806.png" alt="" loading="lazy"></figure>
 
               </div>
               <div class="toc-container">
