@@ -2,18 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>【JS】变量作用域与闭包 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1618671970835">
+<title>【JS】执行上下文、变量作用域与闭包 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1618822498308">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】变量作用域与闭包 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【JS】执行上下文、变量作用域与闭包 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="词法环境
-pointer1 变量
-在JavaScript中，每个运行的函数，代码块 {...} 以及整个脚本，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境..." />
+    <meta name="description" content="执行上下文、变量作用域与闭包
+执行上下文
+执行上下文的类型
+
+全局执行上下文：只有一个，浏览器中的全局对象就是 window 对象，this 指向这个全局对象。
+函数执行上下文：存在无数个，只有在函数被调用的时候才会被创建，每次调用函数都会..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -23,7 +26,7 @@ pointer1 变量
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1618671970835" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1618822498308" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -76,73 +79,157 @@ pointer1 变量
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              【JS】变量作用域与闭包
+              【JS】执行上下文、变量作用域与闭包
             </h2>
             <div class="post-info">
               <span>
                 2021-03-03
               </span>
               <span>
-                6 min read
+                9 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="词法环境">词法环境</h1>
-<h2 id="pointer1-变量">pointer1 变量</h2>
-<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块 <strong>{...} 以及</strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象（红宝书中称这个词法环境为<em>执行环境</em>，称这个内部隐藏的关联对象为<em>变量对象（函数叫活动对象）</em>）。</p>
+                <h1 id="执行上下文-变量作用域与闭包">执行上下文、变量作用域与闭包</h1>
+<h2 id="执行上下文">执行上下文</h2>
+<h3 id="执行上下文的类型">执行上下文的类型</h3>
+<ul>
+<li><strong>全局执行上下文</strong>：只有一个，浏览器中的全局对象就是 window 对象，<code>this</code> 指向这个全局对象。</li>
+<li><strong>函数执行上下文</strong>：存在无数个，只有在函数被调用的时候才会被创建，每次调用函数都会创建一个新的执行上下文。</li>
+<li><strong><code>Eval</code> 函数执行上下文</strong>： 指的是运行在 <code>eval</code> 函数中的代码，很少用而且不建议使用。</li>
+</ul>
+<h3 id="执行栈">执行栈</h3>
+<p>也叫调用栈，具有 LIFO（后进先出）结构，用于存储在代码执行期间创建的所有执行上下文。</p>
+<h3 id="执行上下文的创建阶段">执行上下文的创建阶段</h3>
+<ul>
+<li>1、确定 <strong>this</strong> 的确认方式。（<strong>全局</strong>执行上下文中，<code>this</code> 的值指向全局对象，<strong>函数</strong>执行上下文中，<code>this</code> 的值取决于函数的调用方式）</li>
+</ul>
+<hr>
+<ul>
+<li>2、<strong><code>LexicalEnvironment</code>（词法环境）</strong> 对象被创建。</li>
+</ul>
+<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块</strong> {...} 以及<strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象。（这里的用<strong>词法环境</strong>简单代替了<strong>执行上下文</strong>的说法）</p>
+<p>词法环境有两种<strong>类型</strong>：全局环境和函数环境。（可能还有代码块环境？{}  ）</p>
 <p>词法环境对象由两部分组成：</p>
 <ol>
-<li><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量作为其属性（包括一些其他信息，例如 this,arguments 的值）的对象。</li>
-<li>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</li>
+<li>
+<p><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量及函数声明作为其属性（包括一些其他信息，例如arguments 的值）的对象。（红宝书中称环境记录为变量对象，称被调用的函数产生的变量对象<strong>VO</strong>为活动对象<strong>AO</strong>）</p>
+</li>
+<li>
+<p>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</p>
+</li>
 </ol>
-<p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
-<h2 id="pointer2-函数声明">pointer2 函数声明</h2>
-<p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
-<h2 id="pointer3-词法环境之间的引用">pointer3 词法环境之间的引用</h2>
-<ol>
-<li>在一个函数在<strong>刚开始被调用</strong>时，会创建一个新的词法环境以储存调用的参数以及函数局部变量(即<strong>预编译过程</strong>)（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。<br>
-若没有找到，会报错（严格模式下），在非严格模式下会在全局词法环境中创建此变量。</li>
-<li>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</li>
+<pre><code class="language-javascript">GlobalExectionContext = {  // 全局执行上下文
+  LexicalEnvironment: {    	  // 词法环境
+    EnvironmentRecord: {   		// 环境记录
+      Type: &quot;Object&quot;,      		   // 全局环境
+      // 标识符绑定在这里 
+      outer: &lt;null&gt;  	   		   // 对外部环境的引用
+  }  
+}
+
+FunctionExectionContext = { // 函数执行上下文
+  LexicalEnvironment: {  	  // 词法环境
+    EnvironmentRecord: {  		// 环境记录
+      Type: &quot;Declarative&quot;,  	   // 函数环境
+      // 标识符绑定在这里 			  // 对外部环境的引用
+      outer: &lt;Global or outer function environment reference&gt;  
+  }  
+}
+</code></pre>
+<ol start="2">
+<li></li>
 </ol>
-<p>预编译创建AO对象(函数,全局为GO,浏览器window)的过程（<strong>适用于ES5 var定义变量具有变量提升的时期</strong>）:</p>
 <blockquote>
-<p>创建AO对象<br>
-找形参和变量声明<br>
-将形参和变量声明相统一(将实参赋值给形参)<br>
-找函数声明<br>
---&gt;执行函数 当执行函数时  a=1;要考虑是赋值还是变成了全局变量声明，如果AO对象中没有a变量，a变量将成为全局变量。在预编译已经执行的步骤执行中不再执行，比如函数声明。</p>
+<p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
 </blockquote>
-<h2 id="pointer4-创建函数">pointer4 创建函数</h2>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<em>作用域链</em>，我认为两者应该是差不多的）</p>
-<h1 id="闭包">闭包</h1>
+<hr>
+<ul>
+<li>3、<strong><code>VariableEnvironment</code>（变量环境）</strong> 对象被创建。</li>
+</ul>
+<p>变量环境也是一个词法环境，因此它具有上面定义的词法环境的所有属性。</p>
+<p>在 ES6 中，<strong>词法</strong> 环境和 <strong>变量</strong> 环境的区别在于前者用于存储**函数声明和变量（ <code>let</code> 和 <code>const</code> ）<strong>绑定，而后者仅用于存储</strong>变量（ <code>var</code> ）**绑定。</p>
+<p><strong>思考了很久，因为执行上下文只有两种，难道词法环境的创建一定伴随着函数的创建或全局脚本的创建吗，那代码块 { } 中的let不与let外定义相同的变量冲突是为什么呢，如果是在同一个词法环境中，必定是会报错的，我想代码块是会产生词法环境的，只是他不会产生执行上下文，{}代码块词法环境中的环境记录有定义的let，const变量</strong></p>
+<h3 id="执行上下文的执行阶段">执行上下文的执行阶段</h3>
+<p>此阶段，完成对所有变量的分配，最后执行代码。</p>
+<h2 id="变量作用域与闭包">变量作用域与闭包</h2>
+<p><strong>该部分用词法环境简单的代替了执行上下文</strong></p>
+<h3 id="创建函数">创建函数</h3>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<strong>作用域链</strong>，我认为两者应该是差不多的）</p>
+<h3 id="函数声明">函数声明</h3>
+<p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
+<h3 id="词法环境之间的引用"><strong>词法环境之间的引用</strong></h3>
 <ol>
-<li>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。</li>
-<li>所有函数都是天生的闭包除了<strong>new Function</strong>外</li>
+<li>
+<p>在一个函数在<strong>刚开始被调用</strong>时，会创建一个新的词法环境以储存调用的参数以及函数局部变量(即<strong>预编译过程</strong>)（此阶段会自动取得两个重要的值: <strong>arguments</strong> 和 <strong>this</strong>）（不创建新的词法环境，如何保证每次调用函数都不被上一次的调用所干扰？），还会记录下来对外部词法环境的引用。当执行的代码要访问一个变量时，会从自己的词法环境开始搜索，若没有找到，则一层层通过对外部词法环境的引用继续寻找，直到全局词法环境。</p>
+</li>
+<li>
+<p>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</p>
+</li>
 </ol>
-<h1 id="暂时性死区">暂时性死区</h1>
+<h3 id="变量对象执行环境中的环境记录部分-适用于es5-var声明变量">变量对象(执行环境中的环境记录部分) 适用于ES5 var声明变量</h3>
+<ol>
+<li>进入执行上下文</li>
+</ol>
+<p>此时的变量对象会包括（如下顺序初始化）：</p>
+<ul>
+<li>1、函数的所有形参 (only函数上下文)：没有实参，属性值设为undefined。</li>
+<li>2、函数声明：如果变量对象已经存在相同名称的属性，则完全<strong>替换</strong>这个属性。</li>
+<li>3、变量声明：如果变量名称跟已经声明的形参或函数相同，则变量声明<strong>不会干扰</strong>已经存在的这类属性。</li>
+</ul>
+<ol start="2">
+<li>代码执行</li>
+</ol>
+<p>顺序执行代码，修改变量对象的值</p>
+<h3 id="闭包"><strong>闭包</strong></h3>
+<ol>
+<li>
+<p>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong><strong>Environment</strong></strong>属性达到了引用外部词法环境的作用。</p>
+</li>
+<li>
+<p>所有函数都是天生的闭包除了<strong>new Function</strong>外</p>
+</li>
+</ol>
+<h1 id="暂时性死区"><strong>暂时性死区</strong></h1>
 <p>当一个词法环境被创建时，最先会在<strong>环境记录</strong>中填充所有变量的声明。(它们处于“未初始化（Uninitialized）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。) 所以在let声明变量a前使用变量，就算能在外部的词法环境中找到同名的a变量的值，它也会报错，因为它找到的是自己内部的还不能被使用的变量a。</p>
 <p>本次学习的的tips：</p>
 <ol>
-<li>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong>未初始化（Uninitialized</strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</li>
-<li>关于为什么new funtion语法不能闭包的原因。</li>
-<li>上次关于变量作用域产生了一个疑惑</li>
+<li>
+<p>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong><strong>未初始化（Uninitialized</strong></strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</p>
+</li>
+<li>
+<p>关于为什么new funtion语法不能闭包的原因。</p>
+</li>
+<li>
+<p>上次关于变量作用域产生了一个疑惑</p>
+</li>
 </ol>
-<pre><code class="language-var">for (let i = 0; i &lt; 10; i++) {
+<pre><code>var a = [];
+
+for (let i = 0; i &lt; 10; i++) {
+
   a[i] = function () {
+
     console.log(i);
+
   };
+
 }
+
 a[6]();
 </code></pre>
 <p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:</p>
-<p><strong>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。<br>
-另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</strong></p>
+<p>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。</p>
+<p>另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</p>
 <pre><code>for (let i = 0; i &lt; 3; i++) {
+
   let i = 'abc';
+
   console.log(i);
+
 }
 </code></pre>
 <p><strong>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</strong></p>
@@ -150,16 +237,28 @@ a[6]();
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83">词法环境</a>
+<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87-%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85">执行上下文、变量作用域与闭包</a>
 <ul>
-<li><a href="#pointer1-%E5%8F%98%E9%87%8F">pointer1 变量</a></li>
-<li><a href="#pointer2-%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E">pointer2 函数声明</a></li>
-<li><a href="#pointer3-%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BC%95%E7%94%A8">pointer3 词法环境之间的引用</a></li>
-<li><a href="#pointer4-%E5%88%9B%E5%BB%BA%E5%87%BD%E6%95%B0">pointer4 创建函数</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">执行上下文</a>
+<ul>
+<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%B1%BB%E5%9E%8B">执行上下文的类型</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E6%A0%88">执行栈</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E5%88%9B%E5%BB%BA%E9%98%B6%E6%AE%B5">执行上下文的创建阶段</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5">执行上下文的执行阶段</a></li>
 </ul>
 </li>
-<li><a href="#%E9%97%AD%E5%8C%85">闭包</a></li>
-<li><a href="#%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA">暂时性死区</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85">变量作用域与闭包</a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%87%BD%E6%95%B0">创建函数</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E">函数声明</a></li>
+<li><a href="#%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BC%95%E7%94%A8"><strong>词法环境之间的引用</strong></a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E8%AE%B0%E5%BD%95%E9%83%A8%E5%88%86-%E9%80%82%E7%94%A8%E4%BA%8Ees5-var%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F">变量对象(执行环境中的环境记录部分) 适用于ES5 var声明变量</a></li>
+<li><a href="#%E9%97%AD%E5%8C%85"><strong>闭包</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA"><strong>暂时性死区</strong></a></li>
 </ul>
 
               </div>
