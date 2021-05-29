@@ -1,0 +1,412 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>【JS】浏览器事件 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1622277201784">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="【JS】浏览器事件 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="事件处理程序
+为了对事件作出响应，我们可以分配一个处理程序：即在事件发生时运行的函数。
+分配处理程序的方式：
+
+
+HTML 特性 attribute
+在HTML on&lt;event&gt;特性里绑定事件。如onclick=&quot;f..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://null-go.github.io">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1622277201784" alt="">
+  </a>
+  <h1 class="site-title">
+    PILOT
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              【JS】浏览器事件
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-05-29
+              </span>
+              <span>
+                11 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="事件处理程序">事件处理程序</h2>
+<p>为了对事件作出响应，我们可以分配一个<strong>处理程序</strong>：即在事件发生时运行的函数。</p>
+<h3 id="分配处理程序的方式">分配处理程序的方式：</h3>
+<ul>
+<li>
+<p>HTML 特性 attribute</p>
+<p>在HTML <code>on&lt;event&gt;</code>特性里绑定事件。如<code>onclick=&quot;fun()&quot;。</code></p>
+</li>
+<li>
+<p>DOM 属性 property</p>
+<p>在DOM中同样用<code>on&lt;event&gt;</code> 来分配处理程序。如<code>element.onclick= fun;</code>(错误 <code>element.onclick = fun()</code>   如此分配的函数的返回值)</p>
+</li>
+</ul>
+<p>tips：特性不区分大小写 <code>OncliCk</code>也是可以的，但属性区分大小写不能这样写。</p>
+<p>tips：不要对处理程序使用<code>element.setAttribute('onclick',function(){})</code> 因为特性是字符串，函数变成了字符串;</p>
+<p>如果一个处理程序是用HTML特性分配的，那么浏览器随后读取它，会从特性的内容中创建一个新的函数，并将这个函数写入DOM属性。</p>
+<pre><code class="language-javascript">// HTML
+&lt;div id=&quot;div1&quot; onclick=&quot;fun()&quot;&gt;&lt;/div&gt;
+// 当浏览器读取到HTML时 相当于
+div1.onclick = function(){
+    fun();
+}
+</code></pre>
+<p>所以当HTML中特性中和 JS代码中element属性同时分配了处理程序，哪个地方最后被处理，上一个处理程序就会被覆盖。</p>
+<h3 id="移除处理程序的方式elementonevent-null">移除处理程序的方式：<code>element.on&lt;event&gt; = null;</code></h3>
+<h3 id="访问元素-this">访问元素 <code>this</code></h3>
+<p>处理程序中this的值就是对应的元素。（除了<strong>箭头函数</strong>或者<strong>this值已经被改变了</strong>）</p>
+<h3 id="一个事件分配多个处理程序">一个事件分配多个处理程序</h3>
+<p>在特性与属性的处理程序赋予中，没法将两个处理程序同时赋予给一个事件。</p>
+<p><code>addEventListener(event,hander[,options])</code>解决了这个问题，如可以多次调用绑定多个 <code>click</code>事件。且与<code>onclick</code>属性或特性的绑定不冲突。和某些特定的事件必须要用<code>addEventListener</code>，如<code>transtionend 和 DOMContentLoaded</code>。</p>
+<p><code>event</code>事件名 <code>hander</code>处理程序</p>
+<p><code>options</code> 可选附加对象：</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210401193549414.png" alt="image-20210401193549414" loading="lazy"></figure>
+<p>不加附加参数默认值为<code>false</code>，即事件处理程序仅在<code>捕获阶段 -&gt; 目标阶段 -&gt; 冒泡阶段</code>中的后两个阶段起作用。(利用 HTML 特性 或 DOM 属性绑定的事件处理程序同理)</p>
+<p><code>removeEventListener(event,hander[,options])</code>用于移除处理程序，如果我们传入的是匿名函数或者箭头函数，那么就拿不到函数进行remove了。</p>
+<h3 id="事件对象-event">事件对象 Event</h3>
+<p>当事件发生时，浏览器会创建一个<code>event</code>对象，并作为参数默认传递给事件处理程序。</p>
+<p><code>event.type</code>：事件类型，如'click'</p>
+<p><code>event.currentTarget</code>：处理事件的元素。除箭头函数或this被改变的情况下，它与this一致。</p>
+<p><code>event.target</code>：事件源对象。</p>
+<p><code>evnet.clientX/event.clientY</code>指针事件相对于窗口的坐标</p>
+<pre><code class="language-javascript">在HTML中也是可以访问到event对象的  
+原理在特性绑定中已阐述 是因为对于特性的处理是创建一个新的函数将内容包裹
+&lt;div onclick=&quot;alert(event.type)&quot;&gt;&lt;/div&gt;
+</code></pre>
+<h2 id="对象处理程序">对象处理程序</h2>
+<p>我们不仅可以分配函数，还可以使用 <code>addEventListener</code> 将一个对象分配为事件处理程序。当事件发生时，就会调用该对象的 <code>handleEvent</code> 方法。</p>
+<pre><code class="language-javascript">&lt;button id=&quot;elem&quot;&gt;Click me&lt;/button&gt;
+&lt;script&gt;
+  let obj = {
+    handleEvent(event) {
+      alert(event.type + &quot; at &quot; + event.currentTarget);
+    }
+  };
+  // 事件发生时，会调用对象的handleEvent函数
+  elem.addEventListener('click', obj);
+&lt;/script&gt;
+</code></pre>
+<h2 id="冒泡和捕获">冒泡和捕获</h2>
+<p>冒泡(bubbling)原理：<strong>当一个事件发生在一个元素上，它首先会运行该元素上的事件处理程序，然后运行它父元素的事件处理程序，一直往上到其他祖先的处理程序，直到最后document对象</strong>。</p>
+<blockquote>
+<p>几乎所有事件都会冒泡。例外，focus事件不会冒泡。</p>
+</blockquote>
+<h3 id="eventtarget-evnetcurrenttarget-this-的区别"><code>event.target</code> <code>evnet.currentTarget</code> <code>this</code> 的区别</h3>
+<p><code>this</code>==<code>event.currentTarget：</code> 该只读属性总是指向那个正在运行事件处理程序的DOM对象，它是触发事件处理程序的当前目标。</p>
+<p><code>event.target：</code>指最开始触发事件的对象，<code>click</code>事件中就是实际被点击的对象。当事件处理程序在事件的冒泡或捕获阶段被调用时，它与<code>event.currentTarget</code>不同。</p>
+<h3 id="停止冒泡-eventstoppropagation函数">停止冒泡  <code>event.stopPropagation()</code>函数</h3>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210404202433353.png" alt="image-20210404202433353" style="zoom:80%;" />
+<h3 id="捕获">捕获</h3>
+<p>事件传播的<strong>三个阶段：</strong></p>
+<ol>
+<li>
+<p>捕获阶段（Capturing phase）—— 事件（从 Window）向下走近元素。</p>
+</li>
+<li>
+<p>目标阶段（Target phase）—— 事件到达目标元素。</p>
+</li>
+<li>
+<p>冒泡阶段（Bubbling phase）—— 事件从元素上开始冒泡。</p>
+</li>
+</ol>
+<p>点击<code>&lt;tr&gt;</code>元素</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210404203154801.png" alt="image-20210404203154801" style="zoom:50%;" />
+<p>使用 <code>on&lt;event&gt;</code> 属性或使用 HTML 特性（attribute）或使用两个参数的 <code>addEventListener(event, handler)</code> 添加的处理程序，对捕获一无所知，它们仅在第二阶段和第三阶段运行。为了在<strong>捕获阶段</strong>捕获事件，我们需要将处理程序<code>options</code>对象的 <code>capture</code> 选项设置为 <code>true</code>：</p>
+<pre><code>element.addEventListener('click',function(){},{capture:true});
+element.addEventListener('click',function(){},true);//默认传递 true 也是 {capture:true}
+element.removeEventListener('...','...',true) remove时传参也要相同
+</code></pre>
+<p>如果我们在同一阶段有多个事件处理程序，并通过 <code>addEventListener</code> 分配给了相同的元素，则它们的运行顺序与创建顺序相同。</p>
+<h2 id="事件委托">事件委托</h2>
+<p><strong>当我们有许多以类似方式处理的元素，不必为每一个元素分配一个处理程序，而是为他们共同的祖先设立单个处理程序。</strong></p>
+<p>这单个处理程序关键在于用<strong>event对象的target属性</strong>找到实际触发事件的元素。</p>
+<p>当我们需要触发事件的元素内部包裹了其他元素时，触发了其内部包裹的元素时，使用<code>element.closest(匹配符)</code>向上寻找元素和<code>element.contains(element)</code>验证找到的元素是否正确是个不错的选择。</p>
+<h2 id="浏览器默认行为">浏览器默认行为</h2>
+<p>默认行为：点击链接<code>&lt;a&gt;</code>的跳转，点击表单的自动提交。</p>
+<h3 id="阻止浏览器默认行为">阻止浏览器默认行为</h3>
+<ul>
+<li>
+<p>使用event对象，调用<code>event.preventDefault()</code>方法</p>
+</li>
+<li>
+<p>如果处理程序是使用 <code>on&lt;event&gt;</code>（而不是 <code>addEventListener</code>）分配的，那返回 <code>false</code> 也同样有效。</p>
+<pre><code>1. &lt;a href=&quot;http://www.baidu.com&quot; target=&quot;_blank&quot; onclick=&quot;return false&quot;&gt;&lt;/a&gt;
+2. oA.onclick = function(){
+   return false;
+}
+</code></pre>
+</li>
+</ul>
+<h3 id="处理程序选项中的passive">处理程序选项中的“passive”</h3>
+<p>passive的本意是<code>被动的，顺从的</code>,当将其设置为<code>true</code>时向浏览器表明程序不会<code>调用preventDefault()</code>；（即使调用了也不起作用）</p>
+<p>作用：在移动端很多时候，页面都会监听 <code>touchstart</code> 等 <code>touch</code> 事件，它的默认行为是页面滚动，如果它的默认行为被<code>preventDefault()</code>阻止了，它就不会进行页面的滚动，页面相对于卡顿住了。所以浏览器会检查完处理程序中是否阻止了默认行为后，才进行默认行为。即便监听器是个空函数，也会产生一定的卡顿，毕竟空函数的执行也会耗时。所以这时候我们将 passive设置为 true，表示不会调用阻止默认行为的<code>event.preventDefault</code>函数，页面就不会卡顿了。</p>
+<p>https://blog.csdn.net/dj0379/article/details/52883315</p>
+<h1 id="ui事件">UI事件</h1>
+<h2 id="鼠标事件">鼠标事件</h2>
+<p><code>mousedown/mouseup</code> 点击/释放鼠标 <code>mouseover/mouseout</code> 移入元素/移出元素  <code>mousemove</code> 在元素上移动(不一定移动1px就能触发，若移动的非常快，可能会导致元素被<code>跳过</code>) <code>dblclick</code>鼠标左键双击 等等</p>
+<p>与点击相关的事件具有事件属性 button <code>event.button</code> 0:鼠标左键 1:鼠标中键 2:鼠标右键</p>
+<h3 id="事件顺序">事件顺序</h3>
+<p>单击一个元素 -&gt; <code>mousedown</code>-&gt;<code>mouseup</code>-&gt;<code>click</code></p>
+<h3 id="鼠标事件相关属性">鼠标事件相关属性</h3>
+<ol>
+<li>
+<p>与点击相关的事件具有事件属性 button <code>event.button</code> 0:鼠标左键 1:鼠标中键 2:鼠标右键</p>
+</li>
+<li>
+<p>与事件期间同时按下的其他的键这些值为 true <code>event.shiftKey</code> shift键 <code>event.ctrlKey</code> <code>altKey</code> 特别的<code>metaKey</code>对于<code>mac</code>来说是<code>Ctrl</code></p>
+</li>
+</ol>
+<p>在大多数情况下，当在 Windows/Linux 上使用 <code>Ctrl</code> 时，在 Mac 是使用 <code>Cmd</code>。</p>
+<blockquote>
+<p>对于JS代码，意味着要检查 if( <code>event.ctrlKey</code>||<code>event.metaKey</code>)</p>
+</blockquote>
+<ol start="3">
+<li>坐标：<code>clientX/Y</code> <code>pageX/Y</code>  窗口相对坐标和文档相相对坐标</li>
+</ol>
+<h2 id="移动鼠标">移动鼠标</h2>
+<h3 id="事件mouseoveroutmouseenterleave">事件：<code>mouseover/out,mouseenter/leave</code></h3>
+<p>相对于event对象target，还有一个补充的<code>relatedTarget</code>属性：  对于 <code>mouseover</code>事件，它是移入前的元素。对于<code>mouseout</code>事件，它是移入的元素。当属性值不是一个元素而为<code>null</code>时，可能是鼠标离开的窗口。</p>
+<h3 id="移动到子元素的-mouseout">移动到子元素的 <code>mouseout</code></h3>
+<p>如果我们的鼠标从 父元素<code>parent</code>移动到子元素<code>child</code>，会触发父元素的<code>mouseout</code>。</p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407162017545.png" alt="image-20210407162017545" loading="lazy"></figure>
+<p>原理：<strong>根据浏览器的逻辑，鼠标指针随时可能位于单个元素上 —— 嵌套最多的那个元素（z-index 最大的那个）。</strong></p>
+<p>所以如果它移向了元素A的子代，那么它就离开了元素A，并触发元素A的<code>mouseout</code>事件。若子代有<code>mouseover</code>事件，则触发并冒泡。</p>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407162505385.png" alt="image-20210407162505385" loading="lazy"></figure>
+<blockquote>
+<p>tips:如果离开父元素时有一些行为（action），例如一个动画在 <code>parent.onmouseout</code> 中运行，当鼠标指针深入 <code>#parent</code> 时，我们并不希望发生这种行为。</p>
+<p>为了避免它，我们可以在处理程序中检查 <code>relatedTarget</code>，如果鼠标指针仍在元素内，则忽略此类事件。</p>
+</blockquote>
+<h3 id="稍有不同的-mouseenterleave事件">稍有不同的 <code>mouseenter</code>/<code>leave</code>事件</h3>
+<p>他们类似于 <code>mouseover</code>/<code>out</code> 但有所区别：</p>
+<ol>
+<li>它们不会触发冒泡 (不能使用事件委托)</li>
+<li>当鼠标移入元素的子元素时，不会触发这些事件  (元素内部与后代之间的转换不会产生影响)</li>
+</ol>
+<h1 id="页面生命周期">页面生命周期</h1>
+<ul>
+<li><code>DOMContentLoaded</code> 事件 —— 浏览器已完全加载 HTML，并构建了 DOM 树，因此处理程序可以查找 DOM 节点，并初始化接口。但是像<code>&lt;img&gt;</code>和样式表这样的外部资源可能未加载。</li>
+<li><code>load</code> 事件 —— 所有外部资源已加载完成，样式已被应用，图片大小也已知了。</li>
+<li><code>beforeunload</code> 事件 —— 用户正在离开：我们可以检查用户是否保存了更改，并询问他是否真的要离开。</li>
+<li><code>unload</code> 事件 —— 用户几乎已经离开了，但是我们仍然可以启动一些操作，例如发送统计数据。</li>
+</ul>
+<h2 id="domcontentloaded"><code>DOMContentLoaded</code></h2>
+<p>此事件发生在<code>document</code>对象上。</p>
+<pre><code class="language-javascript">document.addEventListener(&quot;DOMContentLoaded&quot;, function () { // 不能document.onContentLoaded
+  console.log(&quot;页面加载完了DOM元素&quot;);
+});
+console.log(&quot;脚本还未结束&quot;);
+// 先输出 '脚本还未结束' 再输出'页面加载完了DOM元素’
+</code></pre>
+<p><code>DOMContentLoaded</code>事件必须等到脚本运行结束后触发，因为脚本中可能存在着修改<code>DOM</code>节点，<code>document.write</code>等操作。</p>
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210414161908419.png" alt="image-20210414161908419" loading="lazy"></figure>
+<h2 id="windowonloadunloadbeforeunload"><code>window.onload/unload/beforeunload</code></h2>
+<p>window上的三个事件用属性或者 <code>addEventListener</code> 均可以设置。</p>
+<p>如果我们将<code>DOMContentLoaded</code> 事件处理程序设置在文档加载完成之后，它将永远不会执行。</p>
+<pre><code class="language-javascript">setTimeout(() =&gt; {
+  document.addEventListener(&quot;DOMContentLoaded&quot;, function () {
+    console.log(&quot;11111&quot;); // 不会执行 ， 事件已经错过了
+  });
+}, 1000);
+</code></pre>
+<blockquote>
+<p><code>document.readyState</code> 属性为我们提供了当前文档加载情况的信息。</p>
+<ul>
+<li><code>loading</code> —— 文档正在被加载。</li>
+<li><code>interactive</code> —— 文档被全部读取。</li>
+<li><code>complete</code> —— 文档被全部读取，并且所有资源（例如图片等）都已加载完成。</li>
+</ul>
+</blockquote>
+<p>我们可以利用此属性来添加事件处理函数避免事件错过。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">事件处理程序</a>
+<ul>
+<li><a href="#%E5%88%86%E9%85%8D%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E5%BC%8F">分配处理程序的方式：</a></li>
+<li><a href="#%E7%A7%BB%E9%99%A4%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E5%BC%8Felementonevent-null">移除处理程序的方式：<code>element.on&lt;event&gt; = null;</code></a></li>
+<li><a href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0-this">访问元素 <code>this</code></a></li>
+<li><a href="#%E4%B8%80%E4%B8%AA%E4%BA%8B%E4%BB%B6%E5%88%86%E9%85%8D%E5%A4%9A%E4%B8%AA%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">一个事件分配多个处理程序</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event">事件对象 Event</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">对象处理程序</a></li>
+<li><a href="#%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7">冒泡和捕获</a>
+<ul>
+<li><a href="#eventtarget-evnetcurrenttarget-this-%E7%9A%84%E5%8C%BA%E5%88%AB"><code>event.target</code> <code>evnet.currentTarget</code> <code>this</code> 的区别</a></li>
+<li><a href="#%E5%81%9C%E6%AD%A2%E5%86%92%E6%B3%A1-eventstoppropagation%E5%87%BD%E6%95%B0">停止冒泡  <code>event.stopPropagation()</code>函数</a></li>
+<li><a href="#%E6%8D%95%E8%8E%B7">捕获</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98">事件委托</a></li>
+<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA">浏览器默认行为</a>
+<ul>
+<li><a href="#%E9%98%BB%E6%AD%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA">阻止浏览器默认行为</a></li>
+<li><a href="#%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E9%80%89%E9%A1%B9%E4%B8%AD%E7%9A%84passive">处理程序选项中的“passive”</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ui%E4%BA%8B%E4%BB%B6">UI事件</a>
+<ul>
+<li><a href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6">鼠标事件</a>
+<ul>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A1%BA%E5%BA%8F">事件顺序</a></li>
+<li><a href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7">鼠标事件相关属性</a></li>
+</ul>
+</li>
+<li><a href="#%E7%A7%BB%E5%8A%A8%E9%BC%A0%E6%A0%87">移动鼠标</a>
+<ul>
+<li><a href="#%E4%BA%8B%E4%BB%B6mouseoveroutmouseenterleave">事件：<code>mouseover/out,mouseenter/leave</code></a></li>
+<li><a href="#%E7%A7%BB%E5%8A%A8%E5%88%B0%E5%AD%90%E5%85%83%E7%B4%A0%E7%9A%84-mouseout">移动到子元素的 <code>mouseout</code></a></li>
+<li><a href="#%E7%A8%8D%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84-mouseenterleave%E4%BA%8B%E4%BB%B6">稍有不同的 <code>mouseenter</code>/<code>leave</code>事件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%A1%B5%E9%9D%A2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">页面生命周期</a>
+<ul>
+<li><a href="#domcontentloaded"><code>DOMContentLoaded</code></a></li>
+<li><a href="#windowonloadunloadbeforeunload"><code>window.onload/unload/beforeunload</code></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://null-go.github.io/post/js-shi-jian-xun-huan/">
+              <h3 class="post-title">
+                【JS】事件循环
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

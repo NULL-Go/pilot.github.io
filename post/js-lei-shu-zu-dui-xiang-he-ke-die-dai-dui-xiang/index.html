@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】类数组对象和可迭代对象 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1619840070711">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1622277201784">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -11,10 +11,9 @@
 
 
 
-    <meta name="description" content="类数组对象和可迭代对象
-array-like objects (类数组对象)
+    <meta name="description" content="array-like objects (类数组对象)
 即类似于数组的对象，有若干索引属性和length属性
-一些 JavaScript 对象, 例如 document.getElementsByTagName() 返..." />
+一些 JavaScript 对象, 例如 querySelectorAll或Node.childNodes 返回的 NodeList..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +23,7 @@ array-like objects (类数组对象)
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1619840070711" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1622277201784" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -84,17 +83,16 @@ array-like objects (类数组对象)
                 2021-03-15
               </span>
               <span>
-                2 min read
+                3 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="类数组对象和可迭代对象">类数组对象和可迭代对象</h1>
-<h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
+                <h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
 <p><strong>即类似于数组的对象，有若干索引属性和length属性</strong></p>
-<p>一些 JavaScript 对象, 例如 <code>document.getElementsByTagName()</code> 返回的 <code>NodeList</code> 或者函数内部可用的 <code>arguments</code> 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法。例如 arguments 对象就提供一个 length 属性，但是不实现 <code>forEach()</code>等数组专用方法。</p>
+<p>一些 JavaScript 对象, 例如 <code>querySelectorAll或Node.childNodes</code> 返回的 <code>NodeList</code> 或者函数内部可用的 <code>arguments</code> 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法（NodeList实现了forEach方法，在较老的浏览器中没有）。例如 arguments 对象就提供一个 length 属性，但是不实现 <code>forEach()</code>等数组专用方法。</p>
 <p>这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
 <h2 id="iterable-object可迭代对象"><strong><code>Iterable object</code>（可迭代对象）</strong></h2>
 <p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问方法。</p>
@@ -113,6 +111,7 @@ array-like objects (类数组对象)
 <p><code>item</code>为<code>next</code>方法返回的对象的<code>value</code>值。</p>
 <h2 id="将类数组对象和可迭代对象转化为真正的数组"><strong>将类数组对象和可迭代对象转化为真正的数组</strong></h2>
 <p><strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);</p>
+<p><strong>新的、浅拷贝的数组</strong>。</p>
 <p><code>arrayLike</code>：想要转换成数组的类数组对象或可迭代对象。</p>
 <p><code>mapFn</code>：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数</p>
 <p><code>thisArg</code>：可选，指定回调函数的this值。</p>
@@ -120,7 +119,7 @@ array-like objects (类数组对象)
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">类数组对象和可迭代对象</a>
+<li>
 <ul>
 <li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><strong><code>array-like objects</code> (类数组对象)</strong></a></li>
 <li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><strong><code>Iterable object</code>（可迭代对象）</strong></a></li>

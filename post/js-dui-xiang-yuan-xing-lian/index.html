@@ -2,20 +2,24 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>【JS】对象、原型链 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1619840070711">
+<title>【JS】对象、类与原型链 | PILOT</title>
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1622277201784">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】对象、原型链 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【JS】对象、类与原型链 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="属性类型
-数据属性
-属性标志：
-value,writable,configurale,enumerable;
-得到属性标识符对象:Object.getOwnPropertyDescriptor(obj,propertyName) 继承的属性..." />
+    <meta name="description" content="对象
+对象的基础知识
+
+多字词语作属性名加引号，‘first name’。
+[] 方括号可以在对象字面量中使用，称为计算属性。
+
+let name = &quot;first name&quot;;
+let obj = {
+  [name]..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -25,7 +29,7 @@ value,writable,configurale,enumerable;
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1619840070711" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1622277201784" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -78,163 +82,480 @@ value,writable,configurale,enumerable;
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              【JS】对象、原型链
+              【JS】对象、类与原型链
             </h2>
             <div class="post-info">
               <span>
                 2021-03-16
               </span>
               <span>
-                5 min read
+                21 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="属性类型">属性类型</h1>
-<h2 id="数据属性">数据属性</h2>
-<p>属性标志：<br>
-value,writable,configurale,enumerable;<br>
-得到属性标识符对象:Object.getOwnPropertyDescriptor(obj,propertyName) 继承的属性不行<br>
-修改或创建属性:Object.defineProperty(obj, propertyName, descriptor) 在这种情况在descriptor对象中若有属性没有提供值，会默认为false<br>
-同类型的方法还有 getOwnPropertyDescriptors 和 defineProperties<br>
-<strong>克隆对象的一个更好的方法</strong><br>
-<strong>writable</strong>  属性无法改变 除非Object.defineProperty重新赋值<br>
-<strong>configurable</strong> 属性，不可配置的属性不能被删除<br>
-不可配置性对 defineProperty 施加了一些限制：</p>
+                <h1 id="对象">对象</h1>
+<h2 id="对象的基础知识">对象的基础知识</h2>
 <ul>
-<li>不能修改 configurable 标志。</li>
-<li>不能修改 enumerable 标志。</li>
-<li>不能将 writable: false 修改为 true（反过来则可以）。</li>
-<li>不能修改访问者属性的 get/set（但是如果没有可以分配它们）。<br>
-<strong>enumerable</strong> 是否可枚举 for in   Object.keys()等等</li>
+<li>多字词语作属性名加引号，<code>‘first name’</code>。</li>
+<li><code>[]</code> 方括号可以在对象字面量中使用，称为计算属性。</li>
 </ul>
-<h2 id="访问器属性">访问器属性</h2>
-<p>本质上是获取和设置属性的方法，但是从外部看起来就和普通的属性一样。写在对象中:<br>
-get 属性值(){}  set 属性值(){}<br>
-访问器标志：<br>
-get,set,enumerable,configurable 访问器属性值不能有value,writable</p>
-<h1 id="创建对象">创建对象</h1>
-<h2 id="工厂模式">工厂模式</h2>
-<p>构造函数在new操作符作用后，默认返回的值是那个对象，但是工厂模式在函数内部创建了一个对象，并把这个对象返回了，这样修改了默认的返回值</p>
-<h2 id="构造函数模式-检测对象类型-instanceof操作符">构造函数模式 检测对象类型 instanceof操作符</h2>
-<h2 id="原型模式">原型模式</h2>
-<p>原型<br>
-hasOwnProperty in 检测属性是存在于原型对象还是实例  in是无论存在实例还是原型中，均返回true<br>
-Object.keys()方法返回实例对象中可枚举的属性<br>
-getOwnPropertyNames返回实例对象中的属性，无论其可不可枚举<br>
-每创建一个函数，都会同时创建它的prototype对象，这个对象也会自动获得constructor属性<br>
-原型的动态性 实例和原型之间的连接仅仅是指针而已<br>
-<strong>实例中的【【ProtoType】】指针指向原型而不是指向构造函数</strong></p>
-<h2 id="组合使用构造函数模式和原型模式">组合使用构造函数模式和原型模式</h2>
-<h2 id="动态原型模式">动态原型模式</h2>
-<h2 id="寄生构造函数模式">寄生构造函数模式</h2>
-<h2 id="稳妥构造函数模式">稳妥构造函数模式</h2>
-<p>稳妥对象，指的是没有公共属性，并且方法中没有引用this<br>
-利用闭包访问自己的属性</p>
-<h1 id="对象与原型">对象与原型</h1>
-<h2 id="对象的隐藏prototype属性-注不要和构造函数的-prototype-属性混淆">对象的隐藏[[Prototype]]属性 (注：不要和构造函数的 prototype 属性混淆)</h2>
-<p>在 JavaScript 中，所有的对象都有一个隐藏的 [[Prototype]] 属性，它要么是另一个对象，要么就是 null。它👉的是该对象的原型。</p>
+<pre><code class="language-javascript">let name = &quot;first name&quot;;
+let obj = {
+  [name]: &quot;hzh&quot;,
+};
+console.log(obj[&quot;first name&quot;]); // 打印'hzh'
+</code></pre>
 <ul>
-<li>我们可以使用 obj.<strong>proto</strong> 访问它（历史遗留下来的 <strong>getter/setter</strong>)<br>
-ES6中的访问接口: <em>Object.getProtoypeOf()</em> 和 <em>Object.setPrototype</em> 来get/set</li>
-<li>如果我们想要读取 obj 的一个属性或者调用一个方法，并且它不存在，那么 JavaScript 就会尝试在原型中查找它。</li>
-<li>写/删除操作直接在对象上进行，它们不使用原型（假设它是数据属性，不是 setter）。</li>
-<li>如果我们调用 obj.method()，而且 method 是从原型中获取的，this 仍然会引用 obj。因此，方法始终与当前对象一起使用，即使方法是继承的。</li>
-<li>请记住函数也是一个对象，它也有自己的原型。<pre><code>function f (){
+<li>属性名可以是任意字符串或者<code>Symbol</code>，其他类型会自动转化为字符串。</li>
+</ul>
+<pre><code class="language-javascript">// 用 Symbol 类型的数据作为对象的属性名时，一定要加方括号;
+let Sym = Symbol(&quot;a Symbol&quot;);
+let obj = {
+  [Sym]: &quot;Sym&quot;,
+};
+console.log(Sym in obj); // true
+</code></pre>
+<h3 id="属性存在性测试in操作符">属性存在性测试，<code>in</code>操作符</h3>
+<p>如果指定的属性在指定的对象或其原型链中（<strong>包括不可枚举</strong>,这点与for in 不同），则**<code>in</code> 运算符**返回<code>true</code>。</p>
+<p><strong>语法：prop in object</strong>    prop：一个<strong>字符串类型</strong>或者 <strong>symbol 类型</strong>的属性名或者<strong>数组索引</strong>（非symbol类型将会强制转为字符串）</p>
+<pre><code class="language-javascript">let name = [1, 2];
+&quot;concat&quot; in name; // true
+0 in name;//true 相当于 &quot;0&quot; in name
+</code></pre>
+<h3 id="枚举对象属性">枚举对象属性</h3>
+<h4 id="forin-遍历语句"><code>for...in</code>   遍历语句</h4>
+<ul>
+<li><strong>包括原型链</strong>(一般搭配 <code>obj.hasOwnProperty</code>使用)</li>
+<li><strong>不包括Symbol</strong></li>
+<li><strong>必须可枚举属性</strong> enumerable</li>
+<li><strong>顺序任意</strong></li>
+</ul>
+<h4 id="objectkeys"><code>Object.keys()</code></h4>
+<ul>
+<li><strong>不包括原型链</strong></li>
+<li><strong>不包括Symbol</strong></li>
+<li><strong>必须可枚举属性</strong> enumerable</li>
+<li><strong>顺序与for in 一致</strong></li>
+<li><strong>与该方法搭配的是<code>Object.values()</code> <code>Object.entries()</code></strong></li>
+<li>在ES5里，如果此方法的参数不是对象（而是一个原始值），那么它会抛出 TypeError。在ES2015中，非对象的参数将被强制转换为一个对象。<code>Object.keys('adawd')</code> [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;]</li>
+</ul>
+<p>返回值是<strong>字符串数组</strong></p>
+<h4 id="objectgetownpropertynames"><code>Object.getOwnPropertyNames()</code></h4>
+<ul>
+<li><strong>不包括原型链</strong></li>
+<li><strong>不包括Symbol</strong></li>
+<li><strong>包括不可枚举属性</strong></li>
+<li>数组中枚举属性的顺序与通过<code>for in</code> <code>Object.keys()</code>迭代该对象属性时一致。数组中<strong>不可枚举属性的顺序未定义</strong>。</li>
+<li>在ES5里，如果此方法的参数不是对象（而是一个原始值），那么它会抛出 TypeError。在ES2015中，非对象的参数将被强制转换为一个对象。<code>Object.getOwnPropertyNames('adawd')</code> [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;]</li>
+</ul>
+<p>返回值是<strong>字符串数组</strong></p>
+<h3 id="对象浅拷贝objectassign">对象浅拷贝，<code>Object.assign</code></h3>
+<p><code>Object.assign()</code> 方法用于将所有<strong>非继承</strong>的<strong>可枚举属性</strong>(包含<code>Symbol</code>类型)的值从一个或多个源对象分配到目标对象。它将返回目标对象。</p>
+<p><strong>语法：</strong><code>Object.assign(target, ...sources)</code>   返回值：target 对象</p>
+<ul>
+<li><code>sources</code>参数：原始类型会被包装，null 和 undefined 会被忽略。注意，只有字符串的包装对象才可能有自身可枚举属性。</li>
+</ul>
+<pre><code class="language-javascript">console.log(Object.assign({}, &quot;abc&quot;, null, 4, undefined, true));
+// 输出{0: &quot;a&quot;, 1: &quot;b&quot;, 2: &quot;c&quot;}
+</code></pre>
+<ul>
+<li>如果目标对象中的属性具有相同的键，则属性将被源对象中的属性覆盖。后面的源对象的属性将类似地覆盖前面的源对象的属性。</li>
+</ul>
+<p>若target对象中有属性是<code>只读的（writable:false）</code>，sources中有与其相同的属性名，覆盖不成功就报错，并且打断后续的拷贝操作(之前的拷贝已经完成)。</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210420172738458.png" alt="image-20210420172738458" loading="lazy"></figure>
+<pre><code class="language-javascript">aconst obj = {
+  foo: 1,
+  get bar() {
+    return 2;
+  },
+};
+let copy = Object.assign({}, obj);
+console.log(copy); // { foo: 1, bar: 2 } copy.bar的值来自obj.bar的getter函数的返回值
+// 若用 Object.defineProperty定义obj 的bar get()访问器属性，注意enumerable默认为false，object.assign默认不传入不可枚举的属性。
+</code></pre>
+<h3 id="操作符-new">操作符  <code>new</code></h3>
+<p><strong><code>new</code> 运算符</strong>创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例。</p>
+<p><strong><code>new</code></strong> 关键字会进行如下的操作：</p>
+<ol>
+<li>创建一个空的简单JavaScript对象（即<code>{}</code>），此对象继承自 <code>new Function</code> -&gt; <code>Function</code>的<code>prototype</code>；</li>
+<li>链接该对象（设置该对象的<strong>constructor</strong>）到另一个对象，即设置的对象的<code>[[Prototype]]</code>属性 ；</li>
+<li>将步骤1新创建的对象作为<code>this</code>的上下文 ，函数执行；</li>
+<li>如果该函数没有返回引用类型的值，则返回<code>this</code>。（返回<strong>除了引用类型外的其他值</strong>，将忽略，仍然返回<code>this</code>）</li>
+</ol>
+<h5 id="newtarget"><code>new.target</code></h5>
+<p>在构造函数<code>new</code>调用中，<code>new.target</code>指向构造函数，普通函数中，指向<code>undefined</code>，箭头函数中，指向最近的<code>new.target</code>。</p>
+<p>class 内部调用 <code>new.target</code> ，返回当前<code>class</code>。<code>new</code>子类时，继承的父子类中<code>new.target</code> 均指向子类。</p>
+<pre><code class="language-javascript">// 利用 new.target的特点 可以写出不能独立使用、必须继承后才能使用的类。
+class father {
+  constructor() {
+    if (new.target === father) {
+      throw new Error(&quot;本类只能通过子类继承实例化&quot;);
+    }
+  }
 }
-console.log(f.prototype === Function.prototype); //flase
-console.log(f.__proto__ === Function.prototype); //true
-console.log(Function.__proto__ === Function.prototype); //true
+class son extends father {
+  constructor() {
+    super();
+    console.log(new.target);
+  }
+}
+let father_ = new father();  // 抛出错误 
+</code></pre>
+<h2 id="对象属性描述符">对象属性描述符</h2>
+<h3 id="描述">描述</h3>
+<p>属性描述符分为**数据描述符(用于数据属性)<strong>和</strong>存取描述符(用于访问器属性)**两种类型。</p>
+<blockquote>
+<p>访问器属性：本质上是用于获取和设置值的函数，但从外部代码来看就像常规属性。</p>
+<pre><code class="language-javascript">//在对象字面量中， 用get 和 set 表示
+let obj = {
+get fullName(){
+    return this._fullname;
+},
+set fullname(newValue){
+  this._fullname = newValue; 
+}
+}
+// 虽然说 直接obj._fullname可以直接访问，但是一般规定带下划线开头的变量是内部属性，最后不直接访问。
+</code></pre>
+<p>当只有get没有set时，赋值操作会报错</p>
+</blockquote>
+<p><em>数据描述符</em> 是一个具有值的属性，该值可以是可写的，也可以是不可写的。</p>
+<p><em>存取描述符</em>是由 getter 函数和 setter 函数所描述的属性。</p>
+<p>一个描述符只能是这两者其中之一；不能同时是两者。</p>
+<p><strong>两者共有：</strong></p>
+<ul>
+<li><strong>configurable</strong>  当且仅当该属性的 <code>configurable</code> 键值为 <code>true</code> 时，该<strong>属性的部分描述符</strong>才能够被改变，同时该<strong>属性</strong>也能从对应的对象上被<strong>删除</strong>。</li>
+</ul>
+<blockquote>
+<p><code>defineProperty</code>会报错，严格模式下delete会报错。</p>
+</blockquote>
+<ul>
+<li>**enumerable **属性是否可枚举。</li>
+</ul>
+<p><strong>数据描述符特有：</strong></p>
+<ul>
+<li>**value ** 属性的值。</li>
+<li><strong>writable</strong> 当且仅当该属性的 <code>writable</code> 键值为 <code>true</code> 时，属性的值，也就是value，才能被改变。</li>
+</ul>
+<p><strong>存取描述符特有：</strong></p>
+<ul>
+<li>
+<p><strong>get</strong>  当访问该属性时，会调用此函数。执行时不传入任何参数，但是会传入 <code>this</code> 对象（由于继承关系，这里的<code>this</code>并不一定是定义该属性的对象，this指向 <strong>点符号前的对象</strong>）。该函数的返回值会被用作属性的值。</p>
+</li>
+<li>
+<p><strong>set</strong>  当属性值被修改时，会调用此函数。该方法接受一个参数（也就是被赋予的新值），会传入赋值时的 <code>this</code> 对象。</p>
+<blockquote>
+<p>拥有布尔值的键 <code>configurable</code>、<code>enumerable</code> 和 <code>writable</code> 的默认值都是 <code>false</code>。</p>
+<p>属性值和函数的键 <code>value</code>、<code>get</code> 和 <code>set</code> 字段的默认值为 <code>undefined</code>。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="language-javascript">// 这个例子可以看出来 访问器属性中的 getter/setter指向
+function myclass() {
+}
+Object.defineProperty(myclass.prototype, &quot;x&quot;, {
+  get() {
+    return this.stored_x;
+  },
+  set(x) {
+    this.stored_x = x;
+  }
+});
+
+var a = new myclass();
+var b = new myclass();
+a.x = 1;
+console.log(b.x); // undefined
+</code></pre>
+<h3 id="相关方法">相关方法</h3>
+<h4 id="objectgetownpropertydescriptorobj-prop"><code>Object.getOwnPropertyDescriptor(obj, prop)</code></h4>
+<ul>
+<li>
+<p>返回值：对象<strong>非继承</strong>的某属性的<strong>属性描述符</strong>对象。</p>
+</li>
+<li>
+<p>属性不存在返回<code>undefined</code></p>
+</li>
+<li>
+<p>可以对 <code>Symbol</code> 类型使用</p>
+</li>
+</ul>
+<h4 id="objectdefinepropertyobj-propertyname-descriptor"><code>Object.defineProperty(obj, propertyName, descriptor)</code></h4>
+<ul>
+<li>返回值：传入参数的<code>obj</code> 对象。</li>
+<li>参数<code>propertyName</code>可以是普通的属性也可以是<code>Symbol</code>。</li>
+<li>当 <code>descriptor</code>对象里某属性不指定值，则使用<strong>默认值</strong>。</li>
+<li>若修改的对象旧的描述符对象 <code>descriptor</code> 中<code>configurable</code>属性值为 false，除了将 <code>writable</code> 单向改变为 false 时，试图改变不可配置属性会报错。</li>
+</ul>
+<pre><code class="language-javascript">let obj = {};Object.defineProperty(obj, &quot;name&quot;, { value: &quot;黄哲&quot;, writable: true });console.log(Object.getOwnPropertyDescriptor(obj, &quot;name&quot;));// {value: &quot;黄哲&quot;, writable: true, enumerable: false, configurable: false}Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;黄哲d&quot;,  writable: true,}); // configurable 为false, 但是writable为true, value值可以修改Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;黄哲d&quot;,  writable: false,}); // 单向改变 writable改为 false，可以改变obj.name = &quot;dad&quot;; // 不起作用，但不会报错;严格模式下会报错console.log(obj.name); // ‘黄哲d’Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;dad&quot;,}); // 报错了
+</code></pre>
+<p>同类型的方法还有 <code>Object.defineProperties</code>和 <code>Object.getOwnPropertyDescriptors</code></p>
+<p>**克隆对象的一个更好的方法：**可以复制属性标志</p>
+<h1 id="对象与原型"><strong>对象与原型</strong></h1>
+<h2 id="对象的隐藏prototype属性-注不要和构造函数的-prototype-属性混淆"><strong>对象的隐藏[[Prototype]]属性 (注：不要和构造函数的 prototype 属性混淆)</strong></h2>
+<p>在 JavaScript 中，所有的对象都有一个隐藏的 [[Prototype]] 属性，它要么是另一个对象的引用，要么就是 null。它👉的是该对象的原型。原型链的构成依赖于实例对象的[[Prototype]]属性。</p>
+<ul>
+<li>我们可以使用 <code>obj.__proto__</code> 访问它（历史遗留下来的 <strong>getter/setter</strong>) 非标准但是多数环境实现。</li>
+</ul>
+<p>或者 <strong><code>Object.getProtoypeOf()</code></strong> 和 <strong><code>Object.setPrototype</code></strong> 来 <strong>get/set</strong></p>
+<ul>
+<li>
+<p>如果我们想要读取 obj 的一个属性或者调用一个方法，并且它不存在，那么 JavaScript 就会尝试在原型中查找它。</p>
+</li>
+<li>
+<p>写/删除操作直接在对象上进行，它们不使用原型（假设它是数据属性，不是访问器属性，因为访问器属性的写入操作是 <code>setter</code> 函数处理的，因此写入此类属性和实际上是调用<code>setter</code>函数）。</p>
+</li>
+<li>
+<p>如果我们调用 obj.method()，而且 method 是从原型中获取的，this 仍然会引用 obj。因此，方法始终与当前对象一起使用，即使方法是继承的。</p>
+</li>
+</ul>
+<blockquote>
+<p>Object.setPrototype 方法：设置指定对象的隐藏的[[Prototype]]属性到另外一个对象或者 null（其他类型的参数值会被忽略）。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210509101834623.png" alt="image-20210509101834623" style="zoom: 80%;" />
+</blockquote>
+<h2 id="构造函数的prototype属性"><strong>构造函数的Prototype属性</strong></h2>
+<ul>
+<li>
+<p>每个函数都有 &quot;prototype&quot; 属性，即使我们没有提供它。默认的 &quot;prototype&quot; 是一个只有属性 constructor 的对象，属性 constructor 指向函数自身。(实例也能访问到<strong>继承</strong>下来的 constructor对象)。</p>
+<pre><code class="language-javascript">function Rabbit(name) {  this.name = name;  alert(name);}let rabbit = new Rabbit(&quot;White Rabbit&quot;);let rabbit2 = new rabbit.constructor(&quot;Black Rabbit&quot;);
+</code></pre>
+</li>
+<li>
+<p>如果我们将整个默认 prototype 替换掉，那么其中就不会有 &quot;constructor&quot; 了（constructor属性可写）</p>
+</li>
+<li>
+<p><code>F.prototype</code> 属性（不要把它与 [[Prototype]] 弄混了）在 new F 被调用时为新对象的 [[Prototype]] 赋值。</p>
+</li>
+<li>
+<p>&quot;prototype&quot; 属性仅在设置了一个构造函数（constructor function），并通过 new 调用时，才具有这种特殊的影响。</p>
+</li>
+</ul>
+<h3 id="instanceof-运算符"><code>instanceof</code>  运算符</h3>
+<ul>
+<li>
+<p><strong><code>instanceof</code></strong> <strong>运算符</strong>用于检测构造函数的 <code>prototype</code> 属性是否出现在某个实例对象的原型链上。</p>
+</li>
+<li>
+<p>语法：<code>object instanceof constructor</code> （右边是一个构造函数才对，或者是一个类）</p>
+</li>
+<li>
+<p>当右边是一个 <strong>class 类</strong>时。 会尝试先调用 class类的 <strong>静态static [Symbol.hasInstance]方法</strong> ，若有此方法，则直接调用，方法的第一个参数为 左侧<code>object</code>。</p>
+<pre><code class="language-javascript">class father {  static [Symbol.hasInstance](obj) {    if (obj.a == 1) return true;  }}let obj = { a: 1 };console.log(obj instanceof father); // 返回 trueconsole.log(father.prototype.isPrototypeOf(obj)); // 返回 false
+</code></pre>
+</li>
+<li>
+<p><code>object instanceof constructor</code>  可以改写为  <code>constructor.prototype.isPrototypeOf(obj)</code>，<strong>，此方法不会像 instanceof 操作符一样产生上一条对于class特别的规则。</strong></p>
+</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210507102726963.png" alt="image-20210507102726963" loading="lazy"></figure>
+<h2 id="原生的原型">原生的原型</h2>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210421201731163.png" alt="image-20210421201731163" loading="lazy"></figure>
+<ul>
+<li>
+<p>原始数据类型也将方法存储在包装器对象的 prototype 中：<code>Number.prototype</code>、<code>String.prototype</code> 和 <code>Boolean.prototype</code>。只有 <code>undefined</code> 和 <code>null</code> 没有包装器对象，没有prototype。</p>
+</li>
+<li>
+<pre><code class="language-javascript">let a = 11;console.log(Object.getPrototypeOf(a) == a.__proto__); // trueconsole.log(&quot;dwad&quot;.__proto__); // String.prototype
 </code></pre>
 </li>
 </ul>
-<h2 id="构造函数">构造函数</h2>
+<h3 id="functionobject-的鸡蛋问题">Function&amp;Object 的鸡蛋问题</h3>
+<p>Object构造函数和Function构造函数既是函数又是对象；</p>
+<pre><code class="language-javascript">console.log(Object.__proto__ === Function.prototype);这条特殊：console.log(Function.__proto__ === Function.prototype); // 特殊的底层实现console.log(Object.__proto__ === Function.__proto__); // 源于上一条的底层实现
+</code></pre>
+<img src="http://resource.muyiy.cn/image/2019-07-24-060321.jpg" alt="jsobj" style="zoom:80%;" />
+<h2 id="使用不同方法创建对象和生成原型链">使用不同方法创建对象和生成原型链</h2>
+<p>原型链继承的本质是<strong>重写原型对象，代之以一个新类型的实例</strong>。注意：是新类型的<strong>实例</strong>。</p>
+<h3 id="使用语法结构创建的对象">使用语法结构创建的对象</h3>
+<pre><code>var o = {a: 1}; // 原型链如下： o -&gt; Object.prototype -&gt; nullvar a = [&quot;yo&quot;, &quot;whadup&quot;, &quot;?&quot;];   a -&gt; Array.prototype -&gt; Object.prototype -&gt; nullfunction f(){ }                  f -&gt; Function.prototype -&gt; Object.prototype -&gt; null
+</code></pre>
+<h3 id="使用构造器创建的对象">使用构造器创建的对象</h3>
+<p>即 <strong>new</strong> 操作符</p>
+<h3 id="objectcreateprotopropertiesobject-方法"><code>Object.create(proto，[propertiesObject])</code>  方法</h3>
 <ul>
-<li>每个函数都有 &quot;prototype&quot; 属性，即使我们没有提供它。默认的 &quot;prototype&quot; 是一个只有属性 constructor 的对象，属性 constructor 指向函数自身。</li>
-<li>如果我们将整个默认 prototype 替换掉，那么其中就不会有 &quot;constructor&quot; 了</li>
-<li>F.prototype 属性（不要把它与 [[Prototype]] 弄混了）在 new F 被调用时为新对象的 [*[Prototype]] 赋值。</li>
-<li>F.prototype 的值要么是一个对象，要么就是 null：其他值都不起作用。</li>
-<li>&quot;prototype&quot; 属性仅在设置了一个构造函数（constructor function），并通过 new 调用时，才具有这种特殊的影响。</li>
+<li>返回值，一个新的继承自 proto 的对象。</li>
+<li>参数 <strong>proto：</strong> 新创建对象的原型对象。</li>
+<li>参数 **propertiesObject：**属性描述器。参照<code>Object.defineProperties()</code>的第二个参数。是新创建的对象的自身属性。</li>
 </ul>
+<h1 id="问题">问题</h1>
 <p>今天在看原型内容的时候遇到了一个问题：</p>
-<pre><code>let hamster = {
-  stomach: [],
-
-  eat(food) {
-    this.stomach.push(food);
-  }
-};
-
-let speedy = {
-  __proto__: hamster
-};
-
-let lazy = {
-  __proto__: hamster
-};
-
-// 这只仓鼠找到了食物
-speedy.eat(&quot;apple&quot;);
-alert( speedy.stomach ); // apple
-
-// 这只仓鼠也找到了食物，为什么？请修复它。
-alert( lazy.stomach ); // apple
+<pre><code>let hamster = {  stomach: [],  eat(food) {    this.stomach.push(food);  }};let speedy = {  __proto__: hamster};let lazy = {  __proto__: hamster};// 这只仓鼠找到了食物speedy.eat(&quot;apple&quot;);alert( speedy.stomach ); // apple// 这只仓鼠也找到了食物，为什么？请修复它。alert( lazy.stomach ); // applelet hamster = {  stomach: [],  eat(food) {    // 分配给 this.stomach 而不是 this.stomach.push    this.stomach = [food];  }};let speedy = {   __proto__: hamster};let lazy = {  __proto__: hamster};// 仓鼠 Speedy 找到了食物speedy.eat(&quot;apple&quot;);alert( speedy.stomach ); // apple// 仓鼠 Lazy 的胃是空的alert( lazy.stomach ); // &lt;nothing&gt;
 </code></pre>
-<pre><code>let hamster = {
-  stomach: [],
-
-  eat(food) {
-    // 分配给 this.stomach 而不是 this.stomach.push
-    this.stomach = [food];
-  }
-};
-
-let speedy = {
-   __proto__: hamster
-};
-
-let lazy = {
-  __proto__: hamster
-};
-
-// 仓鼠 Speedy 找到了食物
-speedy.eat(&quot;apple&quot;);
-alert( speedy.stomach ); // apple
-
-// 仓鼠 Lazy 的胃是空的
-alert( lazy.stomach ); // &lt;nothing&gt;
+<p>当对变量使用赋值操作和变量push操作的不同，让我想到了在小黄书中看到的LHS和RHS 左查询和右查询，左查询和对普通变量的值的查找没什么区别，而右查询是<strong>试图找到变量容器的本身并对其赋值</strong>。</p>
+<p>为什么push 和 = 的操作会造成不一样的影响，我思考后觉得 push操作仅仅是RHS，=操作是左赋值。</p>
+<h1 id="类-class">类 class</h1>
+<p><strong>类是一种函数，类似于一个方便继承的容器，类完全可以看成构造函数的另一种写法</strong></p>
+<pre><code class="language-javascript">class User{};typeof User; // function
 </code></pre>
-<p>当对变量使用赋值操作和变量push操作的不同，让我想到了在小黄书中看到的LHS和RHS 左查询和右查询，右查询和对普通变量的值的查找没什么区别，而右查询是<strong>试图找到变量容器的本身并对其赋值</strong>。<br>
-为什么push 和 = 的操作会造成不一样的影响，我思考后觉得 push操作仅仅是RHS，=操作是左赋值。</p>
+<ul>
+<li><strong>class</strong>必须使用<strong>new</strong>调用，<code>new</code> 调用后使用 <code>constructor</code> 函数，像普通调用函数那样调用class函数会报错。通过 <code>class</code> 创建的函数具有特殊的内部属性标记<code>[[FunctionKind]]:&quot;classConstructor&quot;</code>。</li>
+</ul>
+<blockquote>
+<p>constructor 函数与调用普通的构造函数行为是一致的，默认返回 this ，可以返回其他对象，但是不是对象的返回值会被忽略仍然返回this。</p>
+</blockquote>
+<ul>
+<li>类定义的方法不可枚举。也就是说<code>class fun;fun.prototype</code>上的函数不可枚举。（与直接在<code>prototype</code>上定义不同）</li>
+<li>类总是使用 <code>use strict</code>。 在类构造中的所有代码都将自动进入严格模式。</li>
+<li>类是一种函数，在类中直接定义的类字段会成为<strong>实例对象</strong>的属性。（均可枚举，方法也可枚举）</li>
+</ul>
+<pre><code class="language-javascript">class father {  name = &quot;nono&quot;;  // 相当于 👇  constructor() {    this.name = &quot;nono&quot;;  }}
+</code></pre>
+<ul>
+<li><strong>get</strong> 和 <strong>set</strong> 函数所定义的<strong>访问器属性</strong>一样是定义在原型上的。</li>
+</ul>
+<pre><code class="language-javascript">class User {  name = prompt(&quot;Name, please?&quot;, &quot;黄&quot;);  // 还能弹出对话框}new User(); // 类字段还能创建实例方法class User {  property = &quot;属性&quot;; // 实例  getProperty = function () {    console.log(this.property);  };}let user = new User();user.getProperty(); // 黄setTimeout(user.getProperty, 0); // undefined// 可以将 gerProperty 函数改为 箭头函数 因为箭头函数在创建时绑定了 this
+</code></pre>
+<ul>
+<li>类不存在类提升，类和函数一样都有 name属性。</li>
+</ul>
+<h2 id="类继承">类继承</h2>
+<h3 id="extends-关键字">extends 关键字</h3>
+<p>extends可继承类也可以继承普通构造函数( <strong>不能继承常规对象<mark>不可构造的</mark>即无法使用new运算符的</strong> )</p>
+<p><strong>继承类的 constructor 必须调用 <code>super(...)</code>，并且一定要在使用 <code>this</code> 之前调用。</strong></p>
+<p>根据规范，如果一个类继承了另一个类并且没有 <code>constructor</code>，那么将生成下面这样的“空” <code>constructor</code>：</p>
+<pre><code class="language-javascript">class Rabbit extends Animal {  // 为没有自己的 constructor 的扩展类生成的  constructor(...args) {    super(...args);  }}
+</code></pre>
+<p>在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 “derived constructor”）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的**内部属性 <code>[[ConstructorKind]]:&quot;derived&quot;</code> **。这是一个特殊的内部标签。</p>
+<p>该标签会影响它的 <code>new</code> 行为：<strong>当没有此标签时，普通的class的constructor构造函数会创建一个空对象给this值，并在new之后返回此对象。当继承的 constructor 执行时，它不会执行此操作(指给this创建新对象并返回)。它期望父类的 constructor 来完成这项工作。所以在new子类时，必须先调用 super()。</strong></p>
+<p><strong>ES5 的继承，实质是先创造子类的实例对象<code>this</code>，然后再将父类的方法添加到<code>this</code>上面（<code>Parent.apply(this)</code>）。ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到<code>this</code>上面（所以必须先调用<code>super</code>方法，相当于父类class A <code>A.prototype.constructor.call(this)</code>的调用），然后再用子类的构造函数修改<code>this</code>。</strong></p>
+<p><strong>还需要在使用this关键字之前调用super()，不然this还没有初始化为一个新对象</strong>；</p>
+<p><strong>extends 创建了两个继承，这我是没想到的，而内建对象类的继承不会产生静态属性和静态方法的继承。</strong></p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210428205622151.png" alt="image-20210428205622151" style="zoom: 67%;" />
+<h3 id="super-关键字">super 关键字</h3>
+<ul>
+<li><strong>super</strong>关键字用于访问和调用一个对象的父对象上的函数。</li>
+<li><strong>super.prop和super[expr]<strong>在任何</strong>类</strong>和<strong>对象</strong>中的<strong>方法定义</strong>都是有效的。</li>
+<li>你不能使用 <code>delete 操作符</code> 加 <code>super.prop</code> 或者 <code>super[expr]</code> 去删除父类的属性，这样做会抛出 <code>ReferenceError</code>。</li>
+<li>当使用 <code>Object.defineProperty</code> 定义一个属性为<strong>不可写</strong>时，<code>super</code>将不能重写这个属性的值。(一般情况可重写)</li>
+</ul>
+<ul>
+<li><strong>super作为对象</strong> 在子类普通方法中，指向父类的原型对象；在子类静态方法中，指向父类。执行 <code>super.method(...)</code> 来调用一个父类方法。</li>
+</ul>
+<blockquote>
+<p>ES6 规定，在子类实例的普通方法中通过<code>super</code>调用父类的方法时，方法内部的<code>this</code>指向当前的子类实例。</p>
+<p>​    类似的，在子类的静态方法中通过<code>super</code>调用父类的方法时，方法内部的<code>this</code>指向当前的子类。</p>
+</blockquote>
+<p>​    https://zh.javascript.info/class-inheritance  详细说明了方法在 super作为调用者时的原理 <code>[[HomeObject]]</code>对于方法而起作用的属性</p>
+<ul>
+<li><strong>super作为函数</strong> 执行 <code>super(...)</code> 来调用一个父类 constructor（只能在子类的 constructor 中）。</li>
+</ul>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210428202155192.png" alt="image-20210428202155192" style="zoom:67%;" />
+<h2 id="静态属性和静态方法">静态属性和静态方法</h2>
+<p><strong>静态方法</strong>  在方法前面加上<strong>static</strong> 关键字，使方法不属于<code>class.prototype</code>而 属于<code>class</code>类本身。类似于直接<code>class.properName =</code></p>
+<p>静态方法用于实现属于该类但不属于该类任何实例对象的函数。</p>
+<p><strong>在静态方法中this指向 class 类本身</strong></p>
+<p><strong>静态属性类似</strong>。</p>
+<pre><code class="language-javascript">class User {  static name = &quot;黄&quot;;    //静态属性  static fun = function () {    //这也是一种静态方法    return &quot;哲浩&quot;;  };}console.log(User.name);console.log(User.fun());
+</code></pre>
+<p><strong>静态属性和静态方法同样可以被继承，因为 extends关键字创建了两个 <code>__</code>proto<code>__</code> 的引用 。</strong></p>
+<ol>
+<li>构造函数之间</li>
+<li>构造函数的 prototype 之间</li>
+</ol>
+<h2 id="私有的和受保护的属性和方法">私有的和受保护的属性和方法</h2>
+<h3 id="私有字段">私有字段</h3>
+<p><em>只能从类的内部访问，无法从外部或继承的类访问。用于内部接口。</em></p>
+<p><strong>私有属性和方法应该以 <code>#</code> 开头。私有字段和公有字段同名不冲突。</strong></p>
+<h3 id="受保护字段">受保护字段</h3>
+<p><em>只能从类的内部和基于其扩展的类的内部访问。</em></p>
+<p><strong>受保护的字段不是在语言级别的 Javascript 中实现的。人们约定，用下划线 <code>_</code> 作为前缀表示字段是受保护的字段。</strong></p>
+<h1 id="原生构造函数的继承">原生构造函数的继承</h1>
+<p>原生构造函数是指语言<strong>内置的构造函数</strong>。如<strong>Boolean() , Number() , Array() 等等。</strong></p>
+<p>在ES5之前，这些内置构造函数无法继承。</p>
+<pre><code class="language-javascript">function fakeArray() {  this.name = &quot;fake&quot;;}fakeArray.prototype = Object.create(Array.prototype);let a = new fakeArray();a[0] = 1;a[1] = 2;console.log(a.__proto__.__proto__ === Array.prototype); // trueconsole.log(a.length); // 输出0 无法使用Array 的特性// Array构造函数有一个内部属性[[DefineOwnProperty]]，用来定义新属性时，更新length属性，这个内部属性无法在子类获取，导致子类的length属性行为不正常。
+</code></pre>
+<p><strong>ES5 是先新建子类的实例对象<code>this</code>，再将父类的属性添加到子类上，由于父类的内部属性无法获取，导致无法继承原生的构造函数。</strong></p>
+<p><strong>ES6 允许继承原生构造函数定义子类，因为 ES6 是先新建父类的实例对象<code>this</code>，然后再用子类的构造函数修饰<code>this</code>，使得父类的所有行为都可以继承。</strong></p>
+<pre><code class="language-javascript">// 给 fakeArray 新增了一个方法（可以增加更多）class fakeArray extends Array {  isEmpty() {    return this.length === 0;  }}let arr = new fakeArray(1, 2, 5, 10, 50);console.log(arr.isEmpty()); // falselet filteredArr = arr.filter((item) =&gt; item &gt;= 10);console.log(filteredArr); // 10, 50console.log(filteredArr.isEmpty()); // false
+</code></pre>
+<p>内建的方法例如 <code>filter</code>，<code>map</code> 等 — 返回的正是子类 <code>fakeArray</code> 的新对象。它们内部使用了对象的 <code>constructor</code> 属性来实现这一功能。在这里，<strong>arr.constructor === fakeArray，当使用<code>filter</code>时，它使用arr.constructor来新建数组而不是内置Array</strong></p>
+<p>如果我们希望像 <code>map</code> 或 <code>filter</code> 这样的内建方法返回常规数组，我们可以给这个类添加一个特殊的静态 getter <code>Symbol.species</code>。如果存在，则应返回 JavaScript 在内部用来在 <code>map</code> 和 <code>filter</code> 等方法中创建新实体的 <code>constructor</code>。</p>
+<pre><code class="language-javascript">class PowerArray extends Array {  isEmpty() {    return this.length === 0;  }  // 内建方法将使用这个作为 constructor  static get [Symbol.species]() {    return Array;  }}
+</code></pre>
+<h1 id="mixin-模式">Mixin 模式</h1>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E5%B1%9E%E6%80%A7%E7%B1%BB%E5%9E%8B">属性类型</a>
+<li><a href="#%E5%AF%B9%E8%B1%A1">对象</a>
 <ul>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%B1%9E%E6%80%A7">数据属性</a></li>
-<li><a href="#%E8%AE%BF%E9%97%AE%E5%99%A8%E5%B1%9E%E6%80%A7">访问器属性</a></li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">对象的基础知识</a>
+<ul>
+<li><a href="#%E5%B1%9E%E6%80%A7%E5%AD%98%E5%9C%A8%E6%80%A7%E6%B5%8B%E8%AF%95in%E6%93%8D%E4%BD%9C%E7%AC%A6">属性存在性测试，<code>in</code>操作符</a></li>
+<li><a href="#%E6%9E%9A%E4%B8%BE%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7">枚举对象属性</a>
+<ul>
+<li><a href="#forin-%E9%81%8D%E5%8E%86%E8%AF%AD%E5%8F%A5"><code>for...in</code>   遍历语句</a></li>
+<li><a href="#objectkeys"><code>Object.keys()</code></a></li>
+<li><a href="#objectgetownpropertynames"><code>Object.getOwnPropertyNames()</code></a></li>
 </ul>
 </li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1">创建对象</a>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E6%B5%85%E6%8B%B7%E8%B4%9Dobjectassign">对象浅拷贝，<code>Object.assign</code></a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-new">操作符  <code>new</code></a><br>
+*
 <ul>
-<li><a href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">工厂模式</a></li>
-<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F-%E6%A3%80%E6%B5%8B%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B-instanceof%E6%93%8D%E4%BD%9C%E7%AC%A6">构造函数模式 检测对象类型 instanceof操作符</a></li>
-<li><a href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F">原型模式</a></li>
-<li><a href="#%E7%BB%84%E5%90%88%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F">组合使用构造函数模式和原型模式</a></li>
-<li><a href="#%E5%8A%A8%E6%80%81%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F">动态原型模式</a></li>
-<li><a href="#%E5%AF%84%E7%94%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F">寄生构造函数模式</a></li>
-<li><a href="#%E7%A8%B3%E5%A6%A5%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F">稳妥构造函数模式</a></li>
+<li><a href="#newtarget"><code>new.target</code></a></li>
 </ul>
 </li>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E4%B8%8E%E5%8E%9F%E5%9E%8B">对象与原型</a>
-<ul>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%9A%90%E8%97%8Fprototype%E5%B1%9E%E6%80%A7-%E6%B3%A8%E4%B8%8D%E8%A6%81%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84-prototype-%E5%B1%9E%E6%80%A7%E6%B7%B7%E6%B7%86">对象的隐藏[[Prototype]]属性 (注：不要和构造函数的 prototype 属性混淆)</a></li>
-<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">构造函数</a></li>
 </ul>
 </li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E6%8F%8F%E8%BF%B0%E7%AC%A6">对象属性描述符</a>
+<ul>
+<li><a href="#%E6%8F%8F%E8%BF%B0">描述</a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95">相关方法</a>
+<ul>
+<li><a href="#objectgetownpropertydescriptorobj-prop"><code>Object.getOwnPropertyDescriptor(obj, prop)</code></a></li>
+<li><a href="#objectdefinepropertyobj-propertyname-descriptor"><code>Object.defineProperty(obj, propertyName, descriptor)</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E4%B8%8E%E5%8E%9F%E5%9E%8B"><strong>对象与原型</strong></a>
+<ul>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%9A%90%E8%97%8Fprototype%E5%B1%9E%E6%80%A7-%E6%B3%A8%E4%B8%8D%E8%A6%81%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84-prototype-%E5%B1%9E%E6%80%A7%E6%B7%B7%E6%B7%86"><strong>对象的隐藏[[Prototype]]属性 (注：不要和构造函数的 prototype 属性混淆)</strong></a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84prototype%E5%B1%9E%E6%80%A7"><strong>构造函数的Prototype属性</strong></a>
+<ul>
+<li><a href="#instanceof-%E8%BF%90%E7%AE%97%E7%AC%A6"><code>instanceof</code>  运算符</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8E%9F%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9E%8B">原生的原型</a>
+<ul>
+<li><a href="#functionobject-%E7%9A%84%E9%B8%A1%E8%9B%8B%E9%97%AE%E9%A2%98">Function&amp;Object 的鸡蛋问题</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E6%96%B9%E6%B3%95%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%94%9F%E6%88%90%E5%8E%9F%E5%9E%8B%E9%93%BE">使用不同方法创建对象和生成原型链</a>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95%E7%BB%93%E6%9E%84%E5%88%9B%E5%BB%BA%E7%9A%84%E5%AF%B9%E8%B1%A1">使用语法结构创建的对象</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E5%88%9B%E5%BB%BA%E7%9A%84%E5%AF%B9%E8%B1%A1">使用构造器创建的对象</a></li>
+<li><a href="#objectcreateprotopropertiesobject-%E6%96%B9%E6%B3%95"><code>Object.create(proto，[propertiesObject])</code>  方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a></li>
+<li><a href="#%E7%B1%BB-class">类 class</a>
+<ul>
+<li><a href="#%E7%B1%BB%E7%BB%A7%E6%89%BF">类继承</a>
+<ul>
+<li><a href="#extends-%E5%85%B3%E9%94%AE%E5%AD%97">extends 关键字</a></li>
+<li><a href="#super-%E5%85%B3%E9%94%AE%E5%AD%97">super 关键字</a></li>
+</ul>
+</li>
+<li><a href="#%E9%9D%99%E6%80%81%E5%B1%9E%E6%80%A7%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95">静态属性和静态方法</a></li>
+<li><a href="#%E7%A7%81%E6%9C%89%E7%9A%84%E5%92%8C%E5%8F%97%E4%BF%9D%E6%8A%A4%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95">私有的和受保护的属性和方法</a>
+<ul>
+<li><a href="#%E7%A7%81%E6%9C%89%E5%AD%97%E6%AE%B5">私有字段</a></li>
+<li><a href="#%E5%8F%97%E4%BF%9D%E6%8A%A4%E5%AD%97%E6%AE%B5">受保护字段</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%8E%9F%E7%94%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E7%BB%A7%E6%89%BF">原生构造函数的继承</a></li>
+<li><a href="#mixin-%E6%A8%A1%E5%BC%8F">Mixin 模式</a></li>
 </ul>
 
               </div>
@@ -245,9 +566,9 @@ alert( lazy.stomach ); // &lt;nothing&gt;
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/">
+            <a href="https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/">
               <h3 class="post-title">
-                【JS】类数组对象和可迭代对象
+                【JS】数组内置方法
               </h3>
             </a>
           </div>
