@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】浏览器事件 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1622277233092">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1622278092746">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】浏览器事件 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -27,7 +27,7 @@ HTML 特性 attribute
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1622277233092" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1622278092746" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -125,9 +125,9 @@ div1.onclick = function(){
 <p>在特性与属性的处理程序赋予中，没法将两个处理程序同时赋予给一个事件。</p>
 <p><code>addEventListener(event,hander[,options])</code>解决了这个问题，如可以多次调用绑定多个 <code>click</code>事件。且与<code>onclick</code>属性或特性的绑定不冲突。和某些特定的事件必须要用<code>addEventListener</code>，如<code>transtionend 和 DOMContentLoaded</code>。</p>
 <p><code>event</code>事件名 <code>hander</code>处理程序</p>
-<p><code>options</code> 可选附加对象：</p>
-<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210401193549414.png" alt="image-20210401193549414" loading="lazy"></figure>
-<p>不加附加参数默认值为<code>false</code>，即事件处理程序仅在<code>捕获阶段 -&gt; 目标阶段 -&gt; 冒泡阶段</code>中的后两个阶段起作用。(利用 HTML 特性 或 DOM 属性绑定的事件处理程序同理)</p>
+<p><code>options</code> 可选附加对象：<br>
+<img src="https://null-go.github.io/post-images/1622277659111.png" alt="" loading="lazy"><br>
+不加附加参数默认值为<code>false</code>，即事件处理程序仅在<code>捕获阶段 -&gt; 目标阶段 -&gt; 冒泡阶段</code>中的后两个阶段起作用。(利用 HTML 特性 或 DOM 属性绑定的事件处理程序同理)</p>
 <p><code>removeEventListener(event,hander[,options])</code>用于移除处理程序，如果我们传入的是匿名函数或者箭头函数，那么就拿不到函数进行remove了。</p>
 <h3 id="事件对象-event">事件对象 Event</h3>
 <p>当事件发生时，浏览器会创建一个<code>event</code>对象，并作为参数默认传递给事件处理程序。</p>
@@ -161,7 +161,7 @@ div1.onclick = function(){
 <p><code>this</code>==<code>event.currentTarget：</code> 该只读属性总是指向那个正在运行事件处理程序的DOM对象，它是触发事件处理程序的当前目标。</p>
 <p><code>event.target：</code>指最开始触发事件的对象，<code>click</code>事件中就是实际被点击的对象。当事件处理程序在事件的冒泡或捕获阶段被调用时，它与<code>event.currentTarget</code>不同。</p>
 <h3 id="停止冒泡-eventstoppropagation函数">停止冒泡  <code>event.stopPropagation()</code>函数</h3>
-<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210404202433353.png" alt="image-20210404202433353" style="zoom:80%;" />
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1622277917327.png" alt="" loading="lazy"></figure>
 <h3 id="捕获">捕获</h3>
 <p>事件传播的<strong>三个阶段：</strong></p>
 <ol>
@@ -176,7 +176,7 @@ div1.onclick = function(){
 </li>
 </ol>
 <p>点击<code>&lt;tr&gt;</code>元素</p>
-<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210404203154801.png" alt="image-20210404203154801" style="zoom:50%;" />
+<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1622277933782.png" alt="" loading="lazy"></figure>
 <p>使用 <code>on&lt;event&gt;</code> 属性或使用 HTML 特性（attribute）或使用两个参数的 <code>addEventListener(event, handler)</code> 添加的处理程序，对捕获一无所知，它们仅在第二阶段和第三阶段运行。为了在<strong>捕获阶段</strong>捕获事件，我们需要将处理程序<code>options</code>对象的 <code>capture</code> 选项设置为 <code>true</code>：</p>
 <pre><code>element.addEventListener('click',function(){},{capture:true});
 element.addEventListener('click',function(){},true);//默认传递 true 也是 {capture:true}
@@ -234,10 +234,10 @@ element.removeEventListener('...','...',true) remove时传参也要相同
 <p>相对于event对象target，还有一个补充的<code>relatedTarget</code>属性：  对于 <code>mouseover</code>事件，它是移入前的元素。对于<code>mouseout</code>事件，它是移入的元素。当属性值不是一个元素而为<code>null</code>时，可能是鼠标离开的窗口。</p>
 <h3 id="移动到子元素的-mouseout">移动到子元素的 <code>mouseout</code></h3>
 <p>如果我们的鼠标从 父元素<code>parent</code>移动到子元素<code>child</code>，会触发父元素的<code>mouseout</code>。</p>
-<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407162017545.png" alt="image-20210407162017545" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://null-go.github.io/post-images/1622277965735.png" alt="" loading="lazy"></figure>
 <p>原理：<strong>根据浏览器的逻辑，鼠标指针随时可能位于单个元素上 —— 嵌套最多的那个元素（z-index 最大的那个）。</strong></p>
 <p>所以如果它移向了元素A的子代，那么它就离开了元素A，并触发元素A的<code>mouseout</code>事件。若子代有<code>mouseover</code>事件，则触发并冒泡。</p>
-<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407162505385.png" alt="image-20210407162505385" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://null-go.github.io/post-images/1622277980466.png" alt="" loading="lazy"></figure>
 <blockquote>
 <p>tips:如果离开父元素时有一些行为（action），例如一个动画在 <code>parent.onmouseout</code> 中运行，当鼠标指针深入 <code>#parent</code> 时，我们并不希望发生这种行为。</p>
 <p>为了避免它，我们可以在处理程序中检查 <code>relatedTarget</code>，如果鼠标指针仍在元素内，则忽略此类事件。</p>
@@ -264,7 +264,7 @@ console.log(&quot;脚本还未结束&quot;);
 // 先输出 '脚本还未结束' 再输出'页面加载完了DOM元素’
 </code></pre>
 <p><code>DOMContentLoaded</code>事件必须等到脚本运行结束后触发，因为脚本中可能存在着修改<code>DOM</code>节点，<code>document.write</code>等操作。</p>
-<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210414161908419.png" alt="image-20210414161908419" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://null-go.github.io/post-images/1622278008975.png" alt="" loading="lazy"></figure>
 <h2 id="windowonloadunloadbeforeunload"><code>window.onload/unload/beforeunload</code></h2>
 <p>window上的三个事件用属性或者 <code>addEventListener</code> 均可以设置。</p>
 <p>如果我们将<code>DOMContentLoaded</code> 事件处理程序设置在文档加载完成之后，它将永远不会执行。</p>
