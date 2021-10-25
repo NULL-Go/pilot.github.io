@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>【JS】类数组对象和可迭代对象 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1627269471388">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
@@ -23,7 +23,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1627269471388" alt="">
+  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
   </a>
   <h1 class="site-title">
     PILOT
@@ -96,7 +96,7 @@
 <p>这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
 <h2 id="iterable-object可迭代对象"><strong><code>Iterable object</code>（可迭代对象）</strong></h2>
 <p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问方法。</p>
-<p>该方法的返回值为一个对象(<strong>迭代器 iterator</strong>)，该对象必须含有next()方法，next的返回值是一个对象，该对象包含两个属性：</p>
+<p>该方法的返回值为一个对象(<strong>迭代器 iterator</strong>)，该对象必须含有 next() 方法，next的返回值是一个对象，该对象包含两个属性：</p>
 <ul>
 <li><code>done（boolean）</code></li>
 </ul>
@@ -105,16 +105,30 @@
 <li><code>value</code></li>
 </ul>
 <p>迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
-<p>可迭代对象：Array，Set，String，Map，DOM集合</p>
-<p>for..of..语句专用于可迭代对象，<strong>展开语法</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
+<p><strong>可迭代对象</strong>：Array，Set，String，Map，DOM，<strong>Aruguments</strong>，生成器函数Generator执行产生的生成器对象，对象集合</p>
+<p>for..of..语句专用于可迭代对象，<strong>展开语法 ...</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
 <p>当用<code>for(let item of obj)</code>时，尝试调用 <code>obj</code>的<code>[Symbol.iterator]</code>方法返回一个迭代器，再调用<code>迭代器next()</code>方法，最后</p>
 <p><code>item</code>为<code>next</code>方法返回的对象的<code>value</code>值。</p>
-<h2 id="将类数组对象和可迭代对象转化为真正的数组"><strong>将类数组对象和可迭代对象转化为真正的数组</strong></h2>
-<p><strong>使用全局方法 Array.from()</strong>   Array.from(arrayLike[, mapFn[, thisArg]]);</p>
+<h2 id="将类数组对象或可迭代对象转化为真正的数组"><strong>将类数组对象或可迭代对象转化为真正的数组</strong></h2>
+<h3 id="法1使用全局方法-arrayfrom">法1：使用全局方法 Array.from()</h3>
+<p>Array.from 方法不仅可将<strong>类数组对象</strong>转换为真正的数组，还能将<strong>可迭代对象</strong>转化为数组。Array.from(arrayLike[, mapFn[, thisArg]]);</p>
 <p><strong>新的、浅拷贝的数组</strong>。</p>
 <p><code>arrayLike</code>：想要转换成数组的类数组对象或可迭代对象。</p>
 <p><code>mapFn</code>：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数</p>
 <p><code>thisArg</code>：可选，指定回调函数的this值。</p>
+<h3 id="法2arrayprototypeslicecallarray-like-用于类数组对象">法2：Array.prototype.slice.call(Array-like) 用于类数组对象</h3>
+<p>或者 [].prototype.slice.call(Array-like)。同样也是浅拷贝。别的一些数组方法返回新的数组的其实也可以。</p>
+<p>例如：Array.prototype.concat.apply([], arguments);</p>
+<p>​           Array.prototype.splice.call(arrayLike, 0);</p>
+<h3 id="法3es6-展开符-用于可迭代对象">法3：ES6 展开符 用于可迭代对象</h3>
+<p>... 展开语法依赖于 可迭代属性。</p>
+<pre><code class="language-javascript">function ampp() {
+  let arr = [...arguments];
+  console.log(arr instanceof Array);
+  console.log(arr);
+}
+ampp(1, 2, 3, 4);
+</code></pre>
 
               </div>
               <div class="toc-container">
@@ -123,7 +137,13 @@
 <ul>
 <li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><strong><code>array-like objects</code> (类数组对象)</strong></a></li>
 <li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><strong><code>Iterable object</code>（可迭代对象）</strong></a></li>
-<li><a href="#%E5%B0%86%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%95%B0%E7%BB%84"><strong>将类数组对象和可迭代对象转化为真正的数组</strong></a></li>
+<li><a href="#%E5%B0%86%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E6%88%96%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%95%B0%E7%BB%84"><strong>将类数组对象或可迭代对象转化为真正的数组</strong></a>
+<ul>
+<li><a href="#%E6%B3%951%E4%BD%BF%E7%94%A8%E5%85%A8%E5%B1%80%E6%96%B9%E6%B3%95-arrayfrom">法1：使用全局方法 Array.from()</a></li>
+<li><a href="#%E6%B3%952arrayprototypeslicecallarray-like-%E7%94%A8%E4%BA%8E%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">法2：Array.prototype.slice.call(Array-like) 用于类数组对象</a></li>
+<li><a href="#%E6%B3%953es6-%E5%B1%95%E5%BC%80%E7%AC%A6-%E7%94%A8%E4%BA%8E%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">法3：ES6 展开符 用于可迭代对象</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
