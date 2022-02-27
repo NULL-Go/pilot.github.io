@@ -1,109 +1,91 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】执行上下文、变量作用域与闭包 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】执行上下文、变量作用域与闭包 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="执行上下文、变量作用域与闭包
-执行上下文
-执行上下文的类型
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
-全局执行上下文：只有一个，浏览器中的全局对象就是 window 对象，this 指向这个全局对象。
-函数执行上下文：存在无数个，只有在函数被调用的时候才会被创建，每次调用函数都会..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】执行上下文、变量作用域与闭包
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-03-03
-              </span>
-              <span>
-                9 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【JS】执行上下文、变量作用域与闭包</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-03</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h1 id="执行上下文-变量作用域与闭包">执行上下文、变量作用域与闭包</h1>
-<h2 id="执行上下文">执行上下文</h2>
+          </div>
+          <div class="post-content">
+            <h1 id="执行上下文-变量作用域与闭包">执行上下文、变量作用域与闭包</h1>
+<h2 id="执行上下文执行环境execution-context">执行上下文（执行环境，Execution Context）</h2>
 <h3 id="执行上下文的类型">执行上下文的类型</h3>
 <ul>
 <li><strong>全局执行上下文</strong>：只有一个，浏览器中的全局对象就是 window 对象，<code>this</code> 指向这个全局对象。</li>
 <li><strong>函数执行上下文</strong>：存在无数个，只有在函数被调用的时候才会被创建，每次调用函数都会创建一个新的执行上下文。</li>
 <li><strong><code>Eval</code> 函数执行上下文</strong>： 指的是运行在 <code>eval</code> 函数中的代码，很少用而且不建议使用。</li>
 </ul>
-<h3 id="执行栈">执行栈</h3>
+<h3 id="执行栈context-stack">执行栈（Context Stack）</h3>
 <p>也叫调用栈，具有 LIFO（后进先出）结构，用于存储在代码执行期间创建的所有执行上下文。</p>
 <h3 id="执行上下文的创建阶段">执行上下文的创建阶段</h3>
+<p>执行上下文的创建是代码编译之后的事情。</p>
 <ul>
 <li>1、确定 <strong>this</strong> 的确认方式。（<strong>全局</strong>执行上下文中，<code>this</code> 的值指向全局对象，<strong>函数</strong>执行上下文中，<code>this</code> 的值取决于函数的调用方式）</li>
 </ul>
@@ -111,12 +93,12 @@
 <ul>
 <li>2、<strong><code>LexicalEnvironment</code>（词法环境）</strong> 对象被创建。</li>
 </ul>
-<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块</strong> {...} 以及<strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象。（这里的用<strong>词法环境</strong>简单代替了<strong>执行上下文</strong>的说法）</p>
-<p>词法环境有两种<strong>类型</strong>：全局环境和函数环境。（可能还有代码块环境？{}  ）</p>
+<p>在JavaScript中，每个运行的<strong>函数</strong>，<strong>代码块</strong> {...} 以及<strong>整个脚本</strong>，都有一个被称为词法环境（Lexical Environment） 的内部（隐藏）的关联对象，即词法环境对象。<strong>词法环境是一个包含标识符变量映射的结构。</strong></p>
+<p>词法环境有三种<strong>类型</strong>：<strong>全局环境和函数环境、词法作用域(即代码块 {...} )</strong>。</p>
 <p>词法环境对象由两部分组成：</p>
 <ol>
 <li>
-<p><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量及函数声明作为其属性（包括一些其他信息，例如arguments 的值）的对象。（红宝书中称环境记录为变量对象，称被调用的函数产生的变量对象<strong>VO</strong>为活动对象<strong>AO</strong>）</p>
+<p><strong>环境记录</strong>（Environment Record） —— 一个存储所有局部变量及函数声明作为其属性（包括一些其他信息，例如arguments 的值）的对象。</p>
 </li>
 <li>
 <p>对<strong>外部词法环境</strong>的引用，与外部代码相关联。</p>
@@ -140,25 +122,28 @@ FunctionExectionContext = { // 函数执行上下文
   }  
 }
 </code></pre>
-<ol start="2">
-<li></li>
-</ol>
 <blockquote>
 <p>词法环境对象是一个规范的对象，只是它的隐藏的我们无法直接操作它。但 JavaScript 引擎同样可以优化它，比如清除未被使用的变量以节省内存和执行其他内部技巧等</p>
 </blockquote>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210423145314457.png" alt="image-20210423145314457" style="zoom:80%;" />
+<p>环境记录成员是由上图中右侧的五种环境记录规范所实现</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210423150221280.png" alt="image-20210423150221280" style="zoom:80%;" />
 <hr>
 <ul>
 <li>3、<strong><code>VariableEnvironment</code>（变量环境）</strong> 对象被创建。</li>
 </ul>
 <p>变量环境也是一个词法环境，因此它具有上面定义的词法环境的所有属性。</p>
-<p>在 ES6 中，<strong>词法</strong> 环境和 <strong>变量</strong> 环境的区别在于前者用于存储**函数声明和变量（ <code>let</code> 和 <code>const</code> ）<strong>绑定，而后者仅用于存储</strong>变量（ <code>var</code> ）**绑定。</p>
-<p><strong>思考了很久，因为执行上下文只有两种，难道词法环境的创建一定伴随着函数的创建或全局脚本的创建吗，那代码块 { } 中的let不与let外定义相同的变量冲突是为什么呢，如果是在同一个词法环境中，必定是会报错的，我想代码块是会产生词法环境的，只是他不会产生执行上下文，{}代码块词法环境中的环境记录有定义的let，const变量</strong></p>
+<p>在 ES6 中，<strong>词法</strong> 环境和 <strong>变量</strong> 环境的区别在于前者用于存储<strong>变量（ <code>let</code> 和 <code>const</code> ）<strong>绑定，而后者仅用于存储</strong>变量（ <code>var</code> ）和函数声明</strong>绑定。</p>
+<p>在词法环境内部，维护了一个小型栈结构，进入一个块级作用域后，就会把该作用域块内部的变量压到栈顶；当块级作用域执行完成之后，该作用域的信息就会从栈顶弹出，这就是词法环境的结构。</p>
+<img src="https://static001.geekbang.org/resource/image/b3/8d/b398610fd8060b381d33afc9b86f988d.png" alt="img" style="zoom:50%;" />
+<img src="https://static001.geekbang.org/resource/image/7e/fa/7e0f7bc362e0dea21d27dc5fb08d06fa.png" alt="img" style="zoom:50%;" />
 <h3 id="执行上下文的执行阶段">执行上下文的执行阶段</h3>
 <p>此阶段，完成对所有变量的分配，最后执行代码。</p>
 <h2 id="变量作用域与闭包">变量作用域与闭包</h2>
-<p><strong>该部分用词法环境简单的代替了执行上下文</strong></p>
+<p>**作用域：**是指在程序中定义变量的区域，该位置决定了变量的生命周期。通俗地理解，作用域就是变量与函数的可访问范围，即作用域控制着变量和函数的可见性和生命周期。</p>
+<p>**词法(静态)作用域和动态作用域： ** **词法作用域就是指作用域是由代码中函数声明的位置来决定的，所以词法作用域是静态的作用域，通过它就能够预测代码在执行过程中如何查找标识符。**动态作用域是函数调用的位置决定。<strong>JavaScript 是词法作用域也就是静态作用域。</strong></p>
 <h3 id="创建函数">创建函数</h3>
-<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（红宝书中称为<strong>作用域链</strong>，我认为两者应该是差不多的）</p>
+<p>所有的函数在“<strong>诞生</strong>”（即创建）时都会记住创建它们的词法环境（JavaScript是采用词法作用域，由代码位置决定）(在函数执行时将值直接复制过去，形成作用域链)。从技术上讲，这里没有什么魔法：所有函数都有名为 <strong>Environment</strong>的隐藏属性，该属性保存了对创建该函数的词法环境的引用。与函数在哪儿被调用无关。<strong>Environment</strong> 引用在函数创建时被设置并永久保存。（<strong>作用域 [[scope]]的概念在ES5之后被替代为Environment环境，Environment取代了作用域的价值和作用</strong>）</p>
 <h3 id="函数声明">函数声明</h3>
 <p>一个函数其实也是一个值，就像变量一样。不同之处在于<strong>函数声明</strong>（不同于<strong>函数表达式</strong>的方式）的初始化会被立即完成。当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 let 那样直到声明处才用）</p>
 <h3 id="词法环境之间的引用"><strong>词法环境之间的引用</strong></h3>
@@ -170,13 +155,13 @@ FunctionExectionContext = { // 函数执行上下文
 <p>在一个函数在刚开始被调用时，它所新创建的词法环境会被执行流push进环境栈中。</p>
 </li>
 </ol>
-<h3 id="变量对象执行环境中的环境记录部分-适用于es5-var声明变量">变量对象(执行环境中的环境记录部分) 适用于ES5 var声明变量</h3>
+<h3 id="变量对象执行环境中的环境记录部分-适用于es3规范-var声明变量时代">变量对象(执行环境中的环境记录部分) 适用于ES3规范 var声明变量时代</h3>
 <ol>
 <li>进入执行上下文</li>
 </ol>
 <p>此时的变量对象会包括（如下顺序初始化）：</p>
 <ul>
-<li>1、函数的所有形参 (only函数上下文)：没有实参，属性值设为undefined。</li>
+<li>1、函数的所有形参 (only函数上下文，设置arguments)：没有实参，属性值设为undefined。</li>
 <li>2、函数声明：如果变量对象已经存在相同名称的属性，则完全<strong>替换</strong>这个属性。</li>
 <li>3、变量声明：如果变量名称跟已经声明的形参或函数相同，则变量声明<strong>不会干扰</strong>已经存在的这类属性。</li>
 </ul>
@@ -184,18 +169,115 @@ FunctionExectionContext = { // 函数执行上下文
 <li>代码执行</li>
 </ol>
 <p>顺序执行代码，修改变量对象的值</p>
+<p>未进入执行阶段之前，变量对象(VO)中的属性都不能访问！但是进入执行阶段之后，变量对象(VO)转变为了活动对象(AO)，里面的属性都能被访问了，然后开始进行执行阶段的操作。</p>
+<p>AO 实际上是包含了 VO 的。因为除了 VO 之外，AO 还包含函数的 parameters，以及 arguments 这个特殊对象。也就是说 AO 的确是在进入到执行阶段的时候被激活，但是激活的除了 VO 之外，还包括函数执行时传入的参数和 arguments 这个特殊对象。<br>
+<strong>AO = VO + function parameters + arguments</strong></p>
 <h3 id="闭包"><strong>闭包</strong></h3>
 <ol>
 <li>
-<p>闭包是指内部函数有权访问外部函数声明的变量以及参数，这是因为在函数被创建时，已经通过隐藏的<strong><strong>Environment</strong></strong>属性达到了引用外部词法环境的作用。</p>
+<p>闭包是指内部函数有权访问<strong>外部函数</strong>声明的变量和参数，这是因为在函数被创建时，已经通过隐藏的<strong>Environment</strong>属性达到了引用外部词法环境的作用。MDN解释：</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210727113443622.png" alt="image-20210727113443622" loading="lazy"></figure>
+<p>闭包是在函数创建的时候，让函数打包带走的根据函数内的外部引用来<strong>过滤</strong>作用域链剩下的链。它是在函数创建的时候生成的作用域链的子集，是打包的外部环境。</p>
 </li>
 <li>
-<p>所有函数都是天生的闭包除了<strong>new Function</strong>外</p>
+<p>所有函数都是天生的闭包除了<strong>new Function产生的函数</strong>以外，如果我们使用 <code>new Function</code> 创建一个函数，那么该函数的 <code>[[Environment]]</code> 并不指向当前的词法环境，而是指向全局环境。</p>
 </li>
 </ol>
-<h1 id="暂时性死区"><strong>暂时性死区</strong></h1>
+<blockquote>
+<p>不用 new 操作符而直接调用 new Function效果是一样的，new Function() 最后一个参数为函数体，之前的为函数的形参。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>在函数创建时，JS引擎为了知道函数内会用到哪些外部变量的引用，会先进行AST扫描。然后把这些外部用打包成Closure闭包(有几个作用域中的变量被用到了就创建几个Closure，但是Closure里面不一定会包含他作用域里所有的变量，要看哪些被用到了)，加到 函数的 [[scopes]] 属性中，保存到堆中。</strong></p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210425165255467.png" alt="image-20210425165255467" style="zoom:80%;" />
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210425165432886.png" alt="image-20210425165432886" style="zoom:80%;" />
+<p>观察到，若将全局变量用let声明，innerest函数的闭包会多出来一个Script闭包。当用var声明变量时，变量会成为全局window对象的属性，而let不会，是整个脚本这个大的块级作用域的binding(变量声明);</p>
+</li>
+</ol>
+<p>https://zhuanlan.zhihu.com/p/366658450 <strong>此文章最后部分闭包的缺点讲述了闭包造成的内存泄漏的原因，但执行上下文被销毁时，返回的函数会把作用域链[[scope]]过滤出用到的引用形成闭包链放在堆中。</strong></p>
+<h2 id="暂时性死区">暂时性死区</h2>
 <p>当一个词法环境被创建时，最先会在<strong>环境记录</strong>中填充所有变量的声明。(它们处于“未初始化（Uninitialized）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。) 所以在let声明变量a前使用变量，就算能在外部的词法环境中找到同名的a变量的值，它也会报错，因为它找到的是自己内部的还不能被使用的变量a。</p>
-<p>本次学习的的tips：</p>
+<h1 id="内存机制">内存机制</h1>
+<h2 id="基本概念">基本概念</h2>
+<p>JavaScript的执行过程中，主要有三种类型的内存空间，分别是<strong>代码空间、栈空间和堆空间</strong>。</p>
+<ul>
+<li>基本类型：--&gt; <code>栈</code>内存，实际上就是存放执行上下文的执行栈（不包含闭包中的变量）。闭包中的变量并不保存中栈内存中，而是保存在<code>堆内存</code>中，这也就解释了函数之后之后为什么闭包还能引用到函数内的变量。</li>
+<li>引用类型：--&gt; <code>堆</code>内存</li>
+</ul>
+<p><strong>栈</strong>中的数据的回收机制：栈中有一个记录当前执行状态的指针（<strong>EXP</strong>），销毁执行上下文就是根据指针的移动来实现的。当最上层执行上下文执行完毕后，指针下移，虽然现在最上层的执行上下文还在栈内存中，但是已经是无效内存了，再有执行上下文压入栈后，这块无效内存会被直接覆盖。</p>
+<p><strong>堆</strong>中的数据的回收机制：使用到 JavaScript 的**垃圾回收器。**垃圾回收器可以有很多不同的垃圾回收算法。</p>
+<h2 id="垃圾回收算法堆内存">垃圾回收算法（堆内存）</h2>
+<h3 id="引用计数现代浏览器不再使用-老ie使用">引用计数（现代浏览器不再使用 , 老IE使用）</h3>
+<p>引用计数算法定义“内存不再使用”的标准很简单，就是看一个对象是否有指向它的<strong>引用</strong>。如果没有其他对象指向它了，说明该对象已经不再需要了。</p>
+<p>引用计数有一个致命的问题，那就是<strong>循环引用</strong></p>
+<p>如果两个对象相互引用，尽管他们已不再使用，但是垃圾回收器不会进行回收，最终可能会导致内存泄露。</p>
+<pre><code class="language-javascript">var div = document.createElement(&quot;div&quot;);
+div.onclick = function() {
+    console.log(&quot;click&quot;);
+};
+//变量div有事件处理函数的引用，同时事件处理函数也有div的引用，因为div变量可在函数内被访问，所以循环引用就出现了。
+</code></pre>
+<h3 id="标记清除">标记清除</h3>
+<p><strong>标记-清除算法（Mark-Sweep）<strong>将“不再使用的对象”定义为“<strong>垃圾数据（无法到达的对象）</strong>”，能到达的对象称为</strong>活动对象</strong>。即从<strong>根部（在JS中就是全局对象）<strong>出发定时扫描内存中的对象，凡是能从根部到达的对象，<strong>保留</strong>。那些从根部出发无法触及到的对象被标记为</strong>不再使用</strong>，稍后进行回收。</p>
+<p>若在<strong>标记-清除算法</strong>后多一个步骤<strong>整理</strong>，就产生了另外一种算法，<strong>标记-整理算法（Mark-Compact）</strong>。此算法会将标记-清除算法产生大量不连续的内存碎片（碎片过多会导致大对象无法分配到足够的连续内存）进行整理。</p>
+<p>JavaScript 是运行在主线程之上的，一旦执行垃圾回收算法，都需要将正在执行的 JavaScript 脚本暂停下来，待垃圾回收完毕后再恢复脚本执行。我们把这种行为叫做全停顿（Stop-The-World）。</p>
+<p>为了降低老生代的垃圾回收而造成的卡顿，V8 将标记过程分为一个个的子标记过程，同时让垃圾回收标记和 JavaScript 应用逻辑交替进行，直到标记阶段完成，我们把这个算法称为增量标记（Incremental Marking）算法。</p>
+<h2 id="内存泄漏">内存泄漏</h2>
+<p>对于持续运行的服务进程（daemon），必须及时释放不再用到的内存。否则，内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。 对于不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。</p>
+<h3 id="常见的内存泄漏">常见的内存泄漏</h3>
+<p><strong>所以全局作用域中的变量保存对堆中数据的地址引用时，一般不会被垃圾回收机制回收。</strong></p>
+<ul>
+<li>
+<p>闭包使用不当。</p>
+</li>
+<li>
+<p>意外的全局变量。</p>
+</li>
+</ul>
+<p>解决方法：在 JavaScript 文件头部加上 <code>'use strict'</code>，使用严格模式避免意外的全局变量(还可以使this不小心指向<code>window</code>)。</p>
+<ul>
+<li>分离的DOM节点。</li>
+</ul>
+<p>例如：当有变量保存了对DOM节点的引用，而又使用了 remove 等操作让DOM节点 在  DOM 树中移除了，但是由于有变量仍然保存了对DOM节点内存的引用，所以内存不会被回收。</p>
+<p>解决方案：</p>
+<pre><code class="language-html">// 将对 DOM 的引用放入函数中，让它随着执行上下文的销毁而销毁对 内存中DOM节点的引用。
+&lt;div id=&quot;root&quot;&gt;
+    &lt;div class=&quot;child&quot;&gt;我是子元素&lt;/div&gt;
+    &lt;button&gt;移除&lt;/button&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    let btn = document.querySelector('button')
+    btn.addEventListener('click', function() {  
+        let child = document.querySelector('.child')
+        let root = document.querySelector('#root')
+        root.removeChild(child)
+    })
+&lt;/script&gt;
+</code></pre>
+<ul>
+<li>遗忘的定时器。</li>
+</ul>
+<p>例如：也就是闭包所产生的问题，</p>
+<ul>
+<li>addEventListener 产生的内存问题。</li>
+</ul>
+<pre><code class="language-javascript">let oSon = document.getElementsByClassName(&quot;son&quot;);
+// 给三个 son div 添加点击函数
+for (let item of oSon) {
+  // 每次循环都会创建一个新的函数，三个div的事件监听函数是不同的函数
+  function processEvent() {
+    console.log(1);
+  }
+  item.addEventListener(&quot;click&quot;, processEvent, false);
+}
+// 此时进行移除的话 只能移除最后一个 son 的 click 监听器
+for (let item of oSon) {
+  /*do lots of stuff with j*/
+  item.removeEventListener(&quot;click&quot;, processEvent, false);
+}
+</code></pre>
+<p>https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener#memory_issues</p>
+<h1 id="tips">tips：</h1>
 <ol>
 <li>
 <p>函数声明和普通变量let的声明以及var的声明很不一样，在词法环境创建的时候，函数就已经声明且可以使用了，若是var定义的变量，会有变量提升，值为undefined，若是let声明的变量，它们处于“<strong><strong>未初始化（Uninitialized</strong></strong>）”状态。这是一种特殊的内部状态，这意味着引擎知道变量，但是在用 let 声明前，不能引用它。几乎就像变量不存在一样。</p>
@@ -204,10 +286,22 @@ FunctionExectionContext = { // 函数执行上下文
 <p>关于为什么new funtion语法不能闭包的原因。</p>
 </li>
 <li>
+<p>关于在块级作用域中使用函数声明的问题。</p>
+<blockquote>
+<p>ES6 引入了块级作用域，明确允许在块级作用域之中声明函数。ES6 规定，块级作用域之中，函数声明语句的行为类似于<code>let</code>，在块级作用域之外不可引用。</p>
+<p>为了减轻因此产生的不兼容问题，浏览器的实现有自己的行为方式：</p>
+<ul>
+<li>允许在块级作用域内声明函数。</li>
+<li>函数声明类似于<code>var fun = function()</code>，即会提升到全局作用域或函数作用域的头部。</li>
+<li>同时，函数声明还会提升到所在的块级作用域的头部。</li>
+</ul>
+</blockquote>
+</li>
+<li>
 <p>上次关于变量作用域产生了一个疑惑</p>
 </li>
 </ol>
-<pre><code>var a = [];
+<pre><code class="language-javascript">var a = [];
 
 for (let i = 0; i &lt; 10; i++) {
 
@@ -224,7 +318,7 @@ a[6]();
 <p>关于在for循环中使用let初始化的问题，这里使用let初始化循环变量i，是在哪一个作用域中定义的呢？刚开始我觉得是在第一次进入循环时定义在循环体里面，那是这种情况的话最后一次打印的i应该都是同一个i，即最后一次i的值10。但显然不是，后来是阮一峰老师的ES6教程中看到，是这样说的:</p>
 <p>上面代码中，变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，所以最后输出的是6。你可能会问，如果每一轮循环的变量i都是重新声明的，那它怎么知道上一轮循环的值，从而计算出本轮循环的值？这是因为 JavaScript 引擎内部会记住上一轮循环的值，初始化本轮的变量i时，就在上一轮循环的基础上进行计算。</p>
 <p>另外，for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。</p>
-<pre><code>for (let i = 0; i &lt; 3; i++) {
+<pre><code class="language-javascript">for (let i = 0; i &lt; 3; i++) {
 
   let i = 'abc';
 
@@ -234,100 +328,57 @@ a[6]();
 </code></pre>
 <p><strong>输出了 3 次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域。</strong></p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87-%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85">执行上下文、变量作用域与闭包</a>
-<ul>
-<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87">执行上下文</a>
-<ul>
-<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%B1%BB%E5%9E%8B">执行上下文的类型</a></li>
-<li><a href="#%E6%89%A7%E8%A1%8C%E6%A0%88">执行栈</a></li>
-<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E5%88%9B%E5%BB%BA%E9%98%B6%E6%AE%B5">执行上下文的创建阶段</a></li>
-<li><a href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5">执行上下文的执行阶段</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85">变量作用域与闭包</a>
-<ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E5%87%BD%E6%95%B0">创建函数</a></li>
-<li><a href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E">函数声明</a></li>
-<li><a href="#%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BC%95%E7%94%A8"><strong>词法环境之间的引用</strong></a></li>
-<li><a href="#%E5%8F%98%E9%87%8F%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E8%AE%B0%E5%BD%95%E9%83%A8%E5%88%86-%E9%80%82%E7%94%A8%E4%BA%8Ees5-var%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F">变量对象(执行环境中的环境记录部分) 适用于ES5 var声明变量</a></li>
-<li><a href="#%E9%97%AD%E5%8C%85"><strong>闭包</strong></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA"><strong>暂时性死区</strong></a></li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/http/">
+            <a class="purple-link" href="https://null-go.github.io/post/k/">
               <h3 class="post-title">
-                【计网】基于自顶向下
+                下一篇：Markdown语法汇总
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>

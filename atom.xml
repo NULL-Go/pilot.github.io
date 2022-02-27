@@ -2,89 +2,914 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://null-go.github.io</id>
     <title>PILOT</title>
-    <updated>2021-10-25T07:04:48.979Z</updated>
+    <updated>2022-02-27T09:00:35.890Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://null-go.github.io"/>
     <link rel="self" href="https://null-go.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://null-go.github.io/images/avatar.png</logo>
     <icon>https://null-go.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, PILOT</rights>
+    <rights>All rights reserved 2022, PILOT</rights>
     <entry>
-        <title type="html"><![CDATA[【JS】数据类型及转换]]></title>
-        <id>https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/</id>
-        <link href="https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/">
+        <title type="html"><![CDATA[【浏览器】了解 Web Worker、Service Worker 以及 PWA]]></title>
+        <id>https://null-go.github.io/post/liu-lan-qi-liao-jie-web-workerservice-worker-yi-ji-pwa/</id>
+        <link href="https://null-go.github.io/post/liu-lan-qi-liao-jie-web-workerservice-worker-yi-ji-pwa/">
         </link>
-        <updated>2021-07-26T03:16:04.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="相等判断符">相等判断符 == !=</h2>
-<p>操作符先进行<strong>强制类型转换</strong>，再比较是否相等。按以下顺序进行比较：</p>
+        <updated>2022-02-04T08:46:19.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="web-worker">Web Worker</h2>
+<h3 id="为什么会有-web-worker">为什么会有 Web Worker</h3>
+<p>JavaScript 语言采用的是单线程模型，也就是说，所有任务只能在一个线程上完成，一次只能做一件事。前面的任务没做完，后面的任务只能等着。</p>
+<p>Web Worker 的作用，就是为 JavaScript 创造多线程环境，允许主线程创建 Worker  线程，将一些任务分配给后者运行。在主线程运行的同时，Worker 线程在后台运行，两者互不干扰。等到 Worker  线程完成计算任务，再把结果返回给主线程。这样的好处是，一些计算密集型或高延迟的任务，被 Worker 线程负担了，主线程（通常负责 UI  交互）就会很流畅，不会被阻塞或拖慢。</p>
+<h3 id="如何使用web-worker">如何使用Web Worker</h3>
+<p>Web Worker 有以下几个使用注意点。</p>
+<ul>
+<li><strong>同源限制</strong></li>
+</ul>
+<p>分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。</p>
+<ul>
+<li><strong>DOM 限制</strong></li>
+</ul>
+<p>Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用<code>document</code>、<code>window</code>、<code>parent</code>这些对象。但是，Worker 线程可以<code>navigator</code>对象和<code>location</code>对象。</p>
+<ul>
+<li><strong>通信联系</strong></li>
+</ul>
+<p>Worker 线程和主线程不在同一个上下文环境，它们不能直接通信，必须通过消息完成。</p>
+<ul>
+<li><strong>脚本限制</strong></li>
+</ul>
+<p>Worker 线程不能执行<code>alert()</code>方法和<code>confirm()</code>方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求。</p>
+<ul>
+<li><strong>文件限制</strong></li>
+</ul>
+<p>Worker 线程无法读取本地文件，即不能打开本机的文件系统（<code>file://</code>），它所加载的脚本，必须来自网络。</p>
+<p><strong>使用 Web Worker 的基本流程：</strong></p>
 <ol>
-<li>如果两边类型（包括两边同时为 object ）同时相等，直接比较值的大小。</li>
-<li><strong>null</strong>  和  <strong>undefined</strong> 相等，他们其中任意一个与其他类型均不相等。</li>
-<li>有一方存在 <strong>NaN</strong>，则返回 <strong>false</strong>。</li>
-<li>如果两方中没有 <strong>对象</strong>，则将基本数据类型向 Number 类型转换，利用 <strong>Number()</strong> 转型函数。</li>
-<li>如果其中一方是 <strong>对象</strong>，则将<strong>对象向原始值进行转换</strong>（具体看下文）。</li>
+<li>主线程调用 new Worker(&quot;work.js&quot;) 构造函数，传入一个非本地文件的网络文件 URL。</li>
 </ol>
-<h2 id="二元加法运算符">二元加法运算符 +</h2>
-<p>如果两个操作数中有一个数是字符串，则把另外一个也转换成字符串。如果两个都不是字符串，则用 <strong>Number() 函数</strong>来转型。</p>
-<p>如果操作数有对象，则额外考虑对象向原始值的转换。</p>
-<h2 id="对象向原始值的转换">对象向原始值的转换</h2>
-<p>首先，所有的对象在布尔上下文(context)中均为 true。</p>
-<p>对象的<strong>数值转化</strong>发生在对象相减或应用数学函数时（ <strong>hint为 Number</strong>）。</p>
-<pre><code class="language-javascript">// 显示转换
-let num = Number(obj);
-// 数学运算（除了二元加法）
-let n = +obj;
-let delta = date1 - date2; // 内置对象date
-// 小于/大于的比较
-let greter = user1 &gt; user2
+<pre><code class="language-javascript">var worker = new Worker(&quot;work.js&quot;)
 </code></pre>
-<p>对象的<strong>字符串转化</strong>发生alert这样的类似上下文中（ <strong>hint为 String</strong>）。</p>
-<pre><code class="language-javascript">// 输出
-alert(obj);
-// 将对象作为属性键
-anotherObj[obj] = 123;
+<ol start="2">
+<li>利用 postMessage 机制进行线程之间的消息传递。</li>
+</ol>
+<p><strong>主线程 页面：</strong></p>
+<pre><code class="language-javascript">// 主线程通过 worker.postMessage 向 worker线程发送数据
+worker.postMessage(&quot;Hello World&quot;);
+worker.postMessage({ method: &quot;echo&quot;, args: [&quot;Work&quot;]});
+//  主线程通过 worker.onmessage 指定监听worker线程发回来的消息
+worker.onmessage = function (event) {
+    event.data; // 拿到数据
+    // doSomething()
+}
+//  主线程 关闭 worker 线程
+worker.teminate()
 </code></pre>
-<p>对象的转换预期为<strong>不确定</strong>时。（ <strong>hint为 default</strong>）</p>
-<p><strong>所有内建对象都以和 <code>&quot;number&quot;</code> 相同的方式实现 <code>&quot;default&quot;</code> 转换。因此在实践中，最后两个 hint 常常合并在一起</strong></p>
-<pre><code class="language-javascript">// 二元加法使用默认 hint，二元加法 + 既可以用于字符串连接，也可以用于数字相加
-let total = obj1 + obj2;
-// obj == number/string/symbol 也使用默认 hint， 对象进行 == 比较时，转换也不确定，使用默认 default
-if (user == 1) { ... };
+<p><strong>web worker 线程：</strong></p>
+<pre><code class="language-javascript">// self 对象代表子线程本身，即子线程的全局对象
+// self 对象中有很多API供调用
 </code></pre>
-<h3 id="symboltoprimitive">Symbol.toPrimitive</h3>
-<p>Symbol.toPrimitive 是一个内置的 Symbol 值。</p>
-<p>该函数被调用时，会被传递一个字符串参数 <strong>hint</strong> ，<strong>表示要转换到的原始值的预期类型</strong>。</p>
-<pre><code class="language-javascript">var obj2 = {
-  [Symbol.toPrimitive](hint) {
-    if (hint == &quot;number&quot;) {
-      return 10;
-    }
-    if (hint == &quot;string&quot;) {
-      return &quot;hello&quot;;
-    }
-    return true;
-  }
-};
-</code></pre>
-<h3 id="转换调用顺序">转换调用顺序</h3>
+<h2 id="service-worker">Service Worker</h2>
+<p>Service Worker 便是在 Web Worker 的基础上增加了离线缓存的能力。</p>
+<p><strong>可以把Service Worker 理解为一个介于客户端和服务器之间的代理服务器，在Service Worker 中可以做很多事情：比如拦截客户端请求，向服务器发起请求等，其中最主要的作业之一就是离线资源缓存。</strong></p>
+<p><strong>Service Worker 可以拦截处理页面的所有网络请求，可以使用 cache 和 indexDB 的 api，可以让开发者自己主动管理缓存的内容以及版本</strong>，为离线弱网环境下的 web 的运行提供了可能，让 web 在体验上更加贴近 native。</p>
+<p>（PWA -&gt; Progressive Web Apps，渐进式网络应用程序）</p>
+<blockquote>
+<p>使用 SW 的相关依赖：</p>
+<p>HTTPS / Promise / Fetch API(拦截http请求) / Cache API(进行缓存细粒化处理) / Push API(消息推送)</p>
+</blockquote>
+<p><strong>使用 Service Worker 的基本流程</strong></p>
 <ol>
-<li>调用 <code>obj[Symbol.toPrimitive](hint)</code> —— 带有 symbol 键 <code>Symbol.toPrimitive</code>（symbol）的方法，如果这个方法存在的话，</li>
-<li>否则，如果 hint 是 <code>&quot;string&quot;</code> —— 先尝试 <code>obj.toString()</code> 后尝试 <code>obj.valueOf()</code>，无论哪个存在。</li>
-<li>否则，如果 hint 是 <code>&quot;number&quot;</code> 或 <code>&quot;default&quot;</code> —— 先尝试 <code>obj.valueOf()</code> 后尝试 <code>obj.toString()</code>，无论哪个存在。</li>
+<li>检查浏览器是否支持</li>
+<li>注册一个 Service Worker。（一般都是在主页面 load 事件中绑定 注册函数，因为 SW注册后会启动一个新的线程，占用CPU、带宽等一系列资源，我们需要在本页面能正常加载完以后才启动SW线程，不能与正常的页面产生竞争）</li>
+<li>注册完之后，我们监听 <code>install</code> SW 的安装事件，利用 caches 对象对资源进行缓存。</li>
+<li>用 SW 的 self 对象监听 <code>fetch</code> 事件，完善缓存的策略。具体的场景用不同的缓存策略。</li>
+</ol>
+<h3 id="service-worker-的应用场景">Service Worker 的应用场景</h3>
+<ol>
+<li>提前缓存页面做预加载</li>
+</ol>
+<p>可以利用 A 页面开启时的 ServiceWorker 线程去独立下载未来可能会用到的资源，放到缓存中，可以认为未来的页面为高频应用场景。</p>
+<p>假如我们把一个新页面(子应用)的首屏加载的时间简化为：</p>
+<p><strong>资源加载时间 + 渲染时间。假如在工作台缓存了其他页面的 html、js、csc，并且子应用使用了SSR（服务端渲染），某种意义上我们就能达到相等程度上的秒开。</strong></p>
+<ol start="2">
+<li>使用错误页降级</li>
+</ol>
+<p>单某个重要的资源无法从网络下载时，可以返回一个 Error 页面，这个 Error 页面可以是事先缓存好的一个资源。使用 Service Worker 拦截请求，并判断出某个关键资源的网络问题。</p>
+<p>（钉钉工作台有类似的很多可以打开的应用）</p>
+<ol start="3">
+<li>Service Worker 可以对浏览器的缓存。做更加细粒化的处理。</li>
+</ol>
+<p>这意味着我们可以用 SW 控制缓存仅使用 Cache（Cache Only），仅使用网络（Network only），或者说先使用SW的缓存，没有则使用网络资源。又或者说优先使用网络资源，失败则使用缓存（对于时效性要求比较高的资源）。</p>
+<blockquote>
+<p>通过监听 self.addEventListener(&quot;fetch&quot;, event =&gt; { }); 事件对缓存做不同的策略。</p>
+</blockquote>
+<h2 id="pwa">PWA</h2>
+<h3 id="什么是pwa">什么是PWA</h3>
+<p>PWA 全称 <code>Progressive Web Apps</code>，渐进式网络应用程序。</p>
+<p>Web 应用有一种 <strong>平稳退化、渐进增强</strong>的设计理念，就是我们的不同的浏览器或者不同的浏览器版本对于 Web 新标准的跟进是会有不同程度的区别的。那么我们开发者能做的就是<strong>为支持新特性的浏览器提供更加完善的功能和体验。</strong></p>
+<p><strong>PWA 就是让我们的 Web App 有更多 Native App 原生手机应用的优点。</strong></p>
+<p>解决Web App 的缺点：</p>
+<ol>
+<li>没有桌面入口（Manifest）</li>
+<li>无法离线使用（Service Worker）</li>
+<li>没有Push消息推送</li>
+</ol>
+<p>PWA 的 关键技术就是 Service Worker。</p>
+<blockquote>
+<p>https://github.com/ThornWu/blog/issues/1</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【网络】HTTP与浏览器缓存]]></title>
+        <id>https://null-go.github.io/post/wang-luo-http-yu-liu-lan-qi-huan-cun/</id>
+        <link href="https://null-go.github.io/post/wang-luo-http-yu-liu-lan-qi-huan-cun/">
+        </link>
+        <updated>2022-01-28T08:53:47.000Z</updated>
+        <content type="html"><![CDATA[<p>缓存是什么：缓存是一种保存资源副本并在下次请求时避免向服务器发起请求而直接使用该副本的技术。</p>
+<p>缓存的好处：1.减少服务器的压力 2. 减少带宽的消耗 3. 提升浏览器的性能</p>
+<ol>
+<li><strong>浏览器缓存</strong>     私有缓存，只能用于单独用户 <strong>包括强缓存和协商缓存：</strong></li>
+</ol>
+<p><strong>浏览器会先判断是否命中强缓存，然后再验证是否命中协商缓存。</strong></p>
+<p>强缓存：浏览器在加载资源时，会先根据本地缓存资源的 <code>header</code> 中的信息判断是否命中强缓存，如果命中则直接使用缓存中的资源不会再向服务器发送请求。具体字段：·HTTP1.0中的 <code>Expires</code> 和HTTP1.1 中<code>Cache-control</code>，后者优先级更高。Expires 是绝对时间，<code>Cache-control</code>中的max-age 是相对时间。</p>
+<p><strong>当强缓存没有命中的时候，浏览器会发送一个请求到服务器，请求头中的某些字段用来协商缓存，这些字段的值来自上一次响应的header中，服务器根据请求头中的字段来判断是否命中缓存。如果命中，则返回 <code>304 Not Modified</code> ，响应体中不会有新的资源，告诉浏览器资源未更新，可使用本地的缓存。</strong></p>
+<p>协商缓存：<code>Last-Modified</code> 和 <code>If-Modified-Since</code>，Last-Modified 表示资源最后修改的时间，其中存在一个缺陷，它的修改时间是秒级，比如如果一个文件在一秒内修改多次，那么它在这一秒内新版本和旧版本无法区分，它们的<code>Last-Modified</code>值都是一样的。再比如，一个文件定期修改，但有时会是同样的内容，实际上没有修改，但是<code>Last-Modified</code>的值会发生改变，原本内容没有变的文件通过<code>Last-Modified</code> 的修改对外是已变的。为了解决 <code>Last-Modified</code>的缺陷，另外一个字段叫<code>ETag</code>，对应请求头部中的 <code>If-no-match</code>字段，它可以精确的表示资源改变，保证资源的唯一性。</p>
+<p><strong>Last-Modified - If-Modified-Since         ETag - If-No-Match</strong></p>
+<p><code>Last-Modified</code> 和 <code>Etag</code> 是可以同时设置的，服务器会优先校验 <code>Etag</code>，如果 <code>Etag</code> 相等就会继续比对 <code>Last-Modified</code>，最后才会决定是否返回 304 Not Modified。</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210922215634052.png" alt="image-20210922215634052" loading="lazy"></figure>
+<p>四种缓存存放于本地的位置：Service Worker -&gt; Memory Cache -&gt; Disk Cache -&gt; Push Cache;</p>
+<p>Service Worker：Service Worker 并非专门为缓存而设计，**它本质上就是一个全新的 JavaScript 线程，这个线程运行在于 主JavaScript线程 不同的上下文。**Service Worker 可以用来进行大量复杂的运算，这样就不会影响到主线程。</p>
+<p>from memory cache代表使用内存中的缓存，from disk cache则代表使用的是硬盘中的缓存，浏览器读取缓存的顺序为memory –&gt; disk。</p>
+<ol start="2">
+<li><strong>代理缓存</strong>  公有缓存，缓存可以为多个客户端使用，用来做缓存机制的代理，称为缓存代理</li>
+</ol>
+<p>对于源服务器来说，它也是有缓存的，但对于 HTTP 缓存来说，如果每次客户端缓存失效都要到源服务器获取，那给源服务器的压力是很大的。</p>
+<p>由此引入了<strong>缓存代理</strong>的机制。让代理服务器接管一部分的服务端HTTP缓存，客户端缓存过期后<strong>就近</strong>到代理缓存中获取，代理缓存过期了才请求源服务器，这样流量巨大的时候能明显降低源服务器的压力。</p>
+<p>总的来说，缓存代理的控制分为两部分，一部分是<strong>源服务器</strong>端的控制，一部分是<strong>客户端</strong>的控制。</p>
+<p><strong>源服务器端的控制</strong>：private和public，proxy-revalidate，s-maxage</p>
+<p>**客户端的控制：**max-stale，min-fresh，only-if-cached</p>
+<p><strong>Cache-Control 的取值：</strong></p>
+<p>no-store：不允许进行缓存。(这种策略相当于浏览器会每次请求都和第一次一样，不会去使用缓存机制)</p>
+<p>no-cache：可以进行缓存，强缓存不能直接用，是否使用缓存还需要验证是否击中协商缓存，是否有最新版本。</p>
+<p>must-revalidate：如果缓存不过期可以继续使用，过期了必须去<strong>源</strong>服务器验证。</p>
+<p>max-age：缓存保质期（相对时间秒）。</p>
+<p>public：资源客户端和服务器都可以缓存。</p>
+<p>privite：资源只有客户端可以缓存。</p>
+<p><strong>其中有以下会影响到代理服务器上的缓存机制的字段：</strong></p>
+<p>private 和 public：区分客户端和代理上的缓存，分别指缓存是否只能在客户端缓存或者能在代理服务器上缓存供多个客户端使用。</p>
+<p>proxy-revalidate：对应 must-revalidate，该字段表明只需到代理服务器上验证缓存是否过期，不必回源。</p>
+<p>s-maxage：对应 max-age，表示缓存在代理服务器上的过期时间(share-maxage)。</p>
+<p>no-transform：仅针对代理服务器，表示让代理服务器对缓存不做任何处理，比如不允许代理将图片生成多种格式进行优化。</p>
+<p>关于max-stale和min-fresh字段，它们属于请求头字段，表明对缓存代理资源的**宽容和限制。**max-stale宽容缓存可以过期x秒，min-fresh限制缓存必须在过期前x秒取得。</p>
+<p>only-if-cached：客户端仅接受代理缓存，而不会接受源服务器的响应。如果代理缓存无效，则直接返回<code>504（Gateway Timeout）</code></p>
+<blockquote>
+<p>强制刷新 (Ctrl + F5)：浏览器不使用缓存，因此发送的请求头部均带有 Cache-control:no-cache(为了兼容，还带了 Pragma:no-cache),服务器直接返回 200 和最新内容。</p>
+</blockquote>
+<blockquote>
+<p>如何解决后端代码更新上线，但是因为浏览器使用缓存的原因，前端页面没有发生更改。</p>
+<ol>
+<li>文件名加版本号：config-1.0.0.js，config-2.0.0.js</li>
+<li>配置 cache-control: no-cache 每次都走协商缓存查看是否有最新版本</li>
+<li>在接口请求处做拦截，让后端提供一个获取最新版本号的接口，如果如本地缓存的版本号不同，则强制刷新页面请求最新数据。</li>
+</ol>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【JS】前端异步解决方案迭代]]></title>
+        <id>https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/</id>
+        <link href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/">
+        </link>
+        <updated>2021-10-13T09:31:06.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="异步解决方案">异步解决方案</h1>
+<p><strong>JS异步编程进化史：callback =》 promise =》generator =》async+await</strong></p>
+<h2 id="回调函数时代">回调函数时代</h2>
+<pre><code class="language-javascript">// 回调地狱
+function delayExecute(str, callback = null) {
+  setTimeout(() =&gt; {
+    console.log(str);
+    callback &amp;&amp; callback();
+  }, 1000);
+}
+delayExecute(&quot;first execute&quot;, () =&gt; {
+  delayExecute(&quot;seconde execution&quot;, () =&gt; {
+    delayExecute(&quot;third execution&quot;);
+  });
+});
+</code></pre>
+<p>**优缺点：**优点是简单、容易理解和实现，缺点是不利于代码的维护，各个部分之间高度耦合，使得程序结构混乱、产生回调地狱、流程难以追踪。</p>
+<h2 id="事件监听事件发布订阅">事件监听（事件发布/订阅）</h2>
+<h2 id="promise-期约对象出现">Promise 期约对象出现</h2>
+<h3 id="特点">特点</h3>
+<ol>
+<li>状态不受外界影响。<code>Promise</code>对象代表一个异步操作，有三种状态：<code>pending</code>（进行中）、<code>fulfilled</code>(很多时候称为<code>resolved</code>)（已成功）和<code>rejected</code>（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。</li>
+<li>一旦状态改变，就不会再变，任何时候都可以得到这个结果。<code>Promise</code>对象的状态改变，只有两种可能：从<code>pending</code>变为<code>fulfilled</code>和从<code>pending</code>变为<code>rejected</code>。只要这两种情况其中一种发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 resolved（已定型）。(抛出错误同样能改变状态为rejected)</li>
+<li>一旦新建就立即执行，无法中途取消。</li>
+</ol>
+<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
+  // executor code 
+  // 这里的代码会立即执行
+  /*
+  if() {
+  resolve();
+  }
+  else {
+  reject();
+  }
+  进行一些异步操作
+  */
+});
+</code></pre>
+<ol start="4">
+<li><code>resolve/reject</code> 函数只需要一个参数（或不包含任何参数），并且将忽略额外的参数。并且在resolve，reject后面的同步代码会执行，return 才会时 executor 函数停止。</li>
+<li><strong>throw</strong> 抛出任何东西相当于 <code>reject()</code>，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。</li>
 </ol>
 <blockquote>
-<p>toString() 和 valueOf() 是两个上古方法，这两个方法在对象进行转换时返回值必须是一个原始值，如果返回了一个对象，则返回值会被忽略。不会出现error(远古时期没有很好的error概念)。</p>
-<p><code>Symbol.toPrimitive</code> <strong>必须</strong> 返回一个原始值，否则就会出现 error。</p>
+<p>如果状态改变已经发生了，再对<code>Promise</code>对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
 </blockquote>
-<p>在实践中，为了便于进行日志记录或调试，对于所有能够返回一种“可读性好”的对象的表达形式的转换，只实现以 <code>obj.toString()</code> 作为全能转换的方法就够了。</p>
-<h3 id="内置函数的-valueof-方法和-tostring-方法">内置函数的 valueOf 方法和 toString 方法</h3>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1627269435039.png" alt="" loading="lazy"></figure>
-<p>null 和 undefined 不能用点 . 操作符调用 toString 方法，它们没有此方法。</p>
-<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1627269448417.png" alt="" loading="lazy"></figure>
-<pre><code class="language-javascript">var obj = {};
-console.log(obj == &quot;[object Object]&quot;); // true
+<h3 id="基本用法">基本用法</h3>
+<p><code>Promise</code>对象是一个构造函数，用来生成<code>Promise</code>实例。</p>
+<p><code>Promise</code>构造函数接受一个函数作为参数，该函数的两个参数分别是<code>resolve</code>和<code>reject</code>。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。<code>resolve</code>函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>fulfilled</code>,reject函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>rejected</code></p>
+<h3 id="链式调用及错误处理">[链式调用]及[错误处理]</h3>
+<h4 id="then-thenonfulfilledonrejected">.then then(onFulfilled,onRejected)</h4>
+<p>**.then 方法：**接受两个回调函数(均可选)，第一个回调函数在状态变为<code>fulfilled</code>时调用，第二个回调函数在状态变为<code>rejected</code>时调用。也可以只传入一个函数。</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210407220550670.png" alt="image-20210407220550670" loading="lazy"></figure>
+<p><strong>.then：</strong> 特别注意这个新的<code>Promise</code>对象将以回调的返回值来 <code>resolve</code>自己，无论是onFulfilled回调函数还是onRejected回调函数（ 相当于调用了 <code>Promise.resolve()</code> 方法，<code>Promise.resolve()</code>对Promise对象具有幂等性，具体看下面的API介绍，这里虽然行为像是 <code>Promise.resolve</code>方法，但是返回的并不是同一个Promise，和实际上的<code>Promise.resolve</code>不一样）( <strong>代码一</strong>，所以此时的then会立即执行 )。若返回一个新Promise对象，相当于把默认的行为取消掉了， .then 方法返回一个<strong>等价的Promise</strong>，如下图( <strong>代码二</strong>，此时的then会等到返回的promise对象状态改变时执行。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210426193506089.png" alt="image-20210426193506089" style="zoom:80%;" />
+<pre><code class="language-javascript">new Promise((resolve) =&gt; {
+  resolve(1);
+})
+  .then((result) =&gt; {
+    console.log(result); //输出 1
+    return result * 2; //.then 创建的promise对象默认return 即 resolve 了;
+  })
+  .then((result) =&gt; {
+    console.log(result); // 输出 2
+    return result * 2;
+  });
 </code></pre>
+<p>我们可以在 <code>.then</code> 中显示的创建一个新的<code>Promise</code> 对象并 <code>return</code></p>
+<pre><code class="language-javascript">new Promise((resolve) =&gt; {
+  resolve(1);
+})
+  .then((result) =&gt; {
+    console.log(result); //输出 1
+    return new Promise((resolve) =&gt; {
+      setTimeout(() =&gt; {
+        resolve(result * 2);
+      }, 1000);
+    }); // 改造成显示的 return 一个新的promise 对象
+  })
+  .then((result) =&gt; {
+    console.log(result); // 输出 2 有一秒的延迟
+    return result * 2;
+  });
+</code></pre>
+<p>为什么 .then 函数 onRejced 回调函数中返回值仍然使用 <code>Promise.resolve()</code> 来返回呢？原因： .then 处理程序 onRejced 回调函数的目的就是捕获异步错误，因此，不抛出异常是符合期约的行为，应该返回一个解决的期约。</p>
+<p><strong>当.then() 函数不传参：</strong></p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210809171906854.png" alt="image-20210809171906854" loading="lazy"></figure>
+<p>.then 可以绑定多个回调函数，按照绑定顺序依次执行。</p>
+<h4 id="catch-catchonrejected">.catch catch(onRejected)</h4>
+<p><code>.catch</code>的行为等价于 .then(null,onRejected)。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210408211116447.png" alt="image-20210408211116447" style="zoom:80%;" />
+<p>使用 <code>throw</code>语法抛出<code>Error</code>错误，catch 可以接收到。throw 抛出的错误会一直向链后冒泡，直到<code>.then</code>中的第二个函数捕获或catch方法捕获。</p>
+<pre><code class="language-javascript">// 抛出错误
+new Promise((resolve,reject)=&gt;{
+  throw new Error('抛出错误');
+  // 等价于
+  reject(new Error('抛出错误'));
+})
+</code></pre>
+<p>当在<strong>Promise</strong>中抛出了错误（或产生了语法错误）却没有被捕获时，JavaScript 引擎会跟踪此类 rejection，在这种情况下会生成一个全局的 error。这个error不会影响外部代码的继续执行。</p>
+<p>看下列问题：</p>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210408220448045.png" alt="image-20210408220448045" loading="lazy"></figure>
+<p>.catch 会被触发吗？不会。<strong>在Promise内同步的代码抛出的错误会被当成 rejected来处理，所有同步的错误可以被catch到</strong>，但现在不是同步的，故catch无法捕获错误( 控制台会打印出错误 )，但是setTimeout中的reject可以被捕获。</p>
+<h4 id="finally-finallyonfinally">.finally finally(onFinally)</h4>
+<p><code>finally()</code>是在promise结束时，无论结果是fulfilled或者是rejected，都会执行指定的回调函数（即<code>onFinally</code>）。</p>
+<p><code>onFlinally</code> 回调函数<strong>不接受任何参数</strong>。它仅用于无论最终结果如何都要执行的情况。这表明，<code>finally</code>里的操作应该是不依赖于<code>Promise</code>状态和执行结果的。</p>
+<p>因为 onFinally 被设计为一个状态无关的方法，所以在大多数情况下它将表现为<strong>父期约的传递</strong>。而不像 .then .catch 方法那样会进行返回值的<code>Promise.resolve</code>包装。</p>
+<pre><code class="language-javascript">Promise.resolve(&quot;1&quot;)
+  .then(res =&gt; {
+    return new Promise(resolve =&gt; {});
+  })
+  .finally(() =&gt; {
+    console.log(&quot;finally&quot;);
+  });
+Promise.resolve(&quot;2&quot;)
+  .finally(() =&gt; {
+    console.log(&quot;finally2&quot;);
+    return &quot;我是finally2返回的值&quot;;
+  })
+  .then(res =&gt; {
+    console.log(&quot;finally2后面的then函数&quot;, res);
+  });
+</code></pre>
+<h4 id="关于-then-方法的一个疑难问题解决">关于 then 方法的一个疑难问题解决</h4>
+<p><strong>变量 innerPromise 是 then 方法的返回值吗：答是的。在一次进入函数时，then 方法就已经执行了，注册了 then 的回调函数，innerPromise 就是 then 回调函数的返回值。</strong></p>
+<pre><code class="language-javascript">let innerPromise;
+function getAThenPromise() {
+  innerPromise = new Promise(resolve =&gt; {
+    setTimeout(() =&gt; {
+      console.log(&quot;宏1&quot;);
+      resolve(&quot;value&quot;);
+    }, 2000);
+  }).then(() =&gt; {
+    console.log(&quot;微1&quot;);
+    return new Promise(resolve =&gt; {
+      setTimeout(() =&gt; {
+        console.log(&quot;宏2&quot;);
+        resolve(&quot;value3&quot;);
+      });
+    });
+  });
+  return innerPromise;
+}
+let outerPromise = getAThenPromise();
+console.log(outerPromise); // 观察值，开始是 pending，后面变成 fulfilled。
+outerPromise.then(value =&gt; {
+  console.log(&quot;微2&quot;);
+  console.log(value);
+});
+console.log(innerPromise === outerPromise);
+</code></pre>
+<pre><code class="language-javascript">// true
+// 宏1
+// 微1
+// 宏2
+// 微2
+// value3
+</code></pre>
+<ul>
+<li>在还没结束时点开 <code>innerPromise</code>:</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211129113604364.png" alt="image-20211129113604364" loading="lazy"></figure>
+<p>之后全部输出完了这个值还固定着，</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211129113631116.png" alt="image-20211129113631116" loading="lazy"></figure>
+<ul>
+<li>在输出完之后再点开 innerPromise</li>
+</ul>
+<figure data-type="image" tabindex="6"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211129113708112.png" alt="image-20211129113708112" loading="lazy"></figure>
+<h3 id="常见api">常见API</h3>
+<h4 id="promiseall">Promise.all()</h4>
+<p>参数：可迭代的Promise对象(通常传递数组)</p>
+<p>返回值：一个新的Promise对象</p>
+<ul>
+<li>
+<p>返回值的Promise对象：<code>resolve</code>回调执行是在所有输入的promise的resolve回调都结束，返回值是传入的Promise参数数组全部resolve的值组成的数组;<code>reject</code>回调执行是，只要任何一个输入的promise的reject回调执行或者输入不合法的promise就会立即抛出错误，并且reject的是第一个抛出的错误信息。</p>
+</li>
+<li>
+<p>结果数组中元素的顺序与其在源 promise 中的顺序相同。即使第一个 promise 花费了最长的时间才 resolve，但它仍是结果数组中的第一个。</p>
+</li>
+<li>
+<p>如果传入的可迭代对象为空，<code>Promise.all</code> 会同步地返回一个已完成（resolved）状态的<code>promise</code>。</p>
+</li>
+<li>
+<p>如果参数中包含非 <code>promise</code> 值，这些值将被忽略，但仍然会被放在返回数组中（如果 <code>promise</code> 完成的话）</p>
+</li>
+</ul>
+<h4 id="promiserace">Promise.race()</h4>
+<p>与 <code>Promise.all</code> 类似，但只等待第一个 settled（resolved或rejected） 的 promise 并获取其结果（或 error）。</p>
+<h4 id="promiseresolvevalue-rejectvalue">Promise.resolve(value) / reject(value)</h4>
+<ul>
+<li>对于<code>Promise.resolve()</code>，如果value是定值，结果返回用 <code>value</code> 创建的一个 resolved 的 promise。如同：</li>
+</ul>
+<pre><code class="language-javascript">Promise.resolve(value);
+let promise = new Promise(resolve =&gt; resolve(value));
+</code></pre>
+<p>这个方法能够包装<strong>任何非期约值</strong>，包括错误对象，并将其转换为解决的期约值，因此，也可能导致不符合预期的行为：</p>
+<pre><code class="language-javascript">let p = Promise.resolve(new Error('foo')); 
+setTimeout(console.log, 0, p); 
+// Promise &lt;resolved&gt;: Error: foo
+</code></pre>
+<p>对于<code>Promise.resolve()</code>逻辑而言，它是<code>幂等</code>逻辑，如果value是一个Promise，它将返回这个Promise。如果这个值是 <strong>thenable</strong>（即带有then方法），返回的promise会“跟随”这个<strong>thenable</strong>的对象，采用它的最终状态。</p>
+<pre><code class="language-javascript">let thenable = {
+  then: function(resolve, reject) {
+    resolve(42);
+  }
+};
+
+let p1 = Promise.resolve(thenable);
+p1.then(function (value) {
+  console.log(value);  // 42
+});
+</code></pre>
+<p>多余的参数将被忽略。</p>
+<ul>
+<li>
+<p>对于 <code>Promise.reject()</code>与 <code>Promise.resolve()</code>类似，Promise.reject()会实例化一个拒绝的期约并抛出一个异步错误。（这个错误不能通过 try/catch 捕获，而只能通过拒绝处理程序捕获）。</p>
+<p>但是对于 <code>Promise.reject()</code>逻辑而言，它不是幂等逻辑，如果value是一个Promise，它不会返回这个Promise，而是将这个Promise作为它rejected的理由（也就是reject函数的参数）。</p>
+</li>
+</ul>
+<h3 id="promise-包装器-promisify">Promise 包装器 Promisify</h3>
+<p>将 callBack 语法的 API 改成 Promise 语法。</p>
+<pre><code class="language-javascript">// 原来 callBack 语法的API
+function loadScript(src, callback) {
+  let script = document.createElement('script');
+  script.src = src;
+
+  script.onload = () =&gt; callback(null, script);
+  script.onerror = () =&gt; callback(new Error(`Script load error for ${src}`));
+
+  document.head.append(script);
+}
+// 用法：
+// loadScript('path/script.js', (err, script) =&gt; {...})
+</code></pre>
+<pre><code class="language-javascript">// 传入需要 Promise 化函数的 originalFun
+// originalFun 第一个参数为自定义参数，第二个参数是回调函数
+// originalFun 函数中的 回调函数第一个参数是错误信息
+function Promisify(originalFun) {
+  // 返回一个包装函数（wrapper-function),此函数不用传递第二个参数：回调函数
+  return function (...args) {
+    return new Promise((resolve, reject) =&gt; {
+      // 自定义回调函数，传入 originalFun
+      function callBack(err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+      // 将自定义的 callBack 附加到参数末尾
+      args.push(callBack);
+      // 调用原始函数
+      originalFun.call(this, ...args);
+    });
+  };
+}
+</code></pre>
+<h3 id="微任务-microtask">微任务 Microtask</h3>
+<pre><code class="language-javascript">let p = Promise.resolve(3);
+p.then((res) =&gt; {
+  console.log(res);
+});
+console.log(&quot;code finished&quot;);
+// 先输出 code finished 后输出3
+</code></pre>
+<p><strong>异步任务需要适当的管理。为此，ECMA 标准规定了一个内部队列 <code>PromiseJobs</code>，通常被称为“微任务队列（microtask queue）”（ES8 术语）。</strong></p>
+<ul>
+<li>队列是先进先出的，首先进入队列的任务会先被执行。</li>
+<li>只有在JavaScript引擎没有其他任务运行时，微任务队列中的任务才会被执行。</li>
+</ul>
+<h2 id="generator-function-和-生成器对象">Generator function 和 生成器对象</h2>
+<p><strong>Generator函数是ES6提供的一种异步编程解决方案，语法行为和传统函数不同，最大的特点即是可以控制函数的执行。（Generator函数底层利用协程来控制函数的执行流程，【浏览器】浏览器工作原理与实践.md 详解）</strong></p>
+<h3 id="generator函数生成器函数-function">Generator函数(生成器函数)  function*</h3>
+<p>Generator 函数与常规函数的行为不同。在此类函数被调用时，它<strong>不会运行其代码</strong>。而是返回一个被称为''<strong>generator object</strong>''的特殊对象，来管理执行流程。</p>
+<p><strong>生成器函数：生成器函数是一个状态机，封装了多个内部状态，执行生成器函数可以产生<code>生成器对象</code>的函数。生成器对象符合可迭代协议和迭代器协议，他们是可迭代的。</strong></p>
+<pre><code class="language-javascript">function* generateSequence() {
+  yield 1;
+  yield 2;
+  return 3;
+}
+// &quot;generator function&quot; 创建了一个 &quot;generator object&quot;
+let generator = generateSequence();
+alert(generator); // [object Generator]
+</code></pre>
+<h4 id="next-方法">next() 方法</h4>
+<p>当 <code>next()</code> 被调用时，Generator函数运行到第一个 <strong>yield</strong> 结束之前。返回一个对象，该对象有两个属性：</p>
+<ul>
+<li>
+<p><code>value</code>属性即 yield 后跟的值(没有值默认为undefined)。</p>
+</li>
+<li>
+<p><code>done</code>属性即 <code>generator</code> 函数是否执行完。</p>
+</li>
+</ul>
+<p>当 generator 函数执行到 return 语句时，函数结束(没有return 默认最后return undefined，这与普通函数一致)。</p>
+<blockquote>
+<p>return 后的值也是一个对象，与yield类似，value属性为return的值，done属性为true。</p>
+<p>如果我们在 return 后再次调用 next() 方法，同样返回最后一次return 的结果。</p>
+</blockquote>
+<h3 id="generator-是可迭代的">Generator 是可迭代的</h3>
+<p>因为 Generator 对象是可迭代的，所有它可以使用所有可迭代对象的通用方法。</p>
+<ol>
+<li>使用 for of 遍历 Generator  对象</li>
+</ol>
+<p><code>done: true</code> 时，<code>for..of</code> 循环会忽略最后一个 <code>value</code>。因此，如果我们想要通过 <code>for..of</code> 循环显示的结果，我们必须使用 <code>yield</code> 返回它们。</p>
+<ol start="2">
+<li>使用 <code>...spread</code> 语法</li>
+</ol>
+<p>同样会忽略 <code>done:true</code>的值。</p>
+<h4 id="generator-和-iterator-的比较">Generator 和 iterator 的比较:</h4>
+<p><strong>iterator：</strong></p>
+<pre><code class="language-javascript">let range = {
+  from: 1,
+  to: 5,
+  // for..of range 在一开始就调用一次这个方法 生成迭代器对象 iterator object
+  [Symbol.iterator]() {
+    // ...它返回 iterator object：
+    // 后续的操作中，for..of 将只针对这个对象，并使用 next() 向它请求下一个值
+    return {
+      current: this.from,
+      last: this.to,
+      // for..of 循环在每次迭代时都会调用 next()
+      next() {
+        // 它应该以对象 {done:.., value :...} 的形式返回值
+        if (this.current &lt;= this.last) {
+          return { value: this.current++, done: false };
+        } else {
+          return { value: this.current, done: true };
+        }
+      },
+    };
+  },
+};
+for (item of range) {
+  console.log(item); // 输出 1 2 3 4 5
+}
+console.log([...range]); // 输出 [1,2,3,4,5]
+</code></pre>
+<p><strong>Generator：</strong></p>
+<pre><code class="language-javascript">let range = {
+  from: 1,
+  to: 5,
+  // 调用该方法直接返回了一个 迭代器对象 iterator Object
+  *[Symbol.iterator]() {
+    for (; this.from &lt;= this.to; this.from++) yield this.from; //yield相当于next()
+  },
+};
+for (item of range) {
+  console.log(item); // 输出 1 2 3 4 5
+}
+console.log([...range]); // 输出 [] 空数组 因为循环不会执行，又没有除return undefined以外的返回值了
+</code></pre>
+<p>因为 <code>[Symbol.iterator]</code> 方法现在 带 * 号，直接返回了一个迭代器对象 (</p>
+<ul>
+<li>它具有 <code>.next()</code> 方法 （Generator对象本身，隐式的）</li>
+<li>next 方法有 <code>{value: ..., done: true/false}</code> 形式的返回值 （yield关键字实现的）</li>
+</ul>
+<p>)</p>
+<h3 id="generator-组合">Generator 组合</h3>
+<p>Generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。</p>
+<p>通过 yield* 实现：</p>
+<pre><code class="language-javascript">function* aGeneratorMake(start, end) {
+  for (let i = start; i &lt;= end; i++) {
+    yield i;
+  }
+}
+function* bGeneratorMake() {
+  yield* aGeneratorMake(1, 3);
+  yield* aGeneratorMake(4, 5);
+}
+let result = [];
+for (item of bGeneratorMake()) {
+  result.push(item);
+}
+console.log(result); // [1,2,3,4,5]
+</code></pre>
+<p><code>yield*</code> 指令将执行 <strong>委托</strong> 给另一个 generator。这个术语意味着 <code>yield* gen</code> 在 generator <code>gen</code> 上进行迭代，并将其产出（yield）的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。</p>
+<p>Generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。<br>
+<code>yiled*</code> 后面还能跟其他可迭代对象：</p>
+<pre><code class="language-javascript">function* gen() {
+  yield* [1, 2, 3];
+}
+function* gen2() {
+  yield* &quot;GOD&quot;;
+}
+for (let item of gen()) {
+  console.log(item); //1 2 3
+}
+for (let item of gen2()) {
+  console.log(item); //GOD
+}
+</code></pre>
+<h3 id="yield-是条双向路"><code>yield</code> 是条双向路</h3>
+<p><code>yield</code>不仅可以将值传递到<code>generator</code>外面，还能从<code>generator</code>外面将值传入到里面。</p>
+<p>调用 generator.next(arg);</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210413093734515.png" alt="image-20210413093734515" style="zoom: 67%;" />
+<p>**即：**当调用的是<code>next(arg)</code>,next包含参数，除第一次会忽略外，<code>arg</code>参数将会成为当前停止的yield的返回值。</p>
+<h3 id="异步可迭代对象">异步可迭代对象</h3>
+<p>改造可迭代对象：</p>
+<ol>
+<li>使用 <code>Symbol.asyncIterator</code> 取代 <code>Symbol.iterator</code>。</li>
+<li><code>next()</code> 方法应该返回一个 <code>promise</code>（带有下一个值，并且状态为 <code>fulfilled</code>）。
+<ul>
+<li>关键字 <code>async</code> 可以实现这一点，我们可以简单地使用 <code>async next()</code>。</li>
+<li>tip:<strong>因为我们必须保证next方法返回的是一个Promise，若不用 <code>async next()</code>而直接用单纯的<code>next()</code>,我们必须显式的返回一个Promise对象,<code>async</code>隐式的返回了一个Promise(fulfilled)</strong></li>
+</ul>
+</li>
+<li>我们应该使用 <code>for await (let item of iterable)</code> 循环来迭代这样的对象。
+<ul>
+<li>注意关键字 <code>await</code>。</li>
+<li>tip:<strong><code>await</code>是因为在next方法中返回的Promise，await可以得到Promise的值</strong></li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-javascript">let obj = {
+  first: 1,
+  last: 5,
+  // 将 Symbol.iterator 方法改为 Symbol.asyncIterator 方法
+  [Symbol.asyncIterator]() {
+    return {
+      fir: this.first,
+      lat: this.last,
+      async next() {   // next 方法改为 async next
+        await new Promise((resolve, reject) =&gt; {  // 可以在next方法中使用await了
+          setTimeout(resolve, 1000);
+        });
+        if (this.fir &lt;= this.lat) {
+          return {
+            value: this.fir++,
+            done: false,
+          };
+        } else {
+          return {
+            value: this.fir++,
+            done: true,
+          };
+        }
+      },
+    };
+  },
+};
+(async () =&gt; { // 创建一个async函数
+  for await (const iterator of obj) { // await类型的 for of 循环可以使用了
+    console.log(iterator);
+  }
+})();
+
+// next 不加 async 关键词
+next() {
+  if (this.fir &lt;= this.lat) {
+    return new Promise((resolve) =&gt; {
+      resolve({
+        value: this.fir++,
+        done: false,
+      });
+    });
+  } else {
+    return new Promise((resolve) =&gt; {
+      resolve({
+        value: this.fir++,
+        done: true,
+      });
+    });
+  }
+}
+</code></pre>
+<p>当使用<code>for of</code>时，它希望找到的是 <code>[Symbol.iterator]</code>方法，当使用 <code>async + for await for</code>时，它希望找到的是<code>[Symbol.asyncIterator]</code>方法。</p>
+<h3 id="异步-generator">异步 Generator</h3>
+<p>在<code>*function</code>前加上<code>async</code>，使生成器函数称为异步生成器函数。</p>
+<pre><code class="language-javascript">async function* generatorMaker() {
+  for (let i = 1; i &lt;= 5; i++) {
+    // 显示的 yield promise
+    yield new Promise((resolve) =&gt; {
+      setTimeout(() =&gt; {
+        resolve(i);
+      }, 1000);
+    });
+    // yield i; 这是隐式的yield Promise，因为async函数的缘故 
+  }
+}
+let gener = generatorMaker();
+// 为了 用await接收 异步生成器函数 yield 回来的 Promise对象，创建了一个匿名的async函数
+(async () =&gt; {
+  let anwser = await gener.next();
+  console.log(anwser); // 输出 {value : 1 ,done : false}
+  for await (let item of gener) console.log(item); // 输出 2 3 4 5  for循环中只会返回 value部分
+})();
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210416151201755.png" alt="image-20210416151201755" loading="lazy"></figure>
+<h2 id="async-await">async | await</h2>
+<p><strong>提供了在不阻塞主线程的情况下使用同步代码实现异步访问资源的能力，并且使得代码逻辑更加清晰，而且还支持 try-catch 来捕获异常，非常符合人的思维。</strong></p>
+<h4 id="async-function">async function</h4>
+<pre><code class="language-javascript">async function f(){
+    return {name:'黄'};
+}
+// &lt;-&gt; 等价于
+function f(){
+    return Promise.resolve({name:'黄'}); 
+}
+// 通过 .then 拿到async函数的返回值
+f().then(result=&gt;{
+    console.log(result); // 输出 {name:'黄'}
+})
+</code></pre>
+<p><strong>async函数一定会返回一个Promise对象，如果一个async函数的返回值看起来不是promise，那么它将会被隐式地包装在一个promise.resolve()，类似于.then() 方法。</strong></p>
+<h4 id="只在async函数内起作用的await">只在async函数内起作用的await</h4>
+<p><code>async</code>/<code>await</code>的目的为了简化使用基于promise的API时所需的语法。</p>
+<p><strong>Promise 虽然解决的回调，充斥着大量的 then 方法，于是出现了 async/await</strong></p>
+<p>await代替我们进行了等待，就像<code>.then</code>和<code>.catch</code>此类方法中传入的回调函数的参数，<code>async</code>/<code>await</code>的行为就好像搭配使用了<strong>生成器和promise</strong>（<code>async/await</code>就像是 <strong>Generator搭配Promise的语法糖（代替了Generator函数的出现，async 函数就是将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await）</strong>）。</p>
+<pre><code class="language-javascript">// await
+let result = await new Promise((resolve,reject)=&gt;{
+     resolve(11); // 直接拿到Promise执行后的结果了 不需要.then 
+})
+</code></pre>
+<figure data-type="image" tabindex="8"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210829150030706.png" alt="image-20210829150030706" loading="lazy"></figure>
+<p><strong>await表达式会暂停整个async函数的执行进程并出让其控制权(交给外部函数)，只有当其等待的基于promise的异步操作被兑现或被拒绝之后才会恢复进程。当await将async函数执行进程暂停时，JavaScript 引擎可以同时处理其他任务：执行其他脚本，处理事件</strong></p>
+<p><strong>await后跟一个promise，该promise的解决值会被当作该await表达式的返回值。后若不是Promise，则用 Promise.resolve() 包装。此外，await 后面的代码相当于放入了 Promise的.then 函数中，因此后面的代码被提交到微任务列表中。</strong></p>
+<pre><code class="language-javascript">async function genpro() {
+  await new Promise(resolve =&gt; {
+    resolve(&quot;yield Promise&quot;);
+  });
+  console.log(&quot;await 后面被包裹是微任务&quot;);
+}
+</code></pre>
+<p><strong>如果一个 promise 正常 resolve，<code>await promise</code> 返回的就是其结果。但是如果 promise 被 reject，它将 throw 这个 error，就像在这一行有一个 <code>throw</code> 语句那样。</strong></p>
+<pre><code class="language-javascript">// await 后的Promise被 reject了
+async function f() {
+  await Promise.reject(new Error(&quot;Whoops!&quot;));
+}
+// &lt;-&gt; 等价于 
+async function f(){
+  throw new Error(&quot;Whoops!&quot;)  
+}
+// await 中的Promise抛出了错误
+async function foo() {
+  await new Promise((resolve, reject) =&gt; {
+    resolve(1);
+  });
+  await new Promise((resolve, reject) =&gt; {
+    resolve(2);
+  });
+  await new Promise((resolve, reject) =&gt; {
+    reject(new Error(&quot;错误&quot;));  // &lt;-等价于-&gt; throw new Error(&quot;错误&quot;);
+  });
+}
+foo().then(null, (error) =&gt; {
+  console.log(error);   // 拿到了错误 
+});
+</code></pre>
+<figure data-type="image" tabindex="9"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210410142832659.png" alt="image-20210410142832659" loading="lazy"></figure>
+<p>上述 foo() 调用过程中，第三个<code>await</code>后接的Promise被rejected了，<strong>该async函数隐式返回了一个被rejected的Promise对象</strong>。这说明了在<code>async</code>中多次使用<code>await</code>，若有<code>await</code>后跟的Promise对象抛出了错误或者是rejected了。async函数它将自动捕获异常，<strong>async函数执行中断</strong>，并通过隐式返回rejected Promise将错误传递给出去。</p>
+<blockquote>
+<p>关于 await 后面的代码运行顺序的考量：</p>
+<p>https://juejin.cn/post/6844903988584775693#heading-1；</p>
+<p>https://www.zhihu.com/question/268007969</p>
+<p>根据 TC39 最近决议，await将直接使用Promise.resolve() 相同语义</p>
+</blockquote>
+<figure data-type="image" tabindex="10"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210810095834695.png" alt="image-20210810095834695" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【工程化】浅学 Webpack]]></title>
+        <id>https://null-go.github.io/post/gong-cheng-hua-qian-xue-webpack/</id>
+        <link href="https://null-go.github.io/post/gong-cheng-hua-qian-xue-webpack/">
+        </link>
+        <updated>2021-10-12T08:51:28.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="初识webpack">初识webpack</h1>
+<p><strong>webpack的核心定义：webpack 是 一个模块打包工具(module bundler)。</strong></p>
+<p>ES Moudule，CommonJS，CMD，AMD。</p>
+<p>js模块打包工具 -&gt; 多格式文件打包工具(css，图片，JS等)。</p>
+<p>新建node规范的文件 <code>npm init</code> <code>npm init -y</code></p>
+<p>安装 webpack 可以全局安装也可以局部安装，全局安装 <code>-g</code> 局部安装<code>npm install webpack webpack-cli --save-dev</code></p>
+<p>全局查看 webpack 版本号 <code>npm webpack -v</code></p>
+<p>局部查看 webpack 版本号 <code>npx webpack -v</code></p>
+<p>安装好之后 webpack的打包命令：</p>
+<p>使用全局webpack进行打包的命令 <code>webpack index.js</code>  使用局部wepack打包的命令 <code>npx webpack index.js</code> <code>index.js</code> 为要打包的文件名。</p>
+<p><code>webpack-cli</code> 的作用是使我们可以在命令行里面运行 webpack 命令。</p>
+<p><code>package.json</code> 文件配置项 scripts 方便执行命令项</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211109204301943.png" alt="image-20211109204301943" loading="lazy"></figure>
+<p>执行 npm run serve -&gt;相当于执行了-&gt; npm vue-cli-service serve</p>
+<p><code>node.js</code> 中使用<code>./</code> 和 <code>../</code> 相对路径时为什么会报错？原因是：<code>./</code> 和 <code>../</code>  除了在 require 函数中使用，都是相对于项目的启动的根目录，也就是 <code>node xxx</code> 后面跟着的文件目录。</p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211110084157653.png" alt="image-20211110084157653" loading="lazy"></figure>
+<h1 id="webpack核心概念">webpack核心概念</h1>
+<h2 id="loader">loader</h2>
+<p><strong>loader 是 webpack 的打包方案。</strong></p>
+<p>webpack可以默认打包 <code>js</code> 类型的文件，要想对其他格式的文件进行打包，必须使用<code>webpack loader</code> 选项进行配置。<code>png,jpg</code> 格式可以用 <code>file-loader</code>，<code>.vue</code> 类型的文件用的是 <code>vu-loader</code>。</p>
+<p>图片打包 loader。 <code>file-loader</code> 和 <code>url-loader</code> 都可以对图片格式的文件进行打包，但是原理不同，<code>file-loader</code> 不会改变文件内容，依然会打包成另外一个文件，只是换了一个名字而已。但是<code>url-loader</code> 不会新创建一个新的图片文件，而是将图片改为 base64的格式直接使用，区别在于前者依然在进行http请求，而后者可以不用进行http请求。</p>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211110215739118.png" alt="image-20211110215739118" loading="lazy"></figure>
+<p>在 url-loader 中可以用<code>options</code>属性给一个配置 limit，标识根据图片大小进行不同的打包方式。小于limit用base64编码，大于不用。</p>
+<p>样式打包loader。</p>
+<p><code>npm install style-loader css-loader -D</code>。css-loader是把样式都聚合在一起形成文件，而style-loader是将文件做成 style标签放入head中使样式生效。</p>
+<p>在入口文件中用 import 引入 css 文件。</p>
+<p>loader 的 <code>use</code>是有顺序的(从右到左)，若要打包sass文件。</p>
+<pre><code class="language-javascript">use: ['style-loader', 'css-loader', 'sass-loader']
+</code></pre>
+<p>sass-loader 要放在最右边最先处理完成。</p>
+<p>css3的一些属性往往要进行浏览器适配的前缀，如<code>-webkit-transform</code>等，用于样式前缀自动添加的loader   -&gt; <code>postcss-loader</code>。</p>
+<p>在入口文件 index.js 中 引入 css会造成全局样式污染，可以使用 css-loader 中的 module 参数将样式局部化。</p>
+<p><code>webpack.ProvidePlugin</code>插件，</p>
+<p><code>imports-loader</code> 该 loader 可以解决 Module 中this指向问题，Module直接使用this指向模块，该loader可以改变this的默认指向。<code>loader: 'imports-loader?this=&gt;window'</code></p>
+<h2 id="plugins">plugins</h2>
+<p><strong>plugins 是 webpack打包过程中的某一时刻做一些事情。</strong></p>
+<p><code>htmlWebpackPlugin</code> 这个插件会在打包结束后，自动生成一个html文件，将打包后的js文件放入该html中。插件可以传入一个对象参数，对象有 <code>template</code> 属性可以配置 html文件的模板。</p>
+<p><code>clearWebpackPlugin</code> 是个非官方插件，可以在每次打包前将上一次打包出的某些文件先删除(需要传入参数)，这样就不会造成干扰。</p>
+<p>HMR 热模块更新：</p>
+<p>当没有用HMR 时，代码发生改变，打包会刷新，会重新</p>
+<p>刷新页面重新加载html文档。</p>
+<p>当css文件发生改变，可以使用 HMR 可以在不刷新页面的情况下改变页面样式。<code>css-loader</code>底层帮助我们编写了代码。</p>
+<p>HMR还能在js文件发生变化时使用热模块更新，在某个js模块文件发生变化时，若我们需要重新运行某些方法时，要自己编写代码。</p>
+<pre><code class="language-javascript">import number from './number'; // number模块导入number方法。
+if(module.hot) {
+  module.hot.accept('./number', () =&gt; {
+     // 进行一些清理操作
+     number(); // 重新调用 number方法
+  })
+}
+</code></pre>
+<p>本质上要实现HMR都要写上面类似的代码，只是Vue-loader一些插件帮助我们实现了。</p>
+<p><strong>Babel 代码降级。</strong></p>
+<p><code>MiniCssExtractPlugin</code>：css打包，css打包默认是 css in js 的形式，这个插件可以直接在dist目录下生成一个 css 文件。</p>
+<p><code>WorkboxPlugin:</code> PWA技术(渐进式网络应用程序)的插件。底层使用<code>service worker</code>技术，在http服务器挂掉之后，客户端可以利用缓存加载出页面。</p>
+<h2 id="configuration">Configuration</h2>
+<p>Configuration 是指 <code>webpack.config.js</code> 中的配置项。</p>
+<p>**devtool -&gt; 追踪代码错误：**SourceMap配置项是一个代码映射关系，若干 SourceMap为none的话，代码出错只能在打包后的文件中查看具体在哪。</p>
+<p>**devServer -&gt; 代码更改自动打包工具，ajax代理配置：**webpack's Watch Mode，webpack-dev-server，webpack-dev-middleware</p>
+<p>为什么要使用 <code>webpack-dev-server</code>，<code>webpack-dev-server</code>会自动帮我们开启一个web服务器，加载我们的页面，但我们通过本地<code>file://</code>路径打开一个html页面时，我们是无法进行http请求的，此时的协议名不同，所以但我们需要 进行ajax请求，就必须借助<code>webpack-dev-server</code>帮助我们打开一个web服 务器。<code>localhost:8080</code> 即 <code>http://localhost:8080</code></p>
+<p><code>devServer</code> proxy属性 可以帮devServer起的服务器再起一台代理服务器，转发ajax请求。 仅在开发环境(development)能这样做。</p>
+<p><code>devServer</code> 还可以<strong>解决单页面路由的问题</strong>。<code>devServer</code> 的 <code>historyApiFallback</code> 配置。配置为 true ，意思是若对其他路径下 html 请求时，发现后端没有该html文件，会把该请求转发到根路径，也就实现了单页面应用。 但是这种<code>devServer</code> 实现单页面应用的时候，仅仅只在前端本机开发的时候有作用，因为在部署到后端的时候<code>devServer</code> 并不会起作用，此时就需要后端在服务器上做相关的配置解决单页面路由的问题。</p>
+<p><strong>optimization -&gt; 优化</strong></p>
+<p><code>Tree Shaking</code>：optimization的usedExports属性。用于描述移除JavaScript上下文中未引用的代码。必须依赖与<code>ES Module</code>的规范(即<code>import export</code>)。因为要删除打包后的代码必须要在静态分析的时候进行，CommonJS规范无法做到<code>Tree Shaking</code>。</p>
+<p><code>Tree Shaking</code> 在<code>mode</code> 为 <code>production</code>生产环境中会自动进行，在开发环境中要使用必须配置。</p>
+<p><code>package.json</code> 中的 <code>sideEffects</code> 配置，用于告诉webpack哪些文件未用到的代码是可以安全删除的。</p>
+<p>例如如果导入<code>import '@babel/polly-fill'</code>，@bable/polly-fill的工作原理是在<code>window</code>对象上增加很多ES6才出的属性，例如<code>window.Promise</code>。但是Tree Shaking可能会认为它没有导出任何模块，于是将它的代码全部忽略，这是不行的，所以要配置<code>sideEffects</code>。</p>
+<p><code>Code Splitting</code>：optimization的 splitChunks 属性。代码分割其实不是只有webpack能实现，在没有webpack时也能进行Code Splitting，只是webpack 内置了智能的代码分割。常见的三种代码分割方式：1. 使用 <code>entry</code> 配置手动地分离代码。 2. 使用<code>SplitChunkPlugin</code>去重和分离chunk。 3. 动态导入，通过模块中的内联函数调用来分离代码。(import 动态导入，返回Promise)。使用魔法注释添加 Chunk。</p>
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211126171018229.png" alt="image-20211126171018229" loading="lazy"></figure>
+<p>webpack 默认只对 异步Chunk 做 splitting。为什么webpack会这样做呢？</p>
+<blockquote>
+<p>假设现在有进行交互的代码：需要点击某个按钮，做一些事情，如果我们按照常规思路同步的写代码，在main.js 文件中挂载 click 事件。此时第一次加载时，会下载该代码，但是需要click点击时才会触发此事件，这样就产生了一个问题：这个代码可能不会触发，下载的代码也就没有下载下来的意义了，把它下载下来会造成页面的性能问题。webpack 建议这样写：在挂载完click 事件后，再异步加载 ( 动态 import ) 模块做一些事情。这样，只有在点击后，才会<strong>下载此代码进行执行</strong>。（代码使用率后者比前者的写法更高）</p>
+<p>这也就是为什么webpack默认只对异步代码做 splitting的原因。对同步代码进行 splitting，代码在页面首加载的时候，还是会下载，只有异步下载的资源，splitting 出来才更有意义。（同步的代码进行splitting实际上只进行了一层缓存）</p>
+</blockquote>
+<blockquote>
+<p>但是，如果是只有再进行交互的时候才下载执行某些Chunk，用户的交互体验可能会变差。（例如，用户点击右上角的登录，弹出登录框，但是这些代码是异步加载的，只有在点击登录后才进行下载执行），这样会影响用户第一次点击登录框的用户体验。于是webpack提供的<strong>异步Chunk的 prefetch 和 preload。</strong></p>
+</blockquote>
+<p><strong>异步 import Chunk 的 prefetch 和 preload能提高页面的性能。（利用浏览器的缓存，在网络空闲时下载Chunk，下一次需要时直接使用缓存）</strong></p>
+<p>在使用动态import加载Chunk时，</p>
+<p><code>Lazy Loading</code>：懒加载也不是webpack独有的概念，实际上是ECAM规范 动态 import 的概念。（就是上一章splitting 的 prefetch 和 preload 的使用）。</p>
+<p><strong>前端性能的优化不应该放在浏览器的缓存上面，而是放在 代码的利用率上面。</strong>(Chrome浏览器 More Tools 选择 Coverage，即代码覆盖率-利用率)</p>
+<p><strong>mode -&gt; 指定代码开发环境还是生成环境</strong></p>
+<p>开发环境和生成环境一般的区别：HMR模块热更新(依赖webpack-dev-server)，devTool 的SourceMap，代码的是否被压缩等等。</p>
+<p>可以利用<code>webpack-merge</code> 编写一个 <code>webpack.common.js</code> 做<code>dev</code>和 <code>prod</code> 的共有配置。然后结合到 <code>webpack.dev.js</code></p>
+<h2 id="webpack-性能优化">webpack 性能优化</h2>
+<p><code>提升webpack打包速度的方法</code>：</p>
+<ol>
+<li>
+<p>跟上技术的迭代（Node，Npm，Yarn）</p>
+</li>
+<li>
+<p>在尽可能少的模块上应用Loader（配置文件中有 include 和 exclude语法）</p>
+</li>
+<li>
+<p>Plugin 尽可能精简且确保可靠、性能高</p>
+</li>
+<li>
+<p>合理的配置<code>resolve</code> 配置项，过多会导致性能问题</p>
+</li>
+</ol>
+<p><code>webpack configuration</code>有一个配置项 <code>resolve</code>。</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211128152526543.png" alt="image-20211128152526543" loading="lazy"></figure>
+<p><code>extensions</code> 表示我们在引入一个文件时(import .. from &quot;test&quot;)没有填写文件后缀，如<code>js</code> <code>jsx</code>，webpack默认的查找顺序。</p>
+<figure data-type="image" tabindex="6"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211128153237814.png" alt="image-20211128153237814" loading="lazy"></figure>
+<p><code>mainFiles</code>表示我们在引入一个文件夹目录时，没有指定具体文件，该配置项可以帮我们默认选择文件，这就是为什么默认会先引入名字为 index 的文件的原因。</p>
+<p><code>alias</code>表示文件的别名，可以书写更加方便的引入文件。</p>
+<ol start="5">
+<li>使用 <code>DllPlugin</code>插件 提高打包速度</li>
+</ol>
+<p>由于第三方模块一般不更改。使用该插件可以使第三方模块只打包一次。在第一次打包完第三方模块的时候，将打包后的文件放入一个新的文件夹中，之后的打包都使用第一次打包出来的模块，而不去重新打包第三方模块。</p>
+<ol start="6">
+<li>控制包文件大小</li>
+</ol>
+<p><code>TreeShaking</code> 可以减少包的大小。<code>splitting chunks</code> 拆分包。</p>
+<ol start="7">
+<li><code>thread-loader, parallel-webpack,happypack</code>多进程打包。</li>
+<li>合理使用 <code>sourceMap</code></li>
+</ol>
+<p><code>sourceMap</code> 越详细，打包速度越慢。</p>
+<ol start="9">
+<li>结合 stats 分析打包结果</li>
+<li>开发环境内存编译</li>
+</ol>
+<p><code>webpack-dev-server</code> 不会把编译后的内容放入 <code>dist</code>文件下，而是放入内存中，内存的读取 &lt; 硬盘的读取。这样webpack性能会提高</p>
+<ol start="11">
+<li>开发环境无用插件剔除</li>
+</ol>
+<h1 id="questions">Questions</h1>
+<h2 id="关于-js-模块化的发展过程">关于 JS 模块化的发展过程</h2>
+<blockquote>
+<p>【JS】模块.md</p>
+</blockquote>
+<h2 id="如何编写一个-loader">如何编写一个 Loader</h2>
+<p><code>Loader</code> 就是一个函数(不能是箭头函数，需要用到修改this指向)。</p>
+<pre><code class="language-javascript">// 与 dist src 同级的目录下，创建 loaders文件夹
+// Loaders 文件下创建 replaceLoader.js 编写该 Loader
+// replaceLoader.js:
+module.exports = function(source) {
+  // source 是源代码
+  // 对 source 进行编写 
+  return ...;
+}
+</code></pre>
+<p>函数中的 <code>this.query</code> 可以拿到配置项中配置的参数(具体来说是 options对象)。</p>
+<p>常用的 API：callback，async。</p>
+<p>Loader 常用于 对业务代码进行一些包装：1. 对业务代码进行异常监控，源代码里的函数需要进行 try catch，使用loader。 2. 网站国际化，通过对 全局变量的获取，判断是中文还是英文，对源代码中的 变量进行相应的替换。</p>
+<h2 id="如何编写一个-plugin">如何编写一个 Plugin</h2>
+<p><strong>Plugin 基于发布订阅模式，事件驱动。</strong></p>
+<p><strong>插件要定义成一个类class。</strong></p>
+<pre><code class="language-javascript">// 与 dist src 同级的目录下，创建 plugins文件夹
+// plugins 文件下创建 copyRight-webpack-plugin.js 编写该 plugin
+class CopyrightWebpackPlugin {
+  constructor(options) {
+      
+  }
+  apply(compiler) {
+    // compiler 是 webpack 的实例，存放 webpack 实例上的很多内容
+    // compiler.hooks 定义了 webpack 打包过程的某一时刻，利用这些钩子我们可以做一些事情。要注意钩子的异步和同步区别
+  }
+}
+</code></pre>
+<p>可以利用 node 执行 webpack，然后 debugger 调试 plugin。</p>
+<h2 id="编写一个自己的-bundler">编写一个自己的 Bundler</h2>
 ]]></content>
     </entry>
     <entry>
@@ -285,42 +1110,75 @@ console.log(&quot;脚本还未结束&quot;);
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[【JS】事件循环]]></title>
+        <title type="html"><![CDATA[【浏览器】事件循环机制]]></title>
         <id>https://null-go.github.io/post/js-shi-jian-xun-huan/</id>
         <link href="https://null-go.github.io/post/js-shi-jian-xun-huan/">
         </link>
         <updated>2021-05-01T03:33:09.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="事件循环">事件循环</h1>
-<p><strong>JavaScript语言是一门单线程语言，所有的异步任务都是用同步来模拟的。事件循环 Event Loop是JavaScript的执行机制。</strong></p>
+        <content type="html"><![CDATA[<h2 id="消息队列">消息队列</h2>
+<p>渲染进程中维持了一个消息队列，渲染主线程会循环地从消息队列头部读取任务，执行任务。IO 线程中产生的新任务添加进消息队列尾部，同时，渲染进程中的IO线程专门用来接收其他进程传过来的消息组装成任务放入消息队列中。</p>
+<p>通常我们把消息队列中的任务称为<strong>宏任务</strong>，每个宏任务中都<strong>包含</strong>了一个<strong>微任务</strong>队列（微任务的执行时长会影响当前宏任务的时长）。</p>
+<figure data-type="image" tabindex="1"><img src="https://static001.geekbang.org/resource/image/e2/c6/e2582e980632fd2df5043f81a11461c6.png" alt="img" loading="lazy"></figure>
+<blockquote>
+<p>IPC Interprocesses communication 即进程中相互通讯的机制</p>
+</blockquote>
+<h3 id="为什么要引入微任务">为什么要引入微任务</h3>
+<p>引入微任务的初衷是为了解决异步回调问题。对于异步回调的处理，不外乎有两种操作：</p>
+<ol>
+<li>将异步回调当做宏任务进行入队操作</li>
+<li>将异步回调放到当前宏任务的末尾（微任务）</li>
+</ol>
+<p>如果采用第一种，若当前任务队列比较长，那么回调的<strong>实时性</strong>就不强了。故采用了第二种方式。</p>
+<h2 id="事件循环">事件循环</h2>
+<p><strong>JavaScript语言是一门单线程语言，所有的异步任务都是用同步来模拟的。事件循环 Event Loop 是JavaScript的执行机制。</strong></p>
+<p><strong>虽然JS是单线程的但是浏览器的内核是多线程的，在浏览器的内核中不同的异步操作由不同的浏览器线程模块调度执行，异步操作会将相关回调添加到任务队列中。</strong></p>
 <p>同步任务是指：在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。</p>
 <p>异步任务指的是，不进入主线程、而进入<strong>任务队列</strong>的任务，只有<strong>任务队列</strong>通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。异步任务分为<strong>微任务</strong>和<strong>宏任务</strong>。</p>
-<img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1" alt="img" style="zoom: 50%;" />
-<p><strong>微任务</strong>和<strong>宏任务</strong>是两个不同的 <strong>Event Queue</strong></p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210820162209106.png" alt="image-20210820162209106" loading="lazy"></figure>
+<p><strong>每个宏任务</strong>在其中都定义了一个<strong>微任务</strong>队列，当该宏任务结束时，会查看其中的微任务队列，若微任务队列中有任务，则依次取出来执行，执行完毕后在宏任务队列中取出下一个宏任务执行。</p>
 <p>Event Table：比如 setTimeout(fn,3000); 将 setTimeout函数扔进 Event Table，3秒后为其注册回调函数 fn 并放进Event Queue中。</p>
-<img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdcea13361a1ec?imageView2/0/w/1280/h/960/ignore-error/1" alt="img" style="zoom:50%;" />
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210820162224027.png" alt="image-20210820162224027" loading="lazy"></figure>
+<p>https://github.com/aooy/blog/issues/5</p>
+<p>《从event loop规范探究javaScript异步及浏览器更新渲染时机》</p>
+<p>https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF</p>
+<p>《并发模型与事件循环 MDN》</p>
+<p>事件循环机制是为了协调事件，用户交互，脚本，渲染，网络等等这些与网页相关的一系列内容。JavaScript执行线程（也就是渲染进程主线程）开始运行的时候，产生堆（heap），执行上下文栈（stack），和消息队列。堆是存放对象内存的地方，执行上下文栈是函数调用形成了一个由若干帧组成的栈。代码中可以分成很多的任务，有<strong>同步任务和异步任务</strong>，同步任务直接放入主线程中执行，而当代码调用各种API时而产生异步任务时，如setTimeout函数，DOM操作触发了事件处理程序、进行了网络请求并得到响应等等任务时，它们会在&quot;宏任务队列&quot;（也就是之前提到的消息队列）后按时间顺序依次放入这些任务（click，load，done），并在之后的出队顺序中秉承队列的<strong>先进先出</strong>机制。若遇到Promise.then、MutationObserver此种回调函数而产生的异步任务，则会放入微任务队列中，当同步代码全部执行完成，此时执行上下文栈为空时，主线程就会去读取现存微任务队列中的所有微任务，将所有微任务依次放入主线程执行之后，执行一些<strong>必要的渲染和绘制操作</strong>，再从宏任务队列中移出最前的任务，并作为输入参数来调用与之关联的回调函数，push进入执行栈中执行。然后等待执行栈为空时，反复以上过程。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210911162957569.png" alt="image-20210911162957569" style="zoom:80%;" />
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210911170129764.png" alt="image-20210911170129764" loading="lazy"></figure>
 <h2 id="微任务与宏任务">微任务与宏任务</h2>
 <p>事件循环的概念：一个在 JavaScript 引擎<strong>等待任务</strong>，<strong>执行任务</strong>和<strong>进入休眠状态等待更多任务</strong>这几个状态之间转换的无限循环。</p>
 <p>事件循环负责<strong>收集事件</strong>（包括用户事件以及其他非用户事件等）、<strong>对任务进行排队</strong>以便在合适的时候执行回调。然后它<strong>执行</strong>所有处于等待中的 <strong>一个JavaScript 任务（宏任务）</strong>，然后是<strong>所有微任务</strong>，然后执行一些<strong>必要的渲染和绘制操作</strong>。直到本次循环宏任务队列中的任务全部出队，一次循环结束。</p>
 <p><strong>任务示例：</strong></p>
-<ol>
-<li>当外部脚本 <code>&lt;script src=&quot;...&quot;&gt;</code> 加载完成时，任务就是执行它(第一个script标签是第一个宏任务)。</li>
-<li>当用户移动鼠标时，任务就是派生出 <code>mousemove</code> 事件和执行处理程序。<strong>事件</strong></li>
-<li>当安排的（scheduled）<code>setTimeout</code> 时间到达时，任务就是执行其回调。<strong><code>setTimeout</code>和<code>setInterval</code>函数</strong></li>
-<li>......诸如此类</li>
-</ol>
+<ul>
+<li>
+<p>渲染事件（如解析 DOM、计算布局、绘制）；</p>
+</li>
+<li>
+<p>用户交互事件（如鼠标点击click、鼠标移动mousemove、滚动页面、放大缩小等）；</p>
+</li>
+<li>
+<p>JavaScript 脚本执行事件（当外部脚本 <code>&lt;script src=&quot;...&quot;&gt;</code> 加载完成时，任务就是执行它，第一个script标签是第一个宏任务）；</p>
+</li>
+<li>
+<p>JavaScript 定时器（setTimeout。setIntervbal函数）；</p>
+</li>
+<li>
+<p>网络请求完成（XMLHttpRequest的onreadystatechange事件绑定的回调函数）、文件读写完成事件。</p>
+</li>
+</ul>
 <p>多个任务组成了一个队列，即所谓的<strong>宏任务队列</strong>。</p>
 <p>队列中的任务基于<strong>先进先出的</strong>原则执行。</p>
 <blockquote>
 <p>引擎执行任务时永远不会进行渲染（render）。如果任务执行需要很长一段时间也没关系。仅在任务完成后才会绘制对 DOM 的更改。(我们的函数可能会创建很多元素，将它们一个接一个地插入到文档中，并更改其样式 —— 访问者不会看到任何未完成的“中间态”内容)</p>
 <p>如果一项任务执行花费的时间过长，浏览器将无法执行其他任务，例如处理用户事件。因此，在一定时间后，浏览器会抛出一个如“页面未响应”之类的警报，建议你终止这个任务。这种情况常发生在有大量复杂的计算或导致死循环的程序错误时。</p>
 </blockquote>
-<p>**微任务实例：**原生Promise , process.nextTick , MutationObserver , Promise.resolve(11).then 后面的回调函数也丢进微任务队列</p>
+<p>**微任务实例：**原生Promise , process.nextTick , <strong>MutationObserver</strong> , Promise.resolve(11).then 后面的回调函数也丢进微任务队列</p>
 <p>宏任务队列和微任务队列的<strong>区别</strong>很简单，但却很重要：</p>
 <ul>
 <li>当执行来自任务队列中的任务时，在每一次新的事件循环开始迭代的时候运行时都会执行队列中的每个任务。在每次迭代开始之后加入到队列中的任务需要<strong>在下一次迭代开始之后才会被执行</strong>.</li>
 <li>每次当一个任务退出且执行上下文为空的时候，微任务队列中的每一个微任务会依次被执行。不同的是它会等到微任务队列为空才会停止执行——即使中途有微任务加入。换句话说，微任务可以添加新的微任务到队列中，并在下一个任务开始执行之前且当前事件循环结束之前执行完所有的微任务。</li>
 </ul>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1622278085050.png" alt="" loading="lazy"></figure>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210417204815996.png" alt="image-20210417204815996" style="zoom:80%;" />
 <pre><code class="language-javascript">let promise = Promise.resolve(&quot;微任务&quot;);
 setTimeout(() =&gt; {
   console.log(&quot;宏任务&quot;); // 宏任务。
@@ -376,491 +1234,89 @@ setTimeout(function () {
 // timeout2_then
 // 6 6 6 6
 </code></pre>
-<pre><code class="language-javascript">
-</code></pre>
+<h2 id="微任务-mutationobserver">微任务 MutationObserver</h2>
+<p><strong>历史洪流</strong>，在 2000年时引入了 Mutation Event ， Mutation Event 采用了观察者的设计模式，当 DOM 有变动时就会立刻触发相应的事件，这种方式属于同步回调。采用 Mutation Event  解决了实时性的问题，因为 DOM 一旦发生变化，就会立即调用 JavaScript 接口。但也正是这种实时性造成了严重的性能问题，因为每次  DOM 变动，渲染引擎都会去调用 JavaScript，这样会产生较大的性能开销。比如利用 JavaScript 动态创建或动态修改 50  个节点内容，就会触发 50 次回调，而且每个回调函数都需要一定的执行时间，这里我们假设每次回调的执行时间是 4 毫秒，那么 50  次回调的执行时间就是 200 毫秒，若此时浏览器正在执行一个动画效果，由于 Mutation Event 触发回调事件，就会导致动画的卡顿。</p>
+<p>为了解决了 Mutation Event  由于同步调用 JavaScript 而造成的性能问题，从 DOM4 开始，推荐使用 MutationObserver 来代替 Mutation  Event。MutationObserver API 可以用来监视 DOM 的变化，包括属性的变化、节点的增减、内容的变化等。</p>
+<p>我们通过<strong>异步调用</strong>和减少触发次数来缓解了性能问题，那么如何保持消息通知的及时性呢？ --&gt; <strong>微任务</strong></p>
+<p>语法：https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220210151111455.png" alt="image-20220210151111455" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[【JS】异步解决方案(Promise Generator)]]></title>
-        <id>https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/</id>
-        <link href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/">
+        <title type="html"><![CDATA[【JS】数据类型及转换]]></title>
+        <id>https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/</id>
+        <link href="https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/">
         </link>
-        <updated>2021-04-16T09:31:06.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="异步解决方案">异步解决方案</h1>
-<h2 id="promise-对象">Promise 对象</h2>
-<h3 id="特点">特点</h3>
+        <updated>2021-04-16T03:16:04.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="相等判断符">相等判断符 == !=</h2>
+<p>操作符先进行<strong>强制类型转换</strong>，再比较是否相等。按以下顺序进行比较：</p>
 <ol>
-<li>状态不受外界影响。<code>Promise</code>对象代表一个异步操作，有三种状态：<code>pending</code>（进行中）、<code>fulfilled</code>(很多时候称为<code>resolved</code>)（已成功）和<code>rejected</code>（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。</li>
-<li>一旦状态改变，就不会再变，任何时候都可以得到这个结果。<code>Promise</code>对象的状态改变，只有两种可能：从<code>pending</code>变为<code>fulfilled</code>和从<code>pending</code>变为<code>rejected</code>。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 resolved（已定型）。(抛出错误同样能改变状态为rejected)</li>
-<li>一旦新建就立即执行，无法中途取消。</li>
+<li>如果两边类型（包括两边同时为 object ）同时相等，直接比较值的大小。</li>
+<li><strong>null</strong>  和  <strong>undefined</strong> 相等，他们其中任意一个与其他类型均不相等。</li>
+<li>有一方存在 <strong>NaN</strong>，则返回 <strong>false</strong>。</li>
+<li>如果两方中没有 <strong>对象</strong>，则将基本数据类型向 Number 类型转换，利用 <strong>Number()</strong> 转型函数。</li>
+<li>如果其中一方是 <strong>对象</strong>，则将<strong>对象向原始值进行转换</strong>（具体看下文）。</li>
 </ol>
-<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
-  // executor code 
-  // 这里的代码会立即执行
-  /*
-  if() {
-  resolve();
-  }
-  else {
-  reject();
-  }
-  进行一些异步操作
-  */
-});
+<h2 id="二元加法运算符">二元加法运算符 +</h2>
+<p>如果两个操作数中有一个数是字符串，则把另外一个也转换成字符串。如果两个都不是字符串，则用 <strong>Number() 函数</strong>来转型。</p>
+<p>如果操作数有对象，则额外考虑对象向原始值的转换。</p>
+<h2 id="对象向原始值的转换">对象向原始值的转换</h2>
+<p>首先，所有的对象在布尔上下文(context)中均为 true。</p>
+<p>对象的<strong>数值转化</strong>发生在对象相减或应用数学函数时（ <strong>hint为 Number</strong>）。</p>
+<pre><code class="language-javascript">// 显示转换
+let num = Number(obj);
+// 数学运算（除了二元加法）
+let n = +obj;
+let delta = date1 - date2; // 内置对象date
+// 小于/大于的比较
+let greter = user1 &gt; user2
 </code></pre>
-<ol start="4">
-<li><code>resolve/reject</code> 函数只需要一个参数（或不包含任何参数），并且将忽略额外的参数。</li>
+<p>对象的<strong>字符串转化</strong>发生alert这样的类似上下文中（ <strong>hint为 String</strong>）。</p>
+<pre><code class="language-javascript">// 输出
+alert(obj);
+// 将对象作为属性键
+anotherObj[obj] = 123;
+</code></pre>
+<p>对象的转换预期为<strong>不确定</strong>时。（ <strong>hint为 default</strong>）</p>
+<p><strong>所有内建对象都以和 <code>&quot;number&quot;</code> 相同的方式实现 <code>&quot;default&quot;</code> 转换。因此在实践中，最后两个 hint 常常合并在一起</strong></p>
+<pre><code class="language-javascript">// 二元加法使用默认 hint，二元加法 + 既可以用于字符串连接，也可以用于数字相加
+let total = obj1 + obj2;
+// obj == number/string/symbol 也使用默认 hint， 对象进行 == 比较时，转换也不确定，使用默认 default
+if (user == 1) { ... };
+</code></pre>
+<h3 id="symboltoprimitive">Symbol.toPrimitive</h3>
+<p>Symbol.toPrimitive 是一个内置的 Symbol 值。</p>
+<p>该函数被调用时，会被传递一个字符串参数 <strong>hint</strong> ，<strong>表示要转换到的原始值的预期类型</strong>。</p>
+<pre><code class="language-javascript">var obj2 = {
+  [Symbol.toPrimitive](hint) {
+    if (hint == &quot;number&quot;) {
+      return 10;
+    }
+    if (hint == &quot;string&quot;) {
+      return &quot;hello&quot;;
+    }
+    return true;
+  }
+};
+</code></pre>
+<h3 id="转换调用顺序">转换调用顺序</h3>
+<ol>
+<li>调用 <code>obj[Symbol.toPrimitive](hint)</code> —— 带有 symbol 键 <code>Symbol.toPrimitive</code>（symbol）的方法，如果这个方法存在的话，</li>
+<li>否则，如果 hint 是 <code>&quot;string&quot;</code> —— 先尝试 <code>obj.toString()</code> 后尝试 <code>obj.valueOf()</code>，无论哪个存在。</li>
+<li>否则，如果 hint 是 <code>&quot;number&quot;</code> 或 <code>&quot;default&quot;</code> —— 先尝试 <code>obj.valueOf()</code> 后尝试 <code>obj.toString()</code>，无论哪个存在。</li>
 </ol>
 <blockquote>
-<p>如果状态改变已经发生了，再对<code>Promise</code>对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
+<p>toString() 和 valueOf() 是两个上古方法，这两个方法在对象进行转换时返回值必须是一个原始值，如果返回了一个对象，则返回值会被忽略。不会出现error(远古时期没有很好的error概念)。</p>
+<p><code>Symbol.toPrimitive</code> <strong>必须</strong> 返回一个原始值，否则就会出现 error。</p>
 </blockquote>
-<h3 id="基本用法">基本用法</h3>
-<p><code>Promise</code>对象是一个构造函数，用来生成<code>Promise</code>实例。</p>
-<p><code>Promise</code>构造函数接受一个函数作为参数，该函数的两个参数分别是<code>resolve</code>和<code>reject</code>。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。<code>resolve</code>函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>fulfilled</code>,reject函数把<code>Promise</code>对象的状态从<code>pending</code>变为<code>rejected</code></p>
-<h3 id="链式调用及错误处理">[链式调用]及[错误处理]</h3>
-<h4 id="then-thenonfulfilledonrejected">.then then(onFulfilled,onRejected)</h4>
-<p>**.then 方法：**接受两个回调函数(均可选)，第一个回调函数在状态变为<code>fulfilled</code>时调用，第二个回调函数在状态变为<code>rejected</code>时调用。也可以只传入一个函数。<br>
-<img src="https://null-go.github.io/post-images/1618657450279.png" alt="" loading="lazy"><br>
-<strong>.then：</strong> 特别注意这个新的<code>Promise</code>对象将以回调的返回值(该值不是新创建的Promise)来 <code>resolve</code>自己( <strong>代码一</strong>，所以此时的then会立即执行 )。若返回一个新Promise对象，相当于把默认的行为取消掉了( <strong>代码二</strong>，此时的then会等到返回的promise对象状态改变时执行 )。</p>
-<pre><code class="language-javascript">new Promise((resolve) =&gt; {
-  resolve(1);
-})
-  .then((result) =&gt; {
-    console.log(result); //输出 1
-    return result * 2; //.then 创建的promise对象默认return 即 resolve 了;
-  })
-  .then((result) =&gt; {
-    console.log(result); // 输出 2
-    return result * 2;
-  });
+<p>在实践中，为了便于进行日志记录或调试，对于所有能够返回一种“可读性好”的对象的表达形式的转换，只实现以 <code>obj.toString()</code> 作为全能转换的方法就够了。</p>
+<h3 id="内置函数的-valueof-方法和-tostring-方法">内置函数的 valueOf 方法和 toString 方法</h3>
+<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1627269435039.png" alt="" loading="lazy"></figure>
+<p>null 和 undefined 不能用点 . 操作符调用 toString 方法，它们没有此方法。</p>
+<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1627269448417.png" alt="" loading="lazy"></figure>
+<pre><code class="language-javascript">var obj = {};
+console.log(obj == &quot;[object Object]&quot;); // true
 </code></pre>
-<p>我们可以在 <code>.then</code> 中显示的创建一个新的<code>Promise</code> 对象并 <code>return</code></p>
-<pre><code class="language-javascript">new Promise((resolve) =&gt; {
-  resolve(1);
-})
-  .then((result) =&gt; {
-    console.log(result); //输出 1
-    return new Promise((resolve) =&gt; {
-      setTimeout(() =&gt; {
-        resolve(result * 2);
-      }, 1000);
-    }); // 改造成显示的 return 一个新的promise 对象
-  })
-  .then((result) =&gt; {
-    console.log(result); // 输出 2 有一秒的延迟
-    return result * 2;
-  });
-</code></pre>
-<h4 id="catch-catchonrejected">.catch catch(onRejected)</h4>
-<p><code>.catch</code>的行为等价于 .then(null,onRejected)。</p>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1618657494721.png" alt="" loading="lazy"></figure>
-<p>使用 <code>throw</code>语法抛出<code>Error</code>错误，catch 可以接收到。throw 抛出的错误会一直向链后冒泡，直到<code>.then</code>中的第二个函数捕获或catch方法捕获。</p>
-<pre><code class="language-javascript">// 抛出错误
-new Promise((resolve,reject)=&gt;{
-  throw new Error('抛出错误');
-  // 等价于
-  reject(new Error('抛出错误'));
-})
-</code></pre>
-<p>当在<strong>Promise</strong>中抛出了错误（或产生了语法错误）却没有被捕获时，JavaScript 引擎会跟踪此类 rejection，在这种情况下会生成一个全局的 error。这个error不会影响外部代码的继续执行。</p>
-<p>看下列问题：</p>
-<figure data-type="image" tabindex="2"><img src="https://null-go.github.io/post-images/1618657518552.png" alt="" loading="lazy"></figure>
-<p>.catch 会被触发吗？不会。<strong>在Promise内同步的代码抛出的错误会被当成 rejected来处理，所有同步的错误可以被catch到</strong>，但现在不是同步的，故catch无法捕获错误( 控制台会打印出错误 )。</p>
-<p>// check: 这和事件轮询有关吗</p>
-<h4 id="finally-finallyonfinally">.finally finally(onFinally)</h4>
-<p><code>finally()</code>是在promise结束时，无论结果是fulfilled或者是rejected，都会执行指定的回调函数（即<code>onFinally</code>）。</p>
-<p><code>onFlinally</code> 回调函数不接受任何参数。它仅用于无论最终结果如何都要执行的情况。这表明，<code>finally</code>里的操作应该是不依赖于<code>Promise</code>状态和执行结果的。</p>
-<h3 id="常见api">常见API</h3>
-<h4 id="promiseall">Promise.all()</h4>
-<p>参数：可迭代的Promise对象(通常传递数组)</p>
-<p>返回值：一个新的Promise对象</p>
-<ul>
-<li>
-<p>返回值的Promise对象：<code>resolve</code>回调执行是在所有输入的promise的resolve回调都结束，返回值是传入参数的数组;<code>reject</code>回调执行是，只要任何一个输入的promise的reject回调执行或者输入不合法的promise就会立即抛出错误，并且reject的是第一个抛出的错误信息。</p>
-</li>
-<li>
-<p>结果数组中元素的顺序与其在源 promise 中的顺序相同。即使第一个 promise 花费了最长的时间才 resolve，但它仍是结果数组中的第一个。</p>
-</li>
-<li>
-<p>如果传入的可迭代对象为空，<code>Promise.all</code> 会同步地返回一个已完成（resolved）状态的<code>promise</code>。</p>
-</li>
-<li>
-<p>如果参数中包含非 <code>promise</code> 值，这些值将被忽略，但仍然会被放在返回数组中（如果 <code>promise</code> 完成的话）</p>
-</li>
-</ul>
-<h4 id="promiserace">Promise.race()</h4>
-<p>与 <code>Promise.all</code> 类似，但只等待第一个 settled 的 promise 并获取其结果（或 error）。</p>
-<h4 id="promiseresolve-reject">Promise.resolve() / reject()</h4>
-<p><code>Promise.resolve(value)</code> 用结果 <code>value</code> 创建一个 resolved 的 promise。如同：</p>
-<pre><code class="language-javascript">Promise.resolve(value);
-let promise = new Promise(resolve =&gt; resolve(value));
-</code></pre>
-<h3 id="promise-包装器">Promise 包装器</h3>
-<h3 id="微任务-microtask">微任务 Microtask</h3>
-<pre><code class="language-javascript">let p = Promise.resolve(3);
-p.then((res) =&gt; {
-  console.log(res);
-});
-console.log(&quot;code finished&quot;);
-// 先输出 code finished 后输出3
-</code></pre>
-<p><strong>异步任务需要适当的管理。为此，ECMA 标准规定了一个内部队列 <code>PromiseJobs</code>，通常被称为“微任务队列（microtask queue）”（ES8 术语）。</strong></p>
-<ul>
-<li>队列是先进先出的，首先进入队列的任务会先被执行。</li>
-<li>只有在JavaScript引擎没有其他任务运行时，任务队列中的任务才会被执行。</li>
-</ul>
-<h3 id="async-await">async | await</h3>
-<h4 id="async-function">async function</h4>
-<pre><code class="language-javascript">async function f(){
-    return {name:'黄'};
-}
-// &lt;-&gt; 等价于
-function f(){
-    return Promise.resolve({name:'黄'}); 
-}
-// 通过 .then 拿到async函数的返回值
-f().then(result=&gt;{
-    console.log(result); // 输出 {name:'黄'}
-})
-</code></pre>
-<p><strong>async函数一定会返回一个Promise对象，如果一个async函数的返回值看起来不是promise，那么它将会被隐式地包装在一个promise中。</strong></p>
-<h4 id="只在async函数内起作用的await">只在async函数内起作用的await</h4>
-<p><code>async</code>/<code>await</code>的目的为了简化使用基于promise的API时所需的语法。</p>
-<p>await代替我们进行了等待，就像<code>.then</code>和<code>.catch</code>此类方法中传入的回调函数的参数，<code>async</code>/<code>await</code>的行为就好像搭配使用了生成器和promise。</p>
-<pre><code>.then(result=&gt;{},error=&gt;{})  
-let result = await new Promise((resolve,reject)=&gt;{
-     resolve(11); // 直接拿到Promise执行后的结果了 不需要.then 
-})
-</code></pre>
-<p><strong>await表达式会暂停整个async函数的执行进程并出让其控制权(交给外部函数)，只有当其等待的基于promise的异步操作被兑现或被拒绝之后才会恢复进程。当await将async函数执行进程暂停时，JavaScript 引擎可以同时处理其他任务：执行其他脚本，处理事件</strong></p>
-<p><strong>await后跟一个promise，该promise的解决值会被当作该await表达式的返回值。</strong></p>
-<p><strong>如果一个 promise 正常 resolve，<code>await promise</code> 返回的就是其结果。但是如果 promise 被 reject，它将 throw 这个 error，就像在这一行有一个 <code>throw</code> 语句那样。</strong></p>
-<pre><code class="language-javascript">// await 后的Promise被 reject了
-async function f() {
-  await Promise.reject(new Error(&quot;Whoops!&quot;));
-}
-// &lt;-&gt; 等价于 
-async function f(){
-  throw new Error(&quot;Whoops!&quot;)  
-}
-// await 中的Promise抛出了错误
-async function foo() {
-  await new Promise((resolve, reject) =&gt; {
-    resolve(1);
-  });
-  await new Promise((resolve, reject) =&gt; {
-    resolve(2);
-  });
-  await new Promise((resolve, reject) =&gt; {
-    reject(new Error(&quot;错误&quot;));  // &lt;-等价于-&gt; throw new Error(&quot;错误&quot;);
-  });
-}
-foo().then(null, (error) =&gt; {
-  console.log(error);   // 拿到了错误 
-});
-</code></pre>
-<figure data-type="image" tabindex="3"><img src="https://null-go.github.io/post-images/1618657542313.png" alt="" loading="lazy"></figure>
-<p>上述 foo() 调用过程中，第三个<code>await</code>后接的Promise被rejected了，<strong>该async函数隐式返回了一个被rejected的Promise对象</strong>。这说明了在<code>async</code>中多次使用<code>await</code>，若有<code>await</code>后跟的Promise对象抛出了错误或者是rejected了。async函数它将自动捕获异常，<strong>async函数执行中断</strong>，并通过隐式返回rejected Promise将错误传递给出去。</p>
-<h2 id="generator-function-和-生成器对象">Generator function 和 生成器对象</h2>
-<h3 id="generator函数生成器函数-function">Generator函数(生成器函数)  function*</h3>
-<p>Generator 函数与常规函数的行为不同。在此类函数被调用时，它<strong>不会运行其代码</strong>。而是返回一个被称为''<strong>generator object</strong>''的特殊对象，来管理执行流程。</p>
-<p><strong>生成器函数：即产生<code>生成器对象</code>的函数，生成器对象符合可迭代协议和迭代器协议，他们是可迭代的</strong></p>
-<pre><code class="language-javascript">function* generateSequence() {
-  yield 1;
-  yield 2;
-  return 3;
-}
-// &quot;generator function&quot; 创建了一个 &quot;generator object&quot;
-let generator = generateSequence();
-alert(generator); // [object Generator]
-</code></pre>
-<h4 id="next-方法">next() 方法</h4>
-<p>当 <code>next()</code> 被调用时，Generator函数运行到第一个 <strong>yield</strong> 结束之前。返回一个对象，该对象有两个属性：</p>
-<ul>
-<li>
-<p><code>value</code>属性即 yield 后跟的值(没有值默认为undefined)。</p>
-</li>
-<li>
-<p><code>done</code>属性即 <code>generator</code> 函数是否执行完。</p>
-</li>
-</ul>
-<p>当 generator 函数执行到 return 语句时，函数结束(没有return 默认最后return undefined，这与普通函数一致)。</p>
-<blockquote>
-<p>return 后的值也是一个对象，与yield类似，value属性为return的值，done属性为true。</p>
-<p>如果我们在 return 后再次调用 next() 方法，同样返回最后一次return 的结果。</p>
-</blockquote>
-<h3 id="generator-是可迭代的">Generator 是可迭代的</h3>
-<p>因为 Generator 对象是可迭代的，所有它可以使用所有可迭代对象的通用方法。</p>
-<ol>
-<li>使用 for of 遍历 Generator  对象</li>
-</ol>
-<p><code>done: true</code> 时，<code>for..of</code> 循环会忽略最后一个 <code>value</code>。因此，如果我们想要通过 <code>for..of</code> 循环显示的结果，我们必须使用 <code>yield</code> 返回它们。</p>
-<ol start="2">
-<li>使用 <code>...spread</code> 语法</li>
-</ol>
-<p>同样会忽略 <code>done:true</code>的值。</p>
-<h4 id="generator-和-iterator-的比较">Generator 和 iterator 的比较:</h4>
-<p><strong>iterator：</strong></p>
-<pre><code class="language-javascript">let range = {
-  from: 1,
-  to: 5,
-  // for..of range 在一开始就调用一次这个方法 生成迭代器对象 iterator object
-  [Symbol.iterator]() {
-    // ...它返回 iterator object：
-    // 后续的操作中，for..of 将只针对这个对象，并使用 next() 向它请求下一个值
-    return {
-      current: this.from,
-      last: this.to,
-      // for..of 循环在每次迭代时都会调用 next()
-      next() {
-        // 它应该以对象 {done:.., value :...} 的形式返回值
-        if (this.current &lt;= this.last) {
-          return { value: this.current++, done: false };
-        } else {
-          return { value: this.current, done: true };
-        }
-      },
-    };
-  },
-};
-for (item of range) {
-  console.log(item); // 输出 1 2 3 4 5
-}
-console.log([...range]); // 输出 [1,2,3,4,5]
-</code></pre>
-<p><strong>Generator：</strong></p>
-<pre><code class="language-javascript">let range = {
-  from: 1,
-  to: 5,
-  // 调用该方法直接返回了一个 迭代器对象 iterator Object
-  *[Symbol.iterator]() {
-    for (; this.from &lt;= this.to; this.from++) yield this.from; //yield相当于next()
-  },
-};
-for (item of range) {
-  console.log(item); // 输出 1 2 3 4 5
-}
-console.log([...range]); // 输出 [] 空数组 因为循环不会执行，又没有除return undefined以外的返回值了
-</code></pre>
-<p>因为 <code>[Symbol.iterator]</code> 方法现在 带 * 号，直接返回了一个迭代器对象 (</p>
-<ul>
-<li>它具有 <code>.next()</code> 方法 （Generator对象本身，隐式的）</li>
-<li>next 方法有 <code>{value: ..., done: true/false}</code> 形式的返回值 （yield关键字实现的）</li>
-</ul>
-<p>)</p>
-<h3 id="generator-组合">Generator 组合</h3>
-<p>Generator 组合（composition）是 generator 的一个特殊功能，它允许透明地（transparently）将 generator 彼此“嵌入（embed）”到一起。</p>
-<p>通过 yield* 实现：</p>
-<pre><code class="language-javascript">function* aGeneratorMake(start, end) {
-  for (let i = start; i &lt;= end; i++) {
-    yield i;
-  }
-}
-function* bGeneratorMake() {
-  yield* aGeneratorMake(1, 3);
-  yield* aGeneratorMake(4, 5);
-}
-let result = [];
-for (item of bGeneratorMake()) {
-  result.push(item);
-}
-console.log(result); // [1,2,3,4,5]
-</code></pre>
-<p><code>yield*</code> 指令将执行 <strong>委托</strong> 给另一个 generator。这个术语意味着 <code>yield* gen</code> 在 generator <code>gen</code> 上进行迭代，并将其产出（yield）的值透明地（transparently）转发到外部。就好像这些值就是由外部的 generator yield 的一样。</p>
-<p>Generator 组合（composition）是将一个 generator 流插入到另一个 generator 流的自然的方式。它不需要使用额外的内存来存储中间结果。</p>
-<h3 id="yield-是条双向路"><code>yield</code> 是条双向路</h3>
-<p><code>yield</code>不仅可以将值传递到<code>generator</code>外面，还能从<code>generator</code>外面将值传入到里面。</p>
-<p>调用 generator.next(arg);</p>
-<figure data-type="image" tabindex="4"><img src="https://null-go.github.io/post-images/1618657594069.png" alt="" loading="lazy"></figure>
-<p>**即：**当调用的是<code>next(arg)</code>,next包含参数，除第一次会忽略外，<code>arg</code>参数将会成为当前停止的yield的返回值。</p>
-<h3 id="异步可迭代对象">异步可迭代对象</h3>
-<p>改造可迭代对象：</p>
-<ol>
-<li>使用 <code>Symbol.asyncIterator</code> 取代 <code>Symbol.iterator</code>。</li>
-<li><code>next()</code> 方法应该返回一个 <code>promise</code>（带有下一个值，并且状态为 <code>fulfilled</code>）。
-<ul>
-<li>关键字 <code>async</code> 可以实现这一点，我们可以简单地使用 <code>async next()</code>。</li>
-<li>tip:<strong>因为我们必须保证next方法返回的是一个Promise，若不用 <code>async next()</code>而直接用单纯的<code>next()</code>,我们必须显式的返回一个Promise对象,<code>async</code>隐式的返回了一个Promise(fulfilled)</strong></li>
-</ul>
-</li>
-<li>我们应该使用 <code>for await (let item of iterable)</code> 循环来迭代这样的对象。
-<ul>
-<li>注意关键字 <code>await</code>。</li>
-<li>tip:<strong><code>await</code>是因为在next方法中返回的Promise，await可以得到Promise的值</strong></li>
-</ul>
-</li>
-</ol>
-<pre><code class="language-javascript">let obj = {
-  first: 1,
-  last: 5,
-  // 将 Symbol.iterator 方法改为 Symbol.asyncIterator 方法
-  [Symbol.asyncIterator]() {
-    return {
-      fir: this.first,
-      lat: this.last,
-      async next() {   // next 方法改为 async next
-        await new Promise((resolve, reject) =&gt; {  // 可以在next方法中使用await了
-          setTimeout(resolve, 1000);
-        });
-        if (this.fir &lt;= this.lat) {
-          return {
-            value: this.fir++,
-            done: false,
-          };
-        } else {
-          return {
-            value: this.fir++,
-            done: true,
-          };
-        }
-      },
-    };
-  },
-};
-(async () =&gt; { // 创建一个async函数
-  for await (const iterator of obj) { // await类型的 for of 循环可以使用了
-    console.log(iterator);
-  }
-})();
-
-// next 不加 async 关键词
-next() {
-  if (this.fir &lt;= this.lat) {
-    return new Promise((resolve) =&gt; {
-      resolve({
-        value: this.fir++,
-        done: false,
-      });
-    });
-  } else {
-    return new Promise((resolve) =&gt; {
-      resolve({
-        value: this.fir++,
-        done: true,
-      });
-    });
-  }
-}
-</code></pre>
-<p>当使用<code>for of</code>时，它希望找到的是 <code>[Symbol.iterator]</code>方法，当使用 <code>async + for await for</code>时，它希望找到的是<code>[Symbol.asyncIterator]</code>方法。</p>
-<h3 id="异步-generator">异步 Generator</h3>
-<p>在<code>*function</code>前加上<code>async</code>，使生成器函数称为异步生成器函数。</p>
-<pre><code class="language-javascript">async function* generatorMaker() {
-  for (let i = 1; i &lt;= 5; i++) {
-    // 显示的 yield promise
-    yield new Promise((resolve) =&gt; {
-      setTimeout(() =&gt; {
-        resolve(i);
-      }, 1000);
-    });
-    // yield i; 这是隐式的yield Promise，因为async函数的缘故 
-  }
-}
-let gener = generatorMaker();
-// 为了 用await接收 异步生成器函数 yield 回来的 Promise对象，创建了一个匿名的async函数
-(async () =&gt; {
-  let anwser = await gener.next();
-  console.log(anwser); // 输出 {value : 1 ,done : false}
-  for await (let item of gener) console.log(item); // 输出 2 3 4 5  for循环中只会返回 value部分
-})();
-</code></pre>
-<figure data-type="image" tabindex="5"><img src="https://null-go.github.io/post-images/1618657611806.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【CSS3】基础]]></title>
-        <id>https://null-go.github.io/post/css3-ji-chu/</id>
-        <link href="https://null-go.github.io/post/css3-ji-chu/">
-        </link>
-        <updated>2021-03-25T11:32:43.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="border-radius">border-radius</h1>
-<p>单位：可以是 em rem vw等相对单位，还可以是百分比，相当于宽高。<br>
-多值：4个 左上角开始顺时针 3个 左上-&gt;对角线-&gt;右下 2个 左上右下-&gt;右上左下<br>
-拆分复合属性：左上 border-top/bottom-left/right-radius</p>
-<h1 id="box-shadow">box-shadow</h1>
-<p>语法：box-shadow: h-shadow v-shadow blur/模糊距离 spread/阴影大小 color inset;<br>
-blur：意思是从外到里经过多远变得不模糊<br>
-spread：阴影会向四周扩大的大小<br>
-inset：当设置为inset属性时，阴影变为内侧阴影</p>
-<pre><code>{
-    box-shadow:20px 20px 20px 0px red inset
-}
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1616678037534.png" alt="" loading="lazy"></figure>
-<h1 id="border-image">border-image</h1>
-<p>没看懂暂时</p>
-<h1 id="background-属性">background-*属性</h1>
-<p>语法：<br>
-background:bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;</p>
-<h2 id="background-img">background-img</h2>
-<p>语法：background-img:url(&quot;&quot;);</p>
-<h2 id="background-repeat">background-repeat</h2>
-<p>设置背景图片的平铺 默认值repeat x,y轴平铺，repeat-x repeat-y no-repeat</p>
-<h2 id="background-clip-背景裁剪显示的区域">background-clip 背景裁剪显示的区域</h2>
-<p>值：border-box 默认 padding-box content-box</p>
-<h2 id="background-position-背景图像的起始位置">background-position 背景图像的起始位置</h2>
-<p>值：第一个值是水平位置 第二个值是垂直位置<br>
-水平位置用left right center ，垂直位置用top center bottom，只写一个另外一个为center<br>
-百分比 0% 0%，代表是left top 左上角也可以用，只写一个另外一个为50%<br>
-x pos y pos，离起点的偏移量，只写一个另外一个为50%</p>
-<h2 id="background-orgin-指定background-position属性应该是相对位置">background-orgin 指定background-position属性应该是相对位置</h2>
-<p>值：padding-box 默认 border-box content-box</p>
-<h1 id="渐变">渐变</h1>
-<h2 id="线性渐变-沿着一根轴线改变颜色从一边拉向另一边">线性渐变 沿着一根轴线改变颜色(从一边拉向另一边)</h2>
-<p><strong>语法一</strong>：linear-gradients(direction, color-stop1, color-stop2, ...);<br>
-默认不写direction为从上到下 direction分兼容性<br>
-若为 -webkit-内核 direction为开始方向，其他 内核 direction为结束方向<br>
-若不写兼容性，direction 标准为 to direction<br>
-<strong>语法二</strong>：linear-gradients(angle deg, color-stop1, color-stop2, ...);<br>
-<img src="https://null-go.github.io/post-images/1616916263966.jpg" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【CSS】布局]]></title>
-        <id>https://null-go.github.io/post/css-bu-ju/</id>
-        <link href="https://null-go.github.io/post/css-bu-ju/">
-        </link>
-        <updated>2021-03-24T10:38:26.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="定位方案">定位方案</h1>
-<ul>
-<li>普通流(normal flow)     在普通文档流中的盒子属于一种<strong>格式化上下文</strong>（Formatting Context），常见的两种特殊的格式化上下文就是块格式化上下文（Block formatting context）和行内格式化上下文（Inline formatting context）。<br>
-破坏性属性 👇 即破坏普通流</li>
-<li>浮动(float) **脱离普通流。**在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移;  float属性最初只用于在成块的文本内浮动图像，文字环绕在它的左边或右边文本会环绕在它的周围，所以文本会环绕在浮动元素旁边。</li>
-<li>绝对定位 absolute 或fixed(absolute positioning) <strong>脱离普通流。</strong><br>
-https://www.cnblogs.com/chaixiaozhi/p/8481253.html</li>
-</ul>
-<h2 id="bfc">BFC</h2>
-<p>具有 BFC 特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且 BFC 具有普通容器所没有的一些特性。</p>
-<h1 id="bfc特性">BFC特性：</h1>
-<ul>
-<li>内部的Box会在垂直方向，一个接一个地放置。</li>
-<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠(BFC导致<strong>外边距折叠</strong>)</li>
-<li>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此(BFC导致浮动元素可能遮盖其他元素，文本不会被遮盖，文本会环绕浮动元素)</li>
-<li>BFC的区域不会与float box重叠。</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素(一种自适应特性)。反之也如此。(当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。)</li>
-<li>计算BFC的高度时，浮动元素也参与计算(用来清除浮动)</li>
-</ul>
-<h1 id="产生bfc满足下列条件中的一个">产生BFC(满足下列条件中的一个)：</h1>
-<ul>
-<li>根元素</li>
-<li>float属性不为none</li>
-<li>position为absolute或fixed</li>
-<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
-<li>overflow不为visible</li>
-</ul>
-<h1 id="bfc的作用">BFC的作用：</h1>
-<ul>
-<li>自适应两栏布局，aside栏设置float：left，固定宽高，main栏设置高度，不设定宽度，main一部分会被浮动元素遮盖(即使文字不会)，将main元素设置为BFC元素，利用BFC特性：BFC的区域不会与float box重叠，可以实现main区域自适应宽度</li>
-<li>取消外边距折叠</li>
-<li>清除浮动</li>
-</ul>
-<h1 id="浮动">浮动</h1>
-<h2 id="工作原理浮动元素会脱离正常的文档布局流并吸附到其父容器的左边floatleft-在正常布局中位于该浮动元素之下的内容此时会围绕着浮动元素填满其右侧的空间">工作原理：浮动元素会脱离正常的文档布局流，并吸附到其父容器的左边(float:left)。在正常布局中位于该浮动元素之下的内容，此时会围绕着浮动元素，填满其右侧的空间。</h2>
-<p>浮动元素表现的像inline-block一样</p>
-<h2 id="清除浮动">清除浮动</h2>
-<p>float会将元素变成内联块级元素<br>
-float 父元素高度塌陷 清除浮动<br>
-https://cssgridgarden.com/#zh-cn</p>
 ]]></content>
     </entry>
     <entry>
@@ -1211,6 +1667,11 @@ console.log(Sym in obj); // true
 <li>在ES5里，如果此方法的参数不是对象（而是一个原始值），那么它会抛出 TypeError。在ES2015中，非对象的参数将被强制转换为一个对象。<code>Object.keys('adawd')</code> [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;]</li>
 </ul>
 <p>返回值是<strong>字符串数组</strong></p>
+<pre><code class="language-javascript">// 利用 Object.entries 将 Object 转化为 Map
+var obj = { foo: &quot;bar&quot;, baz: 42 };
+var map = new Map(Object.entries(obj));
+console.log(map); // Map { foo: &quot;bar&quot;, baz: 42 }
+</code></pre>
 <h4 id="objectgetownpropertynames"><code>Object.getOwnPropertyNames()</code></h4>
 <ul>
 <li><strong>不包括原型链</strong></li>
@@ -1220,6 +1681,8 @@ console.log(Sym in obj); // true
 <li>在ES5里，如果此方法的参数不是对象（而是一个原始值），那么它会抛出 TypeError。在ES2015中，非对象的参数将被强制转换为一个对象。<code>Object.getOwnPropertyNames('adawd')</code> [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;]</li>
 </ul>
 <p>返回值是<strong>字符串数组</strong></p>
+<p><strong>Object.getOwnPropertySymbols() 与该方法互斥。</strong></p>
+<p>注意区分 <strong>Object.getOwnPropertyDescriptor(obj, key)</strong> 和 **Object.getOwnPropertyDescriptors(obj) **方法，这两个方法是返回属性描述符。</p>
 <h3 id="对象浅拷贝objectassign">对象浅拷贝，<code>Object.assign</code></h3>
 <p><code>Object.assign()</code> 方法用于将所有<strong>非继承</strong>的<strong>可枚举属性</strong>(包含<code>Symbol</code>类型)的值从一个或多个源对象分配到目标对象。它将返回目标对象。</p>
 <p><strong>语法：</strong><code>Object.assign(target, ...sources)</code>   返回值：target 对象</p>
@@ -1232,7 +1695,7 @@ console.log(Sym in obj); // true
 <ul>
 <li>如果目标对象中的属性具有相同的键，则属性将被源对象中的属性覆盖。后面的源对象的属性将类似地覆盖前面的源对象的属性。</li>
 </ul>
-<p>若target对象中有属性是<code>只读的（writable:false）</code>，sources中有与其相同的属性名，覆盖不成功就报错，并且打断后续的拷贝操作(之前的拷贝已经完成)。</p>
+<p>若target对象中有属性是<code>只读的（writable:false）</code>，sources中有与其相同的属性名，覆盖不成功就报错，并且打断后续的拷贝操作(<strong>之前的拷贝已经完成</strong>)。</p>
 <figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210420172738458.png" alt="image-20210420172738458" loading="lazy"></figure>
 <pre><code class="language-javascript">aconst obj = {
   foo: 1,
@@ -1248,14 +1711,14 @@ console.log(copy); // { foo: 1, bar: 2 } copy.bar的值来自obj.bar的getter函
 <p><strong><code>new</code> 运算符</strong>创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例。</p>
 <p><strong><code>new</code></strong> 关键字会进行如下的操作：</p>
 <ol>
-<li>创建一个空的简单JavaScript对象（即<code>{}</code>），此对象继承自 <code>new Function</code> -&gt; <code>Function</code>的<code>prototype</code>；</li>
-<li>链接该对象（设置该对象的<strong>constructor</strong>）到另一个对象，即设置的对象的<code>[[Prototype]]</code>属性 ；</li>
-<li>将步骤1新创建的对象作为<code>this</code>的上下文 ，函数执行；</li>
+<li>创建一个空的简单JavaScript对象（即<code>{}</code>）;</li>
+<li>链接该对象（设置该对象的<strong>constructor</strong>）到另一个对象，即设置的对象的<code>[[Prototype]]</code>属性为构造函数的 <strong>prototype</strong> 属性 ；</li>
+<li>将步骤1新创建的对象作为<code>this</code>的上下文 ，函数执行**（ fun.apply(obj) ）**；</li>
 <li>如果该函数没有返回引用类型的值，则返回<code>this</code>。（返回<strong>除了引用类型外的其他值</strong>，将忽略，仍然返回<code>this</code>）</li>
 </ol>
 <h5 id="newtarget"><code>new.target</code></h5>
 <p>在构造函数<code>new</code>调用中，<code>new.target</code>指向构造函数，普通函数中，指向<code>undefined</code>，箭头函数中，指向最近的<code>new.target</code>。</p>
-<p>class 内部调用 <code>new.target</code> ，返回当前<code>class</code>。<code>new</code>子类时，继承的父子类中<code>new.target</code> 均指向子类。</p>
+<p>class 内部调用 <code>new.target</code> ，返回当前<code>class</code>。<code>new</code>子类时，继承的父子类中<code>new.target</code> 均指向子类。<code>new.target</code> 指向直接被new的构造函数。</p>
 <pre><code class="language-javascript">// 利用 new.target的特点 可以写出不能独立使用、必须继承后才能使用的类。
 class father {
   constructor() {
@@ -1272,6 +1735,54 @@ class son extends father {
 }
 let father_ = new father();  // 抛出错误 
 </code></pre>
+<h3 id="冻结对象-密封对象">冻结对象、密封对象</h3>
+<h4 id="冻结对象">冻结对象</h4>
+<p><code>Object.freeze(obj)</code></p>
+<p>参数：obj</p>
+<p>返回值：obj 被<code>freeze</code> 后的本身</p>
+<p>当一个对象被冻结后，它变成<strong>不可修改的</strong>，不能被修改的对象特点是：</p>
+<ul>
+<li>冻结了一个对象则不能向这个对象<strong>添加新的属性</strong>，不能<strong>删除已有属性</strong>。</li>
+<li>不能修改该对象已经存在的对象的<strong>属性描述符(包括属性描述符和存取描述符)。</strong></li>
+<li>该对象的原型也是<strong>不可修改的（设置对象原型即 setPrototypeOf 会报错）</strong>。</li>
+</ul>
+<p><strong>判断一个对象是否被冻结的方法：Object.isFrozen()</strong></p>
+<p><strong>浅冻结与深冻结：</strong></p>
+<pre><code class="language-javascript">// 深冻结函数.
+function deepFreeze(obj) {
+  // 取回定义在obj上的属性名
+  var propNames = Object.getOwnPropertyNames(obj);
+  // 在冻结自身之前冻结属性
+  propNames.forEach(function(name) {
+    var prop = obj[name];
+    // 如果prop是个对象，冻结它
+    if (typeof prop == 'object' &amp;&amp; prop !== null)
+      deepFreeze(prop);
+  });
+  // 冻结自身(no-op if already frozen)
+  return Object.freeze(obj);
+}
+obj2 = {
+  internal: {}
+};
+deepFreeze(obj2);
+obj2.internal.a = 'anotherValue';
+obj2.internal.a; // undefined
+</code></pre>
+<blockquote>
+<p>let 和 const 的区别中，如何使 const 声明的对象内属性不可变，只可读 -&gt; Object.freeze().</p>
+</blockquote>
+<h4 id="密封对象">密封对象</h4>
+<p><code>object.seal(obj)</code></p>
+<p>参数：obj</p>
+<p>返回值：obj 被 <code>seal</code> 后的本身</p>
+<p><strong>与冻结 Object.freeze()不同的是：</strong></p>
+<ul>
+<li><strong>阻止添加新属性</strong>。</li>
+<li>所有现有属性标记为<strong>不可配置</strong>。</li>
+<li>当前属性的值只要原来是可写的就可以改变。</li>
+</ul>
+<p><strong>判断一个对象是否被密封的方法：Object.isSealed(obj)</strong></p>
 <h2 id="对象属性描述符">对象属性描述符</h2>
 <h3 id="描述">描述</h3>
 <p>属性描述符分为**数据描述符(用于数据属性)<strong>和</strong>存取描述符(用于访问器属性)**两种类型。</p>
@@ -1279,12 +1790,12 @@ let father_ = new father();  // 抛出错误
 <p>访问器属性：本质上是用于获取和设置值的函数，但从外部代码来看就像常规属性。</p>
 <pre><code class="language-javascript">//在对象字面量中， 用get 和 set 表示
 let obj = {
-get fullName(){
-    return this._fullname;
-},
-set fullname(newValue){
-  this._fullname = newValue; 
-}
+     get fullName(){
+       return this._fullname;
+     },
+     set fullname(newValue){
+       this._fullname = newValue; 
+     }
 }
 // 虽然说 直接obj._fullname可以直接访问，但是一般规定带下划线开头的变量是内部属性，最后不直接访问。
 </code></pre>
@@ -1295,7 +1806,7 @@ set fullname(newValue){
 <p>一个描述符只能是这两者其中之一；不能同时是两者。</p>
 <p><strong>两者共有：</strong></p>
 <ul>
-<li><strong>configurable</strong>  当且仅当该属性的 <code>configurable</code> 键值为 <code>true</code> 时，该<strong>属性的部分描述符</strong>才能够被改变，同时该<strong>属性</strong>也能从对应的对象上被<strong>删除</strong>。</li>
+<li><strong>configurable</strong>  当且仅当该属性的 <code>configurable</code> 键值为 <code>true</code> 时，该<strong>属性的部分描述符</strong>才能够被改变，同时该<strong>属性</strong>也能从对应的对象上被<strong>删除</strong>，也能将属性<strong>改为</strong>访问器属性。（一旦修改为 false 就不能修改为 true 了）</li>
 </ul>
 <blockquote>
 <p><code>defineProperty</code>会报错，严格模式下delete会报错。</p>
@@ -1305,7 +1816,7 @@ set fullname(newValue){
 </ul>
 <p><strong>数据描述符特有：</strong></p>
 <ul>
-<li>**value ** 属性的值。</li>
+<li>**value ** 属性的值，该值可以是 JavaScript有效 的 JavaScript 值（数值，对象，函数等）。</li>
 <li><strong>writable</strong> 当且仅当该属性的 <code>writable</code> 键值为 <code>true</code> 时，属性的值，也就是value，才能被改变。</li>
 </ul>
 <p><strong>存取描述符特有：</strong></p>
@@ -1355,10 +1866,26 @@ console.log(b.x); // undefined
 <ul>
 <li>返回值：传入参数的<code>obj</code> 对象。</li>
 <li>参数<code>propertyName</code>可以是普通的属性也可以是<code>Symbol</code>。</li>
-<li>当 <code>descriptor</code>对象里某属性不指定值，则使用<strong>默认值</strong>。</li>
-<li>若修改的对象旧的描述符对象 <code>descriptor</code> 中<code>configurable</code>属性值为 false，除了将 <code>writable</code> 单向改变为 false 时，试图改变不可配置属性会报错。</li>
+<li>当 <code>descriptor</code>对象里某属性不指定值，则使用<strong>默认值</strong>（<strong>只有当属性不存在，即第一次设置时才使用默认值</strong>）。</li>
+<li>若修改的对象旧的描述符对象 <code>descriptor</code> 中<code>configurable</code>属性值为 false，除了将 <code>writable</code> 单向改变为 false 时，试图改变不可配置属性会报错。(只有用 Object.defineProperty 的确将描述符对象尝试改变时，才会报错，若调用 Object.defineProperty 但进行配置的描述符对象与之前的一致，则不会报错)</li>
 </ul>
-<pre><code class="language-javascript">let obj = {};Object.defineProperty(obj, &quot;name&quot;, { value: &quot;黄哲&quot;, writable: true });console.log(Object.getOwnPropertyDescriptor(obj, &quot;name&quot;));// {value: &quot;黄哲&quot;, writable: true, enumerable: false, configurable: false}Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;黄哲d&quot;,  writable: true,}); // configurable 为false, 但是writable为true, value值可以修改Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;黄哲d&quot;,  writable: false,}); // 单向改变 writable改为 false，可以改变obj.name = &quot;dad&quot;; // 不起作用，但不会报错;严格模式下会报错console.log(obj.name); // ‘黄哲d’Object.defineProperty(obj, &quot;name&quot;, {  value: &quot;dad&quot;,}); // 报错了
+<pre><code class="language-javascript">let obj = {};
+Object.defineProperty(obj, &quot;name&quot;, { value: &quot;黄哲&quot;, writable: true });
+console.log(Object.getOwnPropertyDescriptor(obj, &quot;name&quot;));
+// {value: &quot;黄哲&quot;, writable: true, enumerable: false, configurable: false}
+Object.defineProperty(obj, &quot;name&quot;, {
+  value: &quot;黄哲d&quot;,
+  writable: true,
+}); // configurable 为false, 但是writable为true, value值可以修改
+Object.defineProperty(obj, &quot;name&quot;, {
+  value: &quot;黄哲d&quot;,
+  writable: false,
+}); // 单向改变 writable改为 false，可以改变
+obj.name = &quot;dad&quot;; // 不起作用，但不会报错;严格模式下会报错
+console.log(obj.name); // ‘黄哲d’
+Object.defineProperty(obj, &quot;name&quot;, {
+  value: &quot;dad&quot;,
+}); // 报错了
 </code></pre>
 <p>同类型的方法还有 <code>Object.defineProperties</code>和 <code>Object.getOwnPropertyDescriptors</code></p>
 <p>**克隆对象的一个更好的方法：**可以复制属性标志</p>
@@ -1368,10 +1895,10 @@ console.log(b.x); // undefined
 <ul>
 <li>我们可以使用 <code>obj.__proto__</code> 访问它（历史遗留下来的 <strong>getter/setter</strong>) 非标准但是多数环境实现。</li>
 </ul>
-<p>或者 <strong><code>Object.getProtoypeOf()</code></strong> 和 <strong><code>Object.setPrototype</code></strong> 来 <strong>get/set</strong></p>
+<p>或者 <strong><code>Object.getProtoypeOf()</code></strong> 和 <strong><code>Object.setPrototypeOf()</code></strong> 来 <strong>get/set</strong></p>
 <ul>
 <li>
-<p>如果我们想要读取 obj 的一个属性或者调用一个方法，并且它不存在，那么 JavaScript 就会尝试在原型中查找它。</p>
+<p>如果我们想要<strong>读取</strong> obj 的一个属性或者<strong>调用</strong>一个方法，并且它不存在，那么 JavaScript 就会尝试在原型中查找它。</p>
 </li>
 <li>
 <p>写/删除操作直接在对象上进行，它们不使用原型（假设它是数据属性，不是访问器属性，因为访问器属性的写入操作是 <code>setter</code> 函数处理的，因此写入此类属性和实际上是调用<code>setter</code>函数）。</p>
@@ -1388,7 +1915,12 @@ console.log(b.x); // undefined
 <ul>
 <li>
 <p>每个函数都有 &quot;prototype&quot; 属性，即使我们没有提供它。默认的 &quot;prototype&quot; 是一个只有属性 constructor 的对象，属性 constructor 指向函数自身。(实例也能访问到<strong>继承</strong>下来的 constructor对象)。</p>
-<pre><code class="language-javascript">function Rabbit(name) {  this.name = name;  alert(name);}let rabbit = new Rabbit(&quot;White Rabbit&quot;);let rabbit2 = new rabbit.constructor(&quot;Black Rabbit&quot;);
+<pre><code class="language-javascript">function Rabbit(name) {
+  this.name = name;
+  alert(name);
+}
+let rabbit = new Rabbit(&quot;White Rabbit&quot;);
+let rabbit2 = new rabbit.constructor(&quot;Black Rabbit&quot;);
 </code></pre>
 </li>
 <li>
@@ -1410,12 +1942,25 @@ console.log(b.x); // undefined
 <p>语法：<code>object instanceof constructor</code> （右边是一个构造函数才对，或者是一个类）</p>
 </li>
 <li>
-<p>当右边是一个 <strong>class 类</strong>时。 会尝试先调用 class类的 <strong>静态static [Symbol.hasInstance]方法</strong> ，若有此方法，则直接调用，方法的第一个参数为 左侧<code>object</code>。</p>
-<pre><code class="language-javascript">class father {  static [Symbol.hasInstance](obj) {    if (obj.a == 1) return true;  }}let obj = { a: 1 };console.log(obj instanceof father); // 返回 trueconsole.log(father.prototype.isPrototypeOf(obj)); // 返回 false
+<p>当右边是一个 <strong>class 类</strong>时。 会尝试先调用 class类的 <strong>静态static [Symbol.hasInstance]方法</strong> ，若有此方法，则直接调用，方法的第一个参数为 左侧<code>object</code>，若没有此方法则轮流比较实例是否在构造函数 prototype 的原型链上(  === 逐一比较 )</p>
+<pre><code class="language-javascript">class father {
+  static [Symbol.hasInstance](obj) {
+    if (obj.a == 1) return true;
+  }
+}
+let obj = { a: 1 };
+console.log(obj instanceof father); // 返回 true
+console.log(father.prototype.isPrototypeOf(obj)); // 返回 false
 </code></pre>
 </li>
 <li>
-<p><code>object instanceof constructor</code>  可以改写为  <code>constructor.prototype.isPrototypeOf(obj)</code>，<strong>，此方法不会像 instanceof 操作符一样产生上一条对于class特别的规则。</strong></p>
+<p><code>object instanceof constructor</code>  可以改写为  <code>constructor.prototype.isPrototypeOf(obj)</code>，<strong>此方法不会像 instanceof 操作符一样产生上一条对于class特别的规则。</strong></p>
+</li>
+<li>
+<p>instanceof 在多个 iframe，即有多个全局变量 window 时，判断并不准确，iframe1传入一个 array 到 iframe2 中，iframe2中使用 array instanceof Array 将返回 false。因为两者的构造函数不同。</p>
+</li>
+<li>
+<p>isPrototypeOf 是 Object.prototype 上的函数。任意一个普通的 对象 直接使用 . 运算符 都能调用此函数。但是 getPrototypeOf 和 setPrototypeOf 都是 Object 构造函数的静态方法。直接通过<code>Object.getPrototypeOf</code> 和 <code>Objecy.setPrototypeOf</code>。</p>
 </li>
 </ul>
 <figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210507102726963.png" alt="image-20210507102726963" loading="lazy"></figure>
@@ -1426,19 +1971,25 @@ console.log(b.x); // undefined
 <p>原始数据类型也将方法存储在包装器对象的 prototype 中：<code>Number.prototype</code>、<code>String.prototype</code> 和 <code>Boolean.prototype</code>。只有 <code>undefined</code> 和 <code>null</code> 没有包装器对象，没有prototype。</p>
 </li>
 <li>
-<pre><code class="language-javascript">let a = 11;console.log(Object.getPrototypeOf(a) == a.__proto__); // trueconsole.log(&quot;dwad&quot;.__proto__); // String.prototype
+<pre><code class="language-javascript">let a = 11;
+console.log(Object.getPrototypeOf(a) === a.__proto__); // true
+console.log(&quot;dwad&quot;.__proto__); // String.prototype
 </code></pre>
 </li>
 </ul>
 <h3 id="functionobject-的鸡蛋问题">Function&amp;Object 的鸡蛋问题</h3>
-<p>Object构造函数和Function构造函数既是函数又是对象；</p>
-<pre><code class="language-javascript">console.log(Object.__proto__ === Function.prototype);这条特殊：console.log(Function.__proto__ === Function.prototype); // 特殊的底层实现console.log(Object.__proto__ === Function.__proto__); // 源于上一条的底层实现
+<p>Object构造函数和Function构造函数既是<strong>函数</strong>又是<strong>对象</strong>；</p>
+<pre><code class="language-javascript">console.log(Object.__proto__ === Function.prototype);
+这条特殊：console.log(Function.__proto__ === Function.prototype); // 特殊的底层实现
+console.log(Object.__proto__ === Function.__proto__); // 源于上一条的底层实现
 </code></pre>
 <img src="http://resource.muyiy.cn/image/2019-07-24-060321.jpg" alt="jsobj" style="zoom:80%;" />
 <h2 id="使用不同方法创建对象和生成原型链">使用不同方法创建对象和生成原型链</h2>
 <p>原型链继承的本质是<strong>重写原型对象，代之以一个新类型的实例</strong>。注意：是新类型的<strong>实例</strong>。</p>
 <h3 id="使用语法结构创建的对象">使用语法结构创建的对象</h3>
-<pre><code>var o = {a: 1}; // 原型链如下： o -&gt; Object.prototype -&gt; nullvar a = [&quot;yo&quot;, &quot;whadup&quot;, &quot;?&quot;];   a -&gt; Array.prototype -&gt; Object.prototype -&gt; nullfunction f(){ }                  f -&gt; Function.prototype -&gt; Object.prototype -&gt; null
+<pre><code>var o = {a: 1}; // 原型链如下： o -&gt; Object.prototype -&gt; null
+var a = [&quot;yo&quot;, &quot;whadup&quot;, &quot;?&quot;];   a -&gt; Array.prototype -&gt; Object.prototype -&gt; null
+function f(){ }                  f -&gt; Function.prototype -&gt; Object.prototype -&gt; null
 </code></pre>
 <h3 id="使用构造器创建的对象">使用构造器创建的对象</h3>
 <p>即 <strong>new</strong> 操作符</p>
@@ -1450,48 +2001,144 @@ console.log(b.x); // undefined
 </ul>
 <h1 id="问题">问题</h1>
 <p>今天在看原型内容的时候遇到了一个问题：</p>
-<pre><code>let hamster = {  stomach: [],  eat(food) {    this.stomach.push(food);  }};let speedy = {  __proto__: hamster};let lazy = {  __proto__: hamster};// 这只仓鼠找到了食物speedy.eat(&quot;apple&quot;);alert( speedy.stomach ); // apple// 这只仓鼠也找到了食物，为什么？请修复它。alert( lazy.stomach ); // applelet hamster = {  stomach: [],  eat(food) {    // 分配给 this.stomach 而不是 this.stomach.push    this.stomach = [food];  }};let speedy = {   __proto__: hamster};let lazy = {  __proto__: hamster};// 仓鼠 Speedy 找到了食物speedy.eat(&quot;apple&quot;);alert( speedy.stomach ); // apple// 仓鼠 Lazy 的胃是空的alert( lazy.stomach ); // &lt;nothing&gt;
+<pre><code class="language-javascript">let hamster = {
+  stomach: [],
+  eat(food) {
+    this.stomach.push(food);
+  }
+};
+let speedy = {
+  __proto__: hamster
+};
+let lazy = {
+  __proto__: hamster
+};
+// 这只仓鼠找到了食物
+speedy.eat(&quot;apple&quot;);
+alert( speedy.stomach ); // apple
+// 这只仓鼠也找到了食物，为什么？请修复它。
+alert( lazy.stomach ); // apple
+let hamster = {
+  stomach: [],
+  eat(food) {
+    // 分配给 this.stomach 而不是 this.stomach.push
+    this.stomach = [food];
+  }
+};
+let speedy = {
+   __proto__: hamster
+};
+let lazy = {
+  __proto__: hamster
+};
+// 仓鼠 Speedy 找到了食物
+speedy.eat(&quot;apple&quot;);
+alert( speedy.stomach ); // apple
+// 仓鼠 Lazy 的胃是空的
+alert( lazy.stomach ); // &lt;nothing&gt;
 </code></pre>
 <p>当对变量使用赋值操作和变量push操作的不同，让我想到了在小黄书中看到的LHS和RHS 左查询和右查询，左查询和对普通变量的值的查找没什么区别，而右查询是<strong>试图找到变量容器的本身并对其赋值</strong>。</p>
 <p>为什么push 和 = 的操作会造成不一样的影响，我思考后觉得 push操作仅仅是RHS，=操作是左赋值。</p>
 <h1 id="类-class">类 class</h1>
 <p><strong>类是一种函数，类似于一个方便继承的容器，类完全可以看成构造函数的另一种写法</strong></p>
-<pre><code class="language-javascript">class User{};typeof User; // function
+<pre><code class="language-javascript">class User{
+};
+typeof User; // function
 </code></pre>
 <ul>
 <li><strong>class</strong>必须使用<strong>new</strong>调用，<code>new</code> 调用后使用 <code>constructor</code> 函数，像普通调用函数那样调用class函数会报错。通过 <code>class</code> 创建的函数具有特殊的内部属性标记<code>[[FunctionKind]]:&quot;classConstructor&quot;</code>。</li>
 </ul>
 <blockquote>
-<p>constructor 函数与调用普通的构造函数行为是一致的，默认返回 this ，可以返回其他对象，但是不是对象的返回值会被忽略仍然返回this。</p>
+<p>constructor 函数与调用普通的构造函数行为是一致的，默认返回 this ，可以返回其他对象，但是不是对象的返回值会被忽略仍然返回 this。</p>
 </blockquote>
 <ul>
 <li>类定义的方法不可枚举。也就是说<code>class fun;fun.prototype</code>上的函数不可枚举。（与直接在<code>prototype</code>上定义不同）</li>
 <li>类总是使用 <code>use strict</code>。 在类构造中的所有代码都将自动进入严格模式。</li>
 <li>类是一种函数，在类中直接定义的类字段会成为<strong>实例对象</strong>的属性。（均可枚举，方法也可枚举）</li>
 </ul>
-<pre><code class="language-javascript">class father {  name = &quot;nono&quot;;  // 相当于 👇  constructor() {    this.name = &quot;nono&quot;;  }}
+<pre><code class="language-javascript">class father {
+  name = &quot;nono&quot;;
+  // 相当于 👇
+  constructor() {
+    this.name = &quot;nono&quot;;
+  }
+}
 </code></pre>
 <ul>
 <li><strong>get</strong> 和 <strong>set</strong> 函数所定义的<strong>访问器属性</strong>一样是定义在原型上的。</li>
 </ul>
-<pre><code class="language-javascript">class User {  name = prompt(&quot;Name, please?&quot;, &quot;黄&quot;);  // 还能弹出对话框}new User(); // 类字段还能创建实例方法class User {  property = &quot;属性&quot;; // 实例  getProperty = function () {    console.log(this.property);  };}let user = new User();user.getProperty(); // 黄setTimeout(user.getProperty, 0); // undefined// 可以将 gerProperty 函数改为 箭头函数 因为箭头函数在创建时绑定了 this
+<pre><code class="language-javascript">class User {
+  name = prompt(&quot;Name, please?&quot;, &quot;黄&quot;);  // 还能弹出对话框
+}
+new User(); 
+// 类字段还能创建实例方法
+class User {
+  property = &quot;属性&quot;; // 实例
+  getProperty = function () {
+    console.log(this.property);
+  };
+}
+let user = new User();
+user.getProperty(); // 黄
+setTimeout(user.getProperty, 0); // undefined
+// 可以将 gerProperty 函数改为 箭头函数 因为箭头函数在创建时绑定了 this
 </code></pre>
 <ul>
 <li>类不存在类提升，类和函数一样都有 name属性。</li>
 </ul>
+<pre><code class="language-javascript">class A {
+  // constructor() {
+  //   this.value = 0;
+  // }
+  value = 0;
+  fun = () =&gt; {
+    console.log(this);
+  };
+  fun1() {
+    console.log(this);
+  }
+  fun2 = function () {
+    console.log(this);
+  };
+}
+var a = new A();
+var anotherFun = a.fun;
+anotherFun();
+var anotherFun1 = a.fun1;
+anotherFun1();
+var anotherFun2 = a.fun2;
+anotherFun2();
+</code></pre>
 <h2 id="类继承">类继承</h2>
 <h3 id="extends-关键字">extends 关键字</h3>
-<p>extends可继承类也可以继承普通构造函数( <strong>不能继承常规对象<mark>不可构造的</mark>即无法使用new运算符的</strong> )</p>
+<p>extends可继承类也可以继承普通构造函数( <strong>不能继承常规对象 == 不可构造的 == 即无法使用new运算符的</strong> )</p>
 <p><strong>继承类的 constructor 必须调用 <code>super(...)</code>，并且一定要在使用 <code>this</code> 之前调用。</strong></p>
 <p>根据规范，如果一个类继承了另一个类并且没有 <code>constructor</code>，那么将生成下面这样的“空” <code>constructor</code>：</p>
-<pre><code class="language-javascript">class Rabbit extends Animal {  // 为没有自己的 constructor 的扩展类生成的  constructor(...args) {    super(...args);  }}
+<pre><code class="language-javascript">class Rabbit extends Animal {
+  // 为没有自己的 constructor 的扩展类生成的
+  constructor(...args) {
+    super(...args);
+  }
+}
 </code></pre>
 <p>在 JavaScript 中，继承类（所谓的“派生构造器”，英文为 “derived constructor”）的构造函数与其他函数之间是有区别的。派生构造器具有特殊的**内部属性 <code>[[ConstructorKind]]:&quot;derived&quot;</code> **。这是一个特殊的内部标签。</p>
 <p>该标签会影响它的 <code>new</code> 行为：<strong>当没有此标签时，普通的class的constructor构造函数会创建一个空对象给this值，并在new之后返回此对象。当继承的 constructor 执行时，它不会执行此操作(指给this创建新对象并返回)。它期望父类的 constructor 来完成这项工作。所以在new子类时，必须先调用 super()。</strong></p>
 <p><strong>ES5 的继承，实质是先创造子类的实例对象<code>this</code>，然后再将父类的方法添加到<code>this</code>上面（<code>Parent.apply(this)</code>）。ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到<code>this</code>上面（所以必须先调用<code>super</code>方法，相当于父类class A <code>A.prototype.constructor.call(this)</code>的调用），然后再用子类的构造函数修改<code>this</code>。</strong></p>
 <p><strong>还需要在使用this关键字之前调用super()，不然this还没有初始化为一个新对象</strong>；</p>
-<p><strong>extends 创建了两个继承，这我是没想到的，而内建对象类的继承不会产生静态属性和静态方法的继承。</strong></p>
-<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210428205622151.png" alt="image-20210428205622151" style="zoom: 67%;" />
+<p><strong>extends 创建了两个继承，这我是没想到的，而内建对象类的继承不会产生静态属性和静态方法的继承（比如Array构造函数没有继承Object构造函数的静态方法 setPrototypeOf）。</strong></p>
+<img src="https://raw.githubusercontent.com/NULL-Go/picture-warehouse-/main/img/image-20210428205622151.png" alt="image-20210428205622151" style="zoom: 67%;" />
+<p><strong>踩坑：类的 prototype 属性的描述符中的 writable为 false ，不能直接更改。继承时要注意</strong></p>
+<pre><code class="language-javascript">
+class son {}
+// 此种继承不可取
+son.prototype = Object.create(Array.prototype);
+// 此 2 种继承不会使 构造函数 也产生继承
+son.prototype.__proto__ = Array.prototype;
+Object.setPrototypeOf(son.prototype, Array.prototype);
+// 此种继承会使构造函数也产生继承
+class son extends Array {
+}
+</code></pre>
 <h3 id="super-关键字">super 关键字</h3>
 <ul>
 <li><strong>super</strong>关键字用于访问和调用一个对象的父对象上的函数。</li>
@@ -1504,7 +2151,7 @@ console.log(b.x); // undefined
 </ul>
 <blockquote>
 <p>ES6 规定，在子类实例的普通方法中通过<code>super</code>调用父类的方法时，方法内部的<code>this</code>指向当前的子类实例。</p>
-<p>​    类似的，在子类的静态方法中通过<code>super</code>调用父类的方法时，方法内部的<code>this</code>指向当前的子类。</p>
+<p>类似的，在子类的静态方法中通过<code>super</code>调用父类的方法时，方法内部的<code>this</code>指向当前的子类。</p>
 </blockquote>
 <p>​    https://zh.javascript.info/class-inheritance  详细说明了方法在 super作为调用者时的原理 <code>[[HomeObject]]</code>对于方法而起作用的属性</p>
 <ul>
@@ -1516,7 +2163,15 @@ console.log(b.x); // undefined
 <p>静态方法用于实现属于该类但不属于该类任何实例对象的函数。</p>
 <p><strong>在静态方法中this指向 class 类本身</strong></p>
 <p><strong>静态属性类似</strong>。</p>
-<pre><code class="language-javascript">class User {  static name = &quot;黄&quot;;    //静态属性  static fun = function () {    //这也是一种静态方法    return &quot;哲浩&quot;;  };}console.log(User.name);console.log(User.fun());
+<pre><code class="language-javascript">class User {
+  static name = &quot;黄&quot;;    //静态属性
+  static fun = function () {
+    //这也是一种静态方法
+    return &quot;哲浩&quot;;
+  };
+}
+console.log(User.name);
+console.log(User.fun());
 </code></pre>
 <p><strong>静态属性和静态方法同样可以被继承，因为 extends关键字创建了两个 <code>__</code>proto<code>__</code> 的引用 。</strong></p>
 <ol>
@@ -1533,15 +2188,42 @@ console.log(b.x); // undefined
 <h1 id="原生构造函数的继承">原生构造函数的继承</h1>
 <p>原生构造函数是指语言<strong>内置的构造函数</strong>。如<strong>Boolean() , Number() , Array() 等等。</strong></p>
 <p>在ES5之前，这些内置构造函数无法继承。</p>
-<pre><code class="language-javascript">function fakeArray() {  this.name = &quot;fake&quot;;}fakeArray.prototype = Object.create(Array.prototype);let a = new fakeArray();a[0] = 1;a[1] = 2;console.log(a.__proto__.__proto__ === Array.prototype); // trueconsole.log(a.length); // 输出0 无法使用Array 的特性// Array构造函数有一个内部属性[[DefineOwnProperty]]，用来定义新属性时，更新length属性，这个内部属性无法在子类获取，导致子类的length属性行为不正常。
+<pre><code class="language-javascript">function fakeArray() {
+  this.name = &quot;fake&quot;;
+}
+fakeArray.prototype = Object.create(Array.prototype);
+let a = new fakeArray();
+a[0] = 1;
+a[1] = 2;
+console.log(a.__proto__.__proto__ === Array.prototype); // true
+console.log(a.length); // 输出0 无法使用Array 的特性
+// Array构造函数有一个内部属性[[DefineOwnProperty]]，用来定义新属性时，更新length属性，这个内部属性无法在子类获取，导致子类的length属性行为不正常。
 </code></pre>
 <p><strong>ES5 是先新建子类的实例对象<code>this</code>，再将父类的属性添加到子类上，由于父类的内部属性无法获取，导致无法继承原生的构造函数。</strong></p>
 <p><strong>ES6 允许继承原生构造函数定义子类，因为 ES6 是先新建父类的实例对象<code>this</code>，然后再用子类的构造函数修饰<code>this</code>，使得父类的所有行为都可以继承。</strong></p>
-<pre><code class="language-javascript">// 给 fakeArray 新增了一个方法（可以增加更多）class fakeArray extends Array {  isEmpty() {    return this.length === 0;  }}let arr = new fakeArray(1, 2, 5, 10, 50);console.log(arr.isEmpty()); // falselet filteredArr = arr.filter((item) =&gt; item &gt;= 10);console.log(filteredArr); // 10, 50console.log(filteredArr.isEmpty()); // false
+<pre><code class="language-javascript">// 给 fakeArray 新增了一个方法（可以增加更多）
+class fakeArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+}
+let arr = new fakeArray(1, 2, 5, 10, 50);
+console.log(arr.isEmpty()); // false
+let filteredArr = arr.filter((item) =&gt; item &gt;= 10);
+console.log(filteredArr); // 10, 50
+console.log(filteredArr.isEmpty()); // false
 </code></pre>
 <p>内建的方法例如 <code>filter</code>，<code>map</code> 等 — 返回的正是子类 <code>fakeArray</code> 的新对象。它们内部使用了对象的 <code>constructor</code> 属性来实现这一功能。在这里，<strong>arr.constructor === fakeArray，当使用<code>filter</code>时，它使用arr.constructor来新建数组而不是内置Array</strong></p>
 <p>如果我们希望像 <code>map</code> 或 <code>filter</code> 这样的内建方法返回常规数组，我们可以给这个类添加一个特殊的静态 getter <code>Symbol.species</code>。如果存在，则应返回 JavaScript 在内部用来在 <code>map</code> 和 <code>filter</code> 等方法中创建新实体的 <code>constructor</code>。</p>
-<pre><code class="language-javascript">class PowerArray extends Array {  isEmpty() {    return this.length === 0;  }  // 内建方法将使用这个作为 constructor  static get [Symbol.species]() {    return Array;  }}
+<pre><code class="language-javascript">class PowerArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+  // 内建方法将使用这个作为 constructor
+  static get [Symbol.species]() {
+    return Array;
+  }
+}
 </code></pre>
 <h1 id="mixin-模式">Mixin 模式</h1>
 ]]></content>
@@ -1904,53 +2586,6 @@ function randomSort(array) {
 
   return array;
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【JS】类数组对象和可迭代对象]]></title>
-        <id>https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/</id>
-        <link href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/">
-        </link>
-        <updated>2021-03-15T09:35:28.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
-<p><strong>即类似于数组的对象，有若干索引属性和length属性</strong></p>
-<p>一些 JavaScript 对象, 例如 <code>querySelectorAll或Node.childNodes</code> 返回的 <code>NodeList</code> 或者函数内部可用的 <code>arguments</code> 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法（NodeList实现了forEach方法，在较老的浏览器中没有）。例如 arguments 对象就提供一个 length 属性，但是不实现 <code>forEach()</code>等数组专用方法。</p>
-<p>这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
-<h2 id="iterable-object可迭代对象"><strong><code>Iterable object</code>（可迭代对象）</strong></h2>
-<p>要成为可迭代对象，对象必须实现 <strong>@@iterator方法</strong>，这意味着该对象或它的原型链上的对象有@@iterator方法，可通过常量<strong>Symbol.iterator</strong>访问方法。</p>
-<p>该方法的返回值为一个对象(<strong>迭代器 iterator</strong>)，该对象必须含有 next() 方法，next的返回值是一个对象，该对象包含两个属性：</p>
-<ul>
-<li><code>done（boolean）</code></li>
-</ul>
-<p>如果迭代器可以产生序列中的下一个值，则为 false。（这等价于没有指定  done 这个属性。）</p>
-<ul>
-<li><code>value</code></li>
-</ul>
-<p>迭代器返回的任何 JavaScript 值。done 为 true 时可省略。</p>
-<p><strong>可迭代对象</strong>：Array，Set，String，Map，DOM，<strong>Aruguments</strong>，生成器函数Generator执行产生的生成器对象，对象集合</p>
-<p>for..of..语句专用于可迭代对象，<strong>展开语法 ...</strong> , <strong>解构赋值</strong> 的实现依赖于可迭代对象</p>
-<p>当用<code>for(let item of obj)</code>时，尝试调用 <code>obj</code>的<code>[Symbol.iterator]</code>方法返回一个迭代器，再调用<code>迭代器next()</code>方法，最后</p>
-<p><code>item</code>为<code>next</code>方法返回的对象的<code>value</code>值。</p>
-<h2 id="将类数组对象或可迭代对象转化为真正的数组"><strong>将类数组对象或可迭代对象转化为真正的数组</strong></h2>
-<h3 id="法1使用全局方法-arrayfrom">法1：使用全局方法 Array.from()</h3>
-<p>Array.from 方法不仅可将<strong>类数组对象</strong>转换为真正的数组，还能将<strong>可迭代对象</strong>转化为数组。Array.from(arrayLike[, mapFn[, thisArg]]);</p>
-<p><strong>新的、浅拷贝的数组</strong>。</p>
-<p><code>arrayLike</code>：想要转换成数组的类数组对象或可迭代对象。</p>
-<p><code>mapFn</code>：可选， 如果指定了该参数，新数组中的每个元素会执行该回调函数。即map(映射)函数</p>
-<p><code>thisArg</code>：可选，指定回调函数的this值。</p>
-<h3 id="法2arrayprototypeslicecallarray-like-用于类数组对象">法2：Array.prototype.slice.call(Array-like) 用于类数组对象</h3>
-<p>或者 [].prototype.slice.call(Array-like)。同样也是浅拷贝。别的一些数组方法返回新的数组的其实也可以。</p>
-<p>例如：Array.prototype.concat.apply([], arguments);</p>
-<p>​           Array.prototype.splice.call(arrayLike, 0);</p>
-<h3 id="法3es6-展开符-用于可迭代对象">法3：ES6 展开符 用于可迭代对象</h3>
-<p>... 展开语法依赖于 可迭代属性。</p>
-<pre><code class="language-javascript">function ampp() {
-  let arr = [...arguments];
-  console.log(arr instanceof Array);
-  console.log(arr);
-}
-ampp(1, 2, 3, 4);
 </code></pre>
 ]]></content>
     </entry>

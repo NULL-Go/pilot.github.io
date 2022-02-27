@@ -1,100 +1,80 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】浏览器事件 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】浏览器事件 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="事件处理程序
-为了对事件作出响应，我们可以分配一个处理程序：即在事件发生时运行的函数。
-分配处理程序的方式：
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
-HTML 特性 attribute
-在HTML on&lt;event&gt;特性里绑定事件。如onclick=&quot;f..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】浏览器事件
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-05-29
-              </span>
-              <span>
-                11 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【JS】浏览器事件</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-05-29</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="事件处理程序">事件处理程序</h2>
+          </div>
+          <div class="post-content">
+            <h2 id="事件处理程序">事件处理程序</h2>
 <p>为了对事件作出响应，我们可以分配一个<strong>处理程序</strong>：即在事件发生时运行的函数。</p>
 <h3 id="分配处理程序的方式">分配处理程序的方式：</h3>
 <ul>
@@ -284,129 +264,57 @@ console.log(&quot;脚本还未结束&quot;);
 </blockquote>
 <p>我们可以利用此属性来添加事件处理函数避免事件错过。</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">事件处理程序</a>
-<ul>
-<li><a href="#%E5%88%86%E9%85%8D%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E5%BC%8F">分配处理程序的方式：</a></li>
-<li><a href="#%E7%A7%BB%E9%99%A4%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E5%BC%8Felementonevent-null">移除处理程序的方式：<code>element.on&lt;event&gt; = null;</code></a></li>
-<li><a href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0-this">访问元素 <code>this</code></a></li>
-<li><a href="#%E4%B8%80%E4%B8%AA%E4%BA%8B%E4%BB%B6%E5%88%86%E9%85%8D%E5%A4%9A%E4%B8%AA%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">一个事件分配多个处理程序</a></li>
-<li><a href="#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event">事件对象 Event</a></li>
-</ul>
-</li>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F">对象处理程序</a></li>
-<li><a href="#%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7">冒泡和捕获</a>
-<ul>
-<li><a href="#eventtarget-evnetcurrenttarget-this-%E7%9A%84%E5%8C%BA%E5%88%AB"><code>event.target</code> <code>evnet.currentTarget</code> <code>this</code> 的区别</a></li>
-<li><a href="#%E5%81%9C%E6%AD%A2%E5%86%92%E6%B3%A1-eventstoppropagation%E5%87%BD%E6%95%B0">停止冒泡  <code>event.stopPropagation()</code>函数</a></li>
-<li><a href="#%E6%8D%95%E8%8E%B7">捕获</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98">事件委托</a></li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA">浏览器默认行为</a>
-<ul>
-<li><a href="#%E9%98%BB%E6%AD%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA">阻止浏览器默认行为</a></li>
-<li><a href="#%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E9%80%89%E9%A1%B9%E4%B8%AD%E7%9A%84passive">处理程序选项中的“passive”</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#ui%E4%BA%8B%E4%BB%B6">UI事件</a>
-<ul>
-<li><a href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6">鼠标事件</a>
-<ul>
-<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A1%BA%E5%BA%8F">事件顺序</a></li>
-<li><a href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7">鼠标事件相关属性</a></li>
-</ul>
-</li>
-<li><a href="#%E7%A7%BB%E5%8A%A8%E9%BC%A0%E6%A0%87">移动鼠标</a>
-<ul>
-<li><a href="#%E4%BA%8B%E4%BB%B6mouseoveroutmouseenterleave">事件：<code>mouseover/out,mouseenter/leave</code></a></li>
-<li><a href="#%E7%A7%BB%E5%8A%A8%E5%88%B0%E5%AD%90%E5%85%83%E7%B4%A0%E7%9A%84-mouseout">移动到子元素的 <code>mouseout</code></a></li>
-<li><a href="#%E7%A8%8D%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84-mouseenterleave%E4%BA%8B%E4%BB%B6">稍有不同的 <code>mouseenter</code>/<code>leave</code>事件</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E9%A1%B5%E9%9D%A2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">页面生命周期</a>
-<ul>
-<li><a href="#domcontentloaded"><code>DOMContentLoaded</code></a></li>
-<li><a href="#windowonloadunloadbeforeunload"><code>window.onload/unload/beforeunload</code></a></li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-shi-jian-xun-huan/">
+            <a class="purple-link" href="https://null-go.github.io/post/js-shi-jian-xun-huan/">
               <h3 class="post-title">
-                【JS】事件循环
+                下一篇：【浏览器】事件循环机制
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>

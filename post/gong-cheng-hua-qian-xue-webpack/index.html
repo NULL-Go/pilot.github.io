@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>【工程化】浅学 Webpack | PILOT</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">【工程化】浅学 Webpack</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-10-12</span>
+            
+          </div>
+          <div class="post-content">
+            <h1 id="初识webpack">初识webpack</h1>
+<p><strong>webpack的核心定义：webpack 是 一个模块打包工具(module bundler)。</strong></p>
+<p>ES Moudule，CommonJS，CMD，AMD。</p>
+<p>js模块打包工具 -&gt; 多格式文件打包工具(css，图片，JS等)。</p>
+<p>新建node规范的文件 <code>npm init</code> <code>npm init -y</code></p>
+<p>安装 webpack 可以全局安装也可以局部安装，全局安装 <code>-g</code> 局部安装<code>npm install webpack webpack-cli --save-dev</code></p>
+<p>全局查看 webpack 版本号 <code>npm webpack -v</code></p>
+<p>局部查看 webpack 版本号 <code>npx webpack -v</code></p>
+<p>安装好之后 webpack的打包命令：</p>
+<p>使用全局webpack进行打包的命令 <code>webpack index.js</code>  使用局部wepack打包的命令 <code>npx webpack index.js</code> <code>index.js</code> 为要打包的文件名。</p>
+<p><code>webpack-cli</code> 的作用是使我们可以在命令行里面运行 webpack 命令。</p>
+<p><code>package.json</code> 文件配置项 scripts 方便执行命令项</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211109204301943.png" alt="image-20211109204301943" loading="lazy"></figure>
+<p>执行 npm run serve -&gt;相当于执行了-&gt; npm vue-cli-service serve</p>
+<p><code>node.js</code> 中使用<code>./</code> 和 <code>../</code> 相对路径时为什么会报错？原因是：<code>./</code> 和 <code>../</code>  除了在 require 函数中使用，都是相对于项目的启动的根目录，也就是 <code>node xxx</code> 后面跟着的文件目录。</p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211110084157653.png" alt="image-20211110084157653" loading="lazy"></figure>
+<h1 id="webpack核心概念">webpack核心概念</h1>
+<h2 id="loader">loader</h2>
+<p><strong>loader 是 webpack 的打包方案。</strong></p>
+<p>webpack可以默认打包 <code>js</code> 类型的文件，要想对其他格式的文件进行打包，必须使用<code>webpack loader</code> 选项进行配置。<code>png,jpg</code> 格式可以用 <code>file-loader</code>，<code>.vue</code> 类型的文件用的是 <code>vu-loader</code>。</p>
+<p>图片打包 loader。 <code>file-loader</code> 和 <code>url-loader</code> 都可以对图片格式的文件进行打包，但是原理不同，<code>file-loader</code> 不会改变文件内容，依然会打包成另外一个文件，只是换了一个名字而已。但是<code>url-loader</code> 不会新创建一个新的图片文件，而是将图片改为 base64的格式直接使用，区别在于前者依然在进行http请求，而后者可以不用进行http请求。</p>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211110215739118.png" alt="image-20211110215739118" loading="lazy"></figure>
+<p>在 url-loader 中可以用<code>options</code>属性给一个配置 limit，标识根据图片大小进行不同的打包方式。小于limit用base64编码，大于不用。</p>
+<p>样式打包loader。</p>
+<p><code>npm install style-loader css-loader -D</code>。css-loader是把样式都聚合在一起形成文件，而style-loader是将文件做成 style标签放入head中使样式生效。</p>
+<p>在入口文件中用 import 引入 css 文件。</p>
+<p>loader 的 <code>use</code>是有顺序的(从右到左)，若要打包sass文件。</p>
+<pre><code class="language-javascript">use: ['style-loader', 'css-loader', 'sass-loader']
+</code></pre>
+<p>sass-loader 要放在最右边最先处理完成。</p>
+<p>css3的一些属性往往要进行浏览器适配的前缀，如<code>-webkit-transform</code>等，用于样式前缀自动添加的loader   -&gt; <code>postcss-loader</code>。</p>
+<p>在入口文件 index.js 中 引入 css会造成全局样式污染，可以使用 css-loader 中的 module 参数将样式局部化。</p>
+<p><code>webpack.ProvidePlugin</code>插件，</p>
+<p><code>imports-loader</code> 该 loader 可以解决 Module 中this指向问题，Module直接使用this指向模块，该loader可以改变this的默认指向。<code>loader: 'imports-loader?this=&gt;window'</code></p>
+<h2 id="plugins">plugins</h2>
+<p><strong>plugins 是 webpack打包过程中的某一时刻做一些事情。</strong></p>
+<p><code>htmlWebpackPlugin</code> 这个插件会在打包结束后，自动生成一个html文件，将打包后的js文件放入该html中。插件可以传入一个对象参数，对象有 <code>template</code> 属性可以配置 html文件的模板。</p>
+<p><code>clearWebpackPlugin</code> 是个非官方插件，可以在每次打包前将上一次打包出的某些文件先删除(需要传入参数)，这样就不会造成干扰。</p>
+<p>HMR 热模块更新：</p>
+<p>当没有用HMR 时，代码发生改变，打包会刷新，会重新</p>
+<p>刷新页面重新加载html文档。</p>
+<p>当css文件发生改变，可以使用 HMR 可以在不刷新页面的情况下改变页面样式。<code>css-loader</code>底层帮助我们编写了代码。</p>
+<p>HMR还能在js文件发生变化时使用热模块更新，在某个js模块文件发生变化时，若我们需要重新运行某些方法时，要自己编写代码。</p>
+<pre><code class="language-javascript">import number from './number'; // number模块导入number方法。
+if(module.hot) {
+  module.hot.accept('./number', () =&gt; {
+     // 进行一些清理操作
+     number(); // 重新调用 number方法
+  })
+}
+</code></pre>
+<p>本质上要实现HMR都要写上面类似的代码，只是Vue-loader一些插件帮助我们实现了。</p>
+<p><strong>Babel 代码降级。</strong></p>
+<p><code>MiniCssExtractPlugin</code>：css打包，css打包默认是 css in js 的形式，这个插件可以直接在dist目录下生成一个 css 文件。</p>
+<p><code>WorkboxPlugin:</code> PWA技术(渐进式网络应用程序)的插件。底层使用<code>service worker</code>技术，在http服务器挂掉之后，客户端可以利用缓存加载出页面。</p>
+<h2 id="configuration">Configuration</h2>
+<p>Configuration 是指 <code>webpack.config.js</code> 中的配置项。</p>
+<p>**devtool -&gt; 追踪代码错误：**SourceMap配置项是一个代码映射关系，若干 SourceMap为none的话，代码出错只能在打包后的文件中查看具体在哪。</p>
+<p>**devServer -&gt; 代码更改自动打包工具，ajax代理配置：**webpack's Watch Mode，webpack-dev-server，webpack-dev-middleware</p>
+<p>为什么要使用 <code>webpack-dev-server</code>，<code>webpack-dev-server</code>会自动帮我们开启一个web服务器，加载我们的页面，但我们通过本地<code>file://</code>路径打开一个html页面时，我们是无法进行http请求的，此时的协议名不同，所以但我们需要 进行ajax请求，就必须借助<code>webpack-dev-server</code>帮助我们打开一个web服 务器。<code>localhost:8080</code> 即 <code>http://localhost:8080</code></p>
+<p><code>devServer</code> proxy属性 可以帮devServer起的服务器再起一台代理服务器，转发ajax请求。 仅在开发环境(development)能这样做。</p>
+<p><code>devServer</code> 还可以<strong>解决单页面路由的问题</strong>。<code>devServer</code> 的 <code>historyApiFallback</code> 配置。配置为 true ，意思是若对其他路径下 html 请求时，发现后端没有该html文件，会把该请求转发到根路径，也就实现了单页面应用。 但是这种<code>devServer</code> 实现单页面应用的时候，仅仅只在前端本机开发的时候有作用，因为在部署到后端的时候<code>devServer</code> 并不会起作用，此时就需要后端在服务器上做相关的配置解决单页面路由的问题。</p>
+<p><strong>optimization -&gt; 优化</strong></p>
+<p><code>Tree Shaking</code>：optimization的usedExports属性。用于描述移除JavaScript上下文中未引用的代码。必须依赖与<code>ES Module</code>的规范(即<code>import export</code>)。因为要删除打包后的代码必须要在静态分析的时候进行，CommonJS规范无法做到<code>Tree Shaking</code>。</p>
+<p><code>Tree Shaking</code> 在<code>mode</code> 为 <code>production</code>生产环境中会自动进行，在开发环境中要使用必须配置。</p>
+<p><code>package.json</code> 中的 <code>sideEffects</code> 配置，用于告诉webpack哪些文件未用到的代码是可以安全删除的。</p>
+<p>例如如果导入<code>import '@babel/polly-fill'</code>，@bable/polly-fill的工作原理是在<code>window</code>对象上增加很多ES6才出的属性，例如<code>window.Promise</code>。但是Tree Shaking可能会认为它没有导出任何模块，于是将它的代码全部忽略，这是不行的，所以要配置<code>sideEffects</code>。</p>
+<p><code>Code Splitting</code>：optimization的 splitChunks 属性。代码分割其实不是只有webpack能实现，在没有webpack时也能进行Code Splitting，只是webpack 内置了智能的代码分割。常见的三种代码分割方式：1. 使用 <code>entry</code> 配置手动地分离代码。 2. 使用<code>SplitChunkPlugin</code>去重和分离chunk。 3. 动态导入，通过模块中的内联函数调用来分离代码。(import 动态导入，返回Promise)。使用魔法注释添加 Chunk。</p>
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211126171018229.png" alt="image-20211126171018229" loading="lazy"></figure>
+<p>webpack 默认只对 异步Chunk 做 splitting。为什么webpack会这样做呢？</p>
+<blockquote>
+<p>假设现在有进行交互的代码：需要点击某个按钮，做一些事情，如果我们按照常规思路同步的写代码，在main.js 文件中挂载 click 事件。此时第一次加载时，会下载该代码，但是需要click点击时才会触发此事件，这样就产生了一个问题：这个代码可能不会触发，下载的代码也就没有下载下来的意义了，把它下载下来会造成页面的性能问题。webpack 建议这样写：在挂载完click 事件后，再异步加载 ( 动态 import ) 模块做一些事情。这样，只有在点击后，才会<strong>下载此代码进行执行</strong>。（代码使用率后者比前者的写法更高）</p>
+<p>这也就是为什么webpack默认只对异步代码做 splitting的原因。对同步代码进行 splitting，代码在页面首加载的时候，还是会下载，只有异步下载的资源，splitting 出来才更有意义。（同步的代码进行splitting实际上只进行了一层缓存）</p>
+</blockquote>
+<blockquote>
+<p>但是，如果是只有再进行交互的时候才下载执行某些Chunk，用户的交互体验可能会变差。（例如，用户点击右上角的登录，弹出登录框，但是这些代码是异步加载的，只有在点击登录后才进行下载执行），这样会影响用户第一次点击登录框的用户体验。于是webpack提供的<strong>异步Chunk的 prefetch 和 preload。</strong></p>
+</blockquote>
+<p><strong>异步 import Chunk 的 prefetch 和 preload能提高页面的性能。（利用浏览器的缓存，在网络空闲时下载Chunk，下一次需要时直接使用缓存）</strong></p>
+<p>在使用动态import加载Chunk时，</p>
+<p><code>Lazy Loading</code>：懒加载也不是webpack独有的概念，实际上是ECAM规范 动态 import 的概念。（就是上一章splitting 的 prefetch 和 preload 的使用）。</p>
+<p><strong>前端性能的优化不应该放在浏览器的缓存上面，而是放在 代码的利用率上面。</strong>(Chrome浏览器 More Tools 选择 Coverage，即代码覆盖率-利用率)</p>
+<p><strong>mode -&gt; 指定代码开发环境还是生成环境</strong></p>
+<p>开发环境和生成环境一般的区别：HMR模块热更新(依赖webpack-dev-server)，devTool 的SourceMap，代码的是否被压缩等等。</p>
+<p>可以利用<code>webpack-merge</code> 编写一个 <code>webpack.common.js</code> 做<code>dev</code>和 <code>prod</code> 的共有配置。然后结合到 <code>webpack.dev.js</code></p>
+<h2 id="webpack-性能优化">webpack 性能优化</h2>
+<p><code>提升webpack打包速度的方法</code>：</p>
+<ol>
+<li>
+<p>跟上技术的迭代（Node，Npm，Yarn）</p>
+</li>
+<li>
+<p>在尽可能少的模块上应用Loader（配置文件中有 include 和 exclude语法）</p>
+</li>
+<li>
+<p>Plugin 尽可能精简且确保可靠、性能高</p>
+</li>
+<li>
+<p>合理的配置<code>resolve</code> 配置项，过多会导致性能问题</p>
+</li>
+</ol>
+<p><code>webpack configuration</code>有一个配置项 <code>resolve</code>。</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211128152526543.png" alt="image-20211128152526543" loading="lazy"></figure>
+<p><code>extensions</code> 表示我们在引入一个文件时(import .. from &quot;test&quot;)没有填写文件后缀，如<code>js</code> <code>jsx</code>，webpack默认的查找顺序。</p>
+<figure data-type="image" tabindex="6"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211128153237814.png" alt="image-20211128153237814" loading="lazy"></figure>
+<p><code>mainFiles</code>表示我们在引入一个文件夹目录时，没有指定具体文件，该配置项可以帮我们默认选择文件，这就是为什么默认会先引入名字为 index 的文件的原因。</p>
+<p><code>alias</code>表示文件的别名，可以书写更加方便的引入文件。</p>
+<ol start="5">
+<li>使用 <code>DllPlugin</code>插件 提高打包速度</li>
+</ol>
+<p>由于第三方模块一般不更改。使用该插件可以使第三方模块只打包一次。在第一次打包完第三方模块的时候，将打包后的文件放入一个新的文件夹中，之后的打包都使用第一次打包出来的模块，而不去重新打包第三方模块。</p>
+<ol start="6">
+<li>控制包文件大小</li>
+</ol>
+<p><code>TreeShaking</code> 可以减少包的大小。<code>splitting chunks</code> 拆分包。</p>
+<ol start="7">
+<li><code>thread-loader, parallel-webpack,happypack</code>多进程打包。</li>
+<li>合理使用 <code>sourceMap</code></li>
+</ol>
+<p><code>sourceMap</code> 越详细，打包速度越慢。</p>
+<ol start="9">
+<li>结合 stats 分析打包结果</li>
+<li>开发环境内存编译</li>
+</ol>
+<p><code>webpack-dev-server</code> 不会把编译后的内容放入 <code>dist</code>文件下，而是放入内存中，内存的读取 &lt; 硬盘的读取。这样webpack性能会提高</p>
+<ol start="11">
+<li>开发环境无用插件剔除</li>
+</ol>
+<h1 id="questions">Questions</h1>
+<h2 id="关于-js-模块化的发展过程">关于 JS 模块化的发展过程</h2>
+<blockquote>
+<p>【JS】模块.md</p>
+</blockquote>
+<h2 id="如何编写一个-loader">如何编写一个 Loader</h2>
+<p><code>Loader</code> 就是一个函数(不能是箭头函数，需要用到修改this指向)。</p>
+<pre><code class="language-javascript">// 与 dist src 同级的目录下，创建 loaders文件夹
+// Loaders 文件下创建 replaceLoader.js 编写该 Loader
+// replaceLoader.js:
+module.exports = function(source) {
+  // source 是源代码
+  // 对 source 进行编写 
+  return ...;
+}
+</code></pre>
+<p>函数中的 <code>this.query</code> 可以拿到配置项中配置的参数(具体来说是 options对象)。</p>
+<p>常用的 API：callback，async。</p>
+<p>Loader 常用于 对业务代码进行一些包装：1. 对业务代码进行异常监控，源代码里的函数需要进行 try catch，使用loader。 2. 网站国际化，通过对 全局变量的获取，判断是中文还是英文，对源代码中的 变量进行相应的替换。</p>
+<h2 id="如何编写一个-plugin">如何编写一个 Plugin</h2>
+<p><strong>Plugin 基于发布订阅模式，事件驱动。</strong></p>
+<p><strong>插件要定义成一个类class。</strong></p>
+<pre><code class="language-javascript">// 与 dist src 同级的目录下，创建 plugins文件夹
+// plugins 文件下创建 copyRight-webpack-plugin.js 编写该 plugin
+class CopyrightWebpackPlugin {
+  constructor(options) {
+      
+  }
+  apply(compiler) {
+    // compiler 是 webpack 的实例，存放 webpack 实例上的很多内容
+    // compiler.hooks 定义了 webpack 打包过程的某一时刻，利用这些钩子我们可以做一些事情。要注意钩子的异步和同步区别
+  }
+}
+</code></pre>
+<p>可以利用 node 执行 webpack，然后 debugger 调试 plugin。</p>
+<h2 id="编写一个自己的-bundler">编写一个自己的 Bundler</h2>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://null-go.github.io/post/js-liu-lan-qi-shi-jian/">
+              <h3 class="post-title">
+                下一篇：【JS】浏览器事件
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

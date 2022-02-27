@@ -1,96 +1,80 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】类数组对象和可迭代对象 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】类数组对象和可迭代对象 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="array-like objects (类数组对象)
-即类似于数组的对象，有若干索引属性和length属性
-一些 JavaScript 对象, 例如 querySelectorAll或Node.childNodes 返回的 NodeList..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】类数组对象和可迭代对象
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-03-15
-              </span>
-              <span>
-                3 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【JS】类数组对象和可迭代对象</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-15</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
+          </div>
+          <div class="post-content">
+            <h2 id="array-like-objects-类数组对象"><strong><code>array-like objects</code> (类数组对象)</strong></h2>
 <p><strong>即类似于数组的对象，有若干索引属性和length属性</strong></p>
 <p>一些 JavaScript 对象, 例如 <code>querySelectorAll或Node.childNodes</code> 返回的 <code>NodeList</code> 或者函数内部可用的 <code>arguments</code> 对象，他们表面上看起来，外观和行为像数组，但是不共享他们所有的方法（NodeList实现了forEach方法，在较老的浏览器中没有）。例如 arguments 对象就提供一个 length 属性，但是不实现 <code>forEach()</code>等数组专用方法。</p>
 <p>这个时候若想让类数组对象使用数组的方法，可以使用<strong>方法借用</strong>的方式让数组原型上的某个方法调用apply，因为许多数组的方法内部实现均使用this，改变方法内部的this即可以使该方法作用于类数组对象。</p>
@@ -130,91 +114,57 @@
 ampp(1, 2, 3, 4);
 </code></pre>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#array-like-objects-%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1"><strong><code>array-like objects</code> (类数组对象)</strong></a></li>
-<li><a href="#iterable-object%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><strong><code>Iterable object</code>（可迭代对象）</strong></a></li>
-<li><a href="#%E5%B0%86%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E6%88%96%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%95%B0%E7%BB%84"><strong>将类数组对象或可迭代对象转化为真正的数组</strong></a>
-<ul>
-<li><a href="#%E6%B3%951%E4%BD%BF%E7%94%A8%E5%85%A8%E5%B1%80%E6%96%B9%E6%B3%95-arrayfrom">法1：使用全局方法 Array.from()</a></li>
-<li><a href="#%E6%B3%952arrayprototypeslicecallarray-like-%E7%94%A8%E4%BA%8E%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1">法2：Array.prototype.slice.call(Array-like) 用于类数组对象</a></li>
-<li><a href="#%E6%B3%953es6-%E5%B1%95%E5%BC%80%E7%AC%A6-%E7%94%A8%E4%BA%8E%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">法3：ES6 展开符 用于可迭代对象</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-this-zhi-xiang/">
+            <a class="purple-link" href="https://null-go.github.io/post/js-this-zhi-xiang/">
               <h3 class="post-title">
-                【JS】this 指向
+                下一篇：【JS】this 指向
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>

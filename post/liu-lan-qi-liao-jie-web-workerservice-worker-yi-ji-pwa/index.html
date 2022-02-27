@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>【浏览器】了解 Web Worker、Service Worker 以及 PWA | PILOT</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">【浏览器】了解 Web Worker、Service Worker 以及 PWA</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-02-04</span>
+            
+          </div>
+          <div class="post-content">
+            <h2 id="web-worker">Web Worker</h2>
+<h3 id="为什么会有-web-worker">为什么会有 Web Worker</h3>
+<p>JavaScript 语言采用的是单线程模型，也就是说，所有任务只能在一个线程上完成，一次只能做一件事。前面的任务没做完，后面的任务只能等着。</p>
+<p>Web Worker 的作用，就是为 JavaScript 创造多线程环境，允许主线程创建 Worker  线程，将一些任务分配给后者运行。在主线程运行的同时，Worker 线程在后台运行，两者互不干扰。等到 Worker  线程完成计算任务，再把结果返回给主线程。这样的好处是，一些计算密集型或高延迟的任务，被 Worker 线程负担了，主线程（通常负责 UI  交互）就会很流畅，不会被阻塞或拖慢。</p>
+<h3 id="如何使用web-worker">如何使用Web Worker</h3>
+<p>Web Worker 有以下几个使用注意点。</p>
+<ul>
+<li><strong>同源限制</strong></li>
+</ul>
+<p>分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。</p>
+<ul>
+<li><strong>DOM 限制</strong></li>
+</ul>
+<p>Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用<code>document</code>、<code>window</code>、<code>parent</code>这些对象。但是，Worker 线程可以<code>navigator</code>对象和<code>location</code>对象。</p>
+<ul>
+<li><strong>通信联系</strong></li>
+</ul>
+<p>Worker 线程和主线程不在同一个上下文环境，它们不能直接通信，必须通过消息完成。</p>
+<ul>
+<li><strong>脚本限制</strong></li>
+</ul>
+<p>Worker 线程不能执行<code>alert()</code>方法和<code>confirm()</code>方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求。</p>
+<ul>
+<li><strong>文件限制</strong></li>
+</ul>
+<p>Worker 线程无法读取本地文件，即不能打开本机的文件系统（<code>file://</code>），它所加载的脚本，必须来自网络。</p>
+<p><strong>使用 Web Worker 的基本流程：</strong></p>
+<ol>
+<li>主线程调用 new Worker(&quot;work.js&quot;) 构造函数，传入一个非本地文件的网络文件 URL。</li>
+</ol>
+<pre><code class="language-javascript">var worker = new Worker(&quot;work.js&quot;)
+</code></pre>
+<ol start="2">
+<li>利用 postMessage 机制进行线程之间的消息传递。</li>
+</ol>
+<p><strong>主线程 页面：</strong></p>
+<pre><code class="language-javascript">// 主线程通过 worker.postMessage 向 worker线程发送数据
+worker.postMessage(&quot;Hello World&quot;);
+worker.postMessage({ method: &quot;echo&quot;, args: [&quot;Work&quot;]});
+//  主线程通过 worker.onmessage 指定监听worker线程发回来的消息
+worker.onmessage = function (event) {
+    event.data; // 拿到数据
+    // doSomething()
+}
+//  主线程 关闭 worker 线程
+worker.teminate()
+</code></pre>
+<p><strong>web worker 线程：</strong></p>
+<pre><code class="language-javascript">// self 对象代表子线程本身，即子线程的全局对象
+// self 对象中有很多API供调用
+</code></pre>
+<h2 id="service-worker">Service Worker</h2>
+<p>Service Worker 便是在 Web Worker 的基础上增加了离线缓存的能力。</p>
+<p><strong>可以把Service Worker 理解为一个介于客户端和服务器之间的代理服务器，在Service Worker 中可以做很多事情：比如拦截客户端请求，向服务器发起请求等，其中最主要的作业之一就是离线资源缓存。</strong></p>
+<p><strong>Service Worker 可以拦截处理页面的所有网络请求，可以使用 cache 和 indexDB 的 api，可以让开发者自己主动管理缓存的内容以及版本</strong>，为离线弱网环境下的 web 的运行提供了可能，让 web 在体验上更加贴近 native。</p>
+<p>（PWA -&gt; Progressive Web Apps，渐进式网络应用程序）</p>
+<blockquote>
+<p>使用 SW 的相关依赖：</p>
+<p>HTTPS / Promise / Fetch API(拦截http请求) / Cache API(进行缓存细粒化处理) / Push API(消息推送)</p>
+</blockquote>
+<p><strong>使用 Service Worker 的基本流程</strong></p>
+<ol>
+<li>检查浏览器是否支持</li>
+<li>注册一个 Service Worker。（一般都是在主页面 load 事件中绑定 注册函数，因为 SW注册后会启动一个新的线程，占用CPU、带宽等一系列资源，我们需要在本页面能正常加载完以后才启动SW线程，不能与正常的页面产生竞争）</li>
+<li>注册完之后，我们监听 <code>install</code> SW 的安装事件，利用 caches 对象对资源进行缓存。</li>
+<li>用 SW 的 self 对象监听 <code>fetch</code> 事件，完善缓存的策略。具体的场景用不同的缓存策略。</li>
+</ol>
+<h3 id="service-worker-的应用场景">Service Worker 的应用场景</h3>
+<ol>
+<li>提前缓存页面做预加载</li>
+</ol>
+<p>可以利用 A 页面开启时的 ServiceWorker 线程去独立下载未来可能会用到的资源，放到缓存中，可以认为未来的页面为高频应用场景。</p>
+<p>假如我们把一个新页面(子应用)的首屏加载的时间简化为：</p>
+<p><strong>资源加载时间 + 渲染时间。假如在工作台缓存了其他页面的 html、js、csc，并且子应用使用了SSR（服务端渲染），某种意义上我们就能达到相等程度上的秒开。</strong></p>
+<ol start="2">
+<li>使用错误页降级</li>
+</ol>
+<p>单某个重要的资源无法从网络下载时，可以返回一个 Error 页面，这个 Error 页面可以是事先缓存好的一个资源。使用 Service Worker 拦截请求，并判断出某个关键资源的网络问题。</p>
+<p>（钉钉工作台有类似的很多可以打开的应用）</p>
+<ol start="3">
+<li>Service Worker 可以对浏览器的缓存。做更加细粒化的处理。</li>
+</ol>
+<p>这意味着我们可以用 SW 控制缓存仅使用 Cache（Cache Only），仅使用网络（Network only），或者说先使用SW的缓存，没有则使用网络资源。又或者说优先使用网络资源，失败则使用缓存（对于时效性要求比较高的资源）。</p>
+<blockquote>
+<p>通过监听 self.addEventListener(&quot;fetch&quot;, event =&gt; { }); 事件对缓存做不同的策略。</p>
+</blockquote>
+<h2 id="pwa">PWA</h2>
+<h3 id="什么是pwa">什么是PWA</h3>
+<p>PWA 全称 <code>Progressive Web Apps</code>，渐进式网络应用程序。</p>
+<p>Web 应用有一种 <strong>平稳退化、渐进增强</strong>的设计理念，就是我们的不同的浏览器或者不同的浏览器版本对于 Web 新标准的跟进是会有不同程度的区别的。那么我们开发者能做的就是<strong>为支持新特性的浏览器提供更加完善的功能和体验。</strong></p>
+<p><strong>PWA 就是让我们的 Web App 有更多 Native App 原生手机应用的优点。</strong></p>
+<p>解决Web App 的缺点：</p>
+<ol>
+<li>没有桌面入口（Manifest）</li>
+<li>无法离线使用（Service Worker）</li>
+<li>没有Push消息推送</li>
+</ol>
+<p>PWA 的 关键技术就是 Service Worker。</p>
+<blockquote>
+<p>https://github.com/ThornWu/blog/issues/1</p>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://null-go.github.io/post/wang-luo-http-yu-liu-lan-qi-huan-cun/">
+              <h3 class="post-title">
+                下一篇：【网络】HTTP与浏览器缓存
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

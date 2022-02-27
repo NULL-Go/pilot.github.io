@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>【网络】HTTP与浏览器缓存 | PILOT</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">【网络】HTTP与浏览器缓存</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-01-28</span>
+            
+          </div>
+          <div class="post-content">
+            <p>缓存是什么：缓存是一种保存资源副本并在下次请求时避免向服务器发起请求而直接使用该副本的技术。</p>
+<p>缓存的好处：1.减少服务器的压力 2. 减少带宽的消耗 3. 提升浏览器的性能</p>
+<ol>
+<li><strong>浏览器缓存</strong>     私有缓存，只能用于单独用户 <strong>包括强缓存和协商缓存：</strong></li>
+</ol>
+<p><strong>浏览器会先判断是否命中强缓存，然后再验证是否命中协商缓存。</strong></p>
+<p>强缓存：浏览器在加载资源时，会先根据本地缓存资源的 <code>header</code> 中的信息判断是否命中强缓存，如果命中则直接使用缓存中的资源不会再向服务器发送请求。具体字段：·HTTP1.0中的 <code>Expires</code> 和HTTP1.1 中<code>Cache-control</code>，后者优先级更高。Expires 是绝对时间，<code>Cache-control</code>中的max-age 是相对时间。</p>
+<p><strong>当强缓存没有命中的时候，浏览器会发送一个请求到服务器，请求头中的某些字段用来协商缓存，这些字段的值来自上一次响应的header中，服务器根据请求头中的字段来判断是否命中缓存。如果命中，则返回 <code>304 Not Modified</code> ，响应体中不会有新的资源，告诉浏览器资源未更新，可使用本地的缓存。</strong></p>
+<p>协商缓存：<code>Last-Modified</code> 和 <code>If-Modified-Since</code>，Last-Modified 表示资源最后修改的时间，其中存在一个缺陷，它的修改时间是秒级，比如如果一个文件在一秒内修改多次，那么它在这一秒内新版本和旧版本无法区分，它们的<code>Last-Modified</code>值都是一样的。再比如，一个文件定期修改，但有时会是同样的内容，实际上没有修改，但是<code>Last-Modified</code>的值会发生改变，原本内容没有变的文件通过<code>Last-Modified</code> 的修改对外是已变的。为了解决 <code>Last-Modified</code>的缺陷，另外一个字段叫<code>ETag</code>，对应请求头部中的 <code>If-no-match</code>字段，它可以精确的表示资源改变，保证资源的唯一性。</p>
+<p><strong>Last-Modified - If-Modified-Since         ETag - If-No-Match</strong></p>
+<p><code>Last-Modified</code> 和 <code>Etag</code> 是可以同时设置的，服务器会优先校验 <code>Etag</code>，如果 <code>Etag</code> 相等就会继续比对 <code>Last-Modified</code>，最后才会决定是否返回 304 Not Modified。</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210922215634052.png" alt="image-20210922215634052" loading="lazy"></figure>
+<p>四种缓存存放于本地的位置：Service Worker -&gt; Memory Cache -&gt; Disk Cache -&gt; Push Cache;</p>
+<p>Service Worker：Service Worker 并非专门为缓存而设计，**它本质上就是一个全新的 JavaScript 线程，这个线程运行在于 主JavaScript线程 不同的上下文。**Service Worker 可以用来进行大量复杂的运算，这样就不会影响到主线程。</p>
+<p>from memory cache代表使用内存中的缓存，from disk cache则代表使用的是硬盘中的缓存，浏览器读取缓存的顺序为memory –&gt; disk。</p>
+<ol start="2">
+<li><strong>代理缓存</strong>  公有缓存，缓存可以为多个客户端使用，用来做缓存机制的代理，称为缓存代理</li>
+</ol>
+<p>对于源服务器来说，它也是有缓存的，但对于 HTTP 缓存来说，如果每次客户端缓存失效都要到源服务器获取，那给源服务器的压力是很大的。</p>
+<p>由此引入了<strong>缓存代理</strong>的机制。让代理服务器接管一部分的服务端HTTP缓存，客户端缓存过期后<strong>就近</strong>到代理缓存中获取，代理缓存过期了才请求源服务器，这样流量巨大的时候能明显降低源服务器的压力。</p>
+<p>总的来说，缓存代理的控制分为两部分，一部分是<strong>源服务器</strong>端的控制，一部分是<strong>客户端</strong>的控制。</p>
+<p><strong>源服务器端的控制</strong>：private和public，proxy-revalidate，s-maxage</p>
+<p>**客户端的控制：**max-stale，min-fresh，only-if-cached</p>
+<p><strong>Cache-Control 的取值：</strong></p>
+<p>no-store：不允许进行缓存。(这种策略相当于浏览器会每次请求都和第一次一样，不会去使用缓存机制)</p>
+<p>no-cache：可以进行缓存，强缓存不能直接用，是否使用缓存还需要验证是否击中协商缓存，是否有最新版本。</p>
+<p>must-revalidate：如果缓存不过期可以继续使用，过期了必须去<strong>源</strong>服务器验证。</p>
+<p>max-age：缓存保质期（相对时间秒）。</p>
+<p>public：资源客户端和服务器都可以缓存。</p>
+<p>privite：资源只有客户端可以缓存。</p>
+<p><strong>其中有以下会影响到代理服务器上的缓存机制的字段：</strong></p>
+<p>private 和 public：区分客户端和代理上的缓存，分别指缓存是否只能在客户端缓存或者能在代理服务器上缓存供多个客户端使用。</p>
+<p>proxy-revalidate：对应 must-revalidate，该字段表明只需到代理服务器上验证缓存是否过期，不必回源。</p>
+<p>s-maxage：对应 max-age，表示缓存在代理服务器上的过期时间(share-maxage)。</p>
+<p>no-transform：仅针对代理服务器，表示让代理服务器对缓存不做任何处理，比如不允许代理将图片生成多种格式进行优化。</p>
+<p>关于max-stale和min-fresh字段，它们属于请求头字段，表明对缓存代理资源的**宽容和限制。**max-stale宽容缓存可以过期x秒，min-fresh限制缓存必须在过期前x秒取得。</p>
+<p>only-if-cached：客户端仅接受代理缓存，而不会接受源服务器的响应。如果代理缓存无效，则直接返回<code>504（Gateway Timeout）</code></p>
+<blockquote>
+<p>强制刷新 (Ctrl + F5)：浏览器不使用缓存，因此发送的请求头部均带有 Cache-control:no-cache(为了兼容，还带了 Pragma:no-cache),服务器直接返回 200 和最新内容。</p>
+</blockquote>
+<blockquote>
+<p>如何解决后端代码更新上线，但是因为浏览器使用缓存的原因，前端页面没有发生更改。</p>
+<ol>
+<li>文件名加版本号：config-1.0.0.js，config-2.0.0.js</li>
+<li>配置 cache-control: no-cache 每次都走协商缓存查看是否有最新版本</li>
+<li>在接口请求处做拦截，让后端提供一个获取最新版本号的接口，如果如本地缓存的版本号不同，则强制刷新页面请求最新数据。</li>
+</ol>
+</blockquote>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/">
+              <h3 class="post-title">
+                下一篇：【JS】前端异步解决方案迭代
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

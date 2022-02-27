@@ -1,58 +1,282 @@
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="温故而知新" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+        <div class="content-container">
+          
+          
+
+<div class="archives-container">
+  
+    <h2 class="year">2022</h2>
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/liu-lan-qi-liao-jie-web-workerservice-worker-yi-ji-pwa/">
+            <h2 class="post-title">
+              【浏览器】了解 Web Worker、Service Worker 以及 PWA
+              <small>2022-02-04</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/wang-luo-http-yu-liu-lan-qi-huan-cun/">
+            <h2 class="post-title">
+              【网络】HTTP与浏览器缓存
+              <small>2022-01-28</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    <h2 class="year">2021</h2>
+    
+      
+    
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/">
+            <h2 class="post-title">
+              【JS】前端异步解决方案迭代
+              <small>2021-10-13</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/gong-cheng-hua-qian-xue-webpack/">
+            <h2 class="post-title">
+              【工程化】浅学 Webpack
+              <small>2021-10-12</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-liu-lan-qi-shi-jian/">
+            <h2 class="post-title">
+              【JS】浏览器事件
+              <small>2021-05-29</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-shi-jian-xun-huan/">
+            <h2 class="post-title">
+              【浏览器】事件循环机制
+              <small>2021-05-01</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/">
+            <h2 class="post-title">
+              【JS】数据类型及转换
+              <small>2021-04-16</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-dom/">
+            <h2 class="post-title">
+              【JS】DOM
+              <small>2021-03-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
+            <h2 class="post-title">
+              【JS】对象、类与原型链
+              <small>2021-03-16</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/">
+            <h2 class="post-title">
+              【JS】数组内置方法
+              <small>2021-03-15</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/">
+            <h2 class="post-title">
+              【JS】类数组对象和可迭代对象
+              <small>2021-03-15</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-this-zhi-xiang/">
+            <h2 class="post-title">
+              【JS】this 指向
+              <small>2021-03-13</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
+            <h2 class="post-title">
+              【AJAX】混编模式与AJAX、Fetch
+              <small>2021-03-09</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/">
+            <h2 class="post-title">
+              【JS】执行上下文、变量作用域与闭包
+              <small>2021-03-03</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://null-go.github.io/post/k/">
+            <h2 class="post-title">
+              Markdown语法汇总
+              <small>2021-03-02</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+  
+</div>
+
+
+        </div>
+
+        <div class="site-footer">
+  <div class="slogan">温故而知新</div>
   <div class="social-container">
     
       
@@ -66,245 +290,27 @@
       
     
   </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-    
-        
-
-<div class="archives-container">
-  
-    <h2 class="year">2021</h2>
-    
-      
-        <a href="https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/" class="post">
-          <h2 class="post-title">
-            【JS】数据类型及转换
-          </h2>
-          <div class="time">2021-07-26</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-liu-lan-qi-shi-jian/" class="post">
-          <h2 class="post-title">
-            【JS】浏览器事件
-          </h2>
-          <div class="time">2021-05-29</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-shi-jian-xun-huan/" class="post">
-          <h2 class="post-title">
-            【JS】事件循环
-          </h2>
-          <div class="time">2021-05-01</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/" class="post">
-          <h2 class="post-title">
-            【JS】异步解决方案(Promise Generator)
-          </h2>
-          <div class="time">2021-04-16</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/css3-ji-chu/" class="post">
-          <h2 class="post-title">
-            【CSS3】基础
-          </h2>
-          <div class="time">2021-03-25</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/css-bu-ju/" class="post">
-          <h2 class="post-title">
-            【CSS】布局
-          </h2>
-          <div class="time">2021-03-24</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-dom/" class="post">
-          <h2 class="post-title">
-            【JS】DOM
-          </h2>
-          <div class="time">2021-03-18</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/" class="post">
-          <h2 class="post-title">
-            【JS】对象、类与原型链
-          </h2>
-          <div class="time">2021-03-16</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-shu-zu-nei-zhi-fang-fa/" class="post">
-          <h2 class="post-title">
-            【JS】数组内置方法
-          </h2>
-          <div class="time">2021-03-15</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-lei-shu-zu-dui-xiang-he-ke-die-dai-dui-xiang/" class="post">
-          <h2 class="post-title">
-            【JS】类数组对象和可迭代对象
-          </h2>
-          <div class="time">2021-03-15</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-this-zhi-xiang/" class="post">
-          <h2 class="post-title">
-            【JS】this 指向
-          </h2>
-          <div class="time">2021-03-13</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/es6-yu-fa-jie-xi/" class="post">
-          <h2 class="post-title">
-            【ES6】语法简学
-          </h2>
-          <div class="time">2021-03-12</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/vue-jie-jue-dong-tai-bang-ding-ben-di-tu-pian-de-wen-ti/" class="post">
-          <h2 class="post-title">
-            【Vue】解决动态绑定本地图片的问题
-          </h2>
-          <div class="time">2021-03-09</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/" class="post">
-          <h2 class="post-title">
-            【AJAX】同步和异步HTTP请求 混编模式
-          </h2>
-          <div class="time">2021-03-09</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/css-ji-chu/" class="post">
-          <h2 class="post-title">
-            【CSS】基础知识汇总
-          </h2>
-          <div class="time">2021-03-07</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/js-bian-liang-zuo-yong-yu-yu-bi-bao/" class="post">
-          <h2 class="post-title">
-            【JS】执行上下文、变量作用域与闭包
-          </h2>
-          <div class="time">2021-03-03</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/http/" class="post">
-          <h2 class="post-title">
-            【计网】基于自顶向下
-          </h2>
-          <div class="time">2021-03-03</div>
-        </a>
-      
-    
-      
-        <a href="https://null-go.github.io/post/k/" class="post">
-          <h2 class="post-title">
-            Markdown语法汇总
-          </h2>
-          <div class="time">2021-03-02</div>
-        </a>
-      
-    
-      
-    
-  
-    <h2 class="year">2018</h2>
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://null-go.github.io/post/hello-gridea/" class="post">
-          <h2 class="post-title">
-            Hello Gridea
-          </h2>
-          <div class="time">2018-12-12</div>
-        </a>
-      
-    
-  
-</div>
-
-    
-        <div class="pagination-container">
-  
-  
-</div>
-
-    
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
 
       </div>
+      <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
     </div>
   </body>
 </html>

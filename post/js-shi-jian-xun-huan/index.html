@@ -1,127 +1,143 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>【JS】事件循环 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+    
+<meta charset="utf-8" >
+
+<title>【浏览器】事件循环机制 | PILOT</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】事件循环 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="事件循环
-JavaScript语言是一门单线程语言，所有的异步任务都是用同步来模拟的。事件循环 Event Loop是JavaScript的执行机制。
-同步任务是指：在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。
-异..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】事件循环
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-05-01
-              </span>
-              <span>
-                5 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【浏览器】事件循环机制</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-05-01</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h1 id="事件循环">事件循环</h1>
-<p><strong>JavaScript语言是一门单线程语言，所有的异步任务都是用同步来模拟的。事件循环 Event Loop是JavaScript的执行机制。</strong></p>
+          </div>
+          <div class="post-content">
+            <h2 id="消息队列">消息队列</h2>
+<p>渲染进程中维持了一个消息队列，渲染主线程会循环地从消息队列头部读取任务，执行任务。IO 线程中产生的新任务添加进消息队列尾部，同时，渲染进程中的IO线程专门用来接收其他进程传过来的消息组装成任务放入消息队列中。</p>
+<p>通常我们把消息队列中的任务称为<strong>宏任务</strong>，每个宏任务中都<strong>包含</strong>了一个<strong>微任务</strong>队列（微任务的执行时长会影响当前宏任务的时长）。</p>
+<figure data-type="image" tabindex="1"><img src="https://static001.geekbang.org/resource/image/e2/c6/e2582e980632fd2df5043f81a11461c6.png" alt="img" loading="lazy"></figure>
+<blockquote>
+<p>IPC Interprocesses communication 即进程中相互通讯的机制</p>
+</blockquote>
+<h3 id="为什么要引入微任务">为什么要引入微任务</h3>
+<p>引入微任务的初衷是为了解决异步回调问题。对于异步回调的处理，不外乎有两种操作：</p>
+<ol>
+<li>将异步回调当做宏任务进行入队操作</li>
+<li>将异步回调放到当前宏任务的末尾（微任务）</li>
+</ol>
+<p>如果采用第一种，若当前任务队列比较长，那么回调的<strong>实时性</strong>就不强了。故采用了第二种方式。</p>
+<h2 id="事件循环">事件循环</h2>
+<p><strong>JavaScript语言是一门单线程语言，所有的异步任务都是用同步来模拟的。事件循环 Event Loop 是JavaScript的执行机制。</strong></p>
+<p><strong>虽然JS是单线程的但是浏览器的内核是多线程的，在浏览器的内核中不同的异步操作由不同的浏览器线程模块调度执行，异步操作会将相关回调添加到任务队列中。</strong></p>
 <p>同步任务是指：在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。</p>
 <p>异步任务指的是，不进入主线程、而进入<strong>任务队列</strong>的任务，只有<strong>任务队列</strong>通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。异步任务分为<strong>微任务</strong>和<strong>宏任务</strong>。</p>
-<img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/ignore-error/1" alt="img" style="zoom: 50%;" />
-<p><strong>微任务</strong>和<strong>宏任务</strong>是两个不同的 <strong>Event Queue</strong></p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210820162209106.png" alt="image-20210820162209106" loading="lazy"></figure>
+<p><strong>每个宏任务</strong>在其中都定义了一个<strong>微任务</strong>队列，当该宏任务结束时，会查看其中的微任务队列，若微任务队列中有任务，则依次取出来执行，执行完毕后在宏任务队列中取出下一个宏任务执行。</p>
 <p>Event Table：比如 setTimeout(fn,3000); 将 setTimeout函数扔进 Event Table，3秒后为其注册回调函数 fn 并放进Event Queue中。</p>
-<img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdcea13361a1ec?imageView2/0/w/1280/h/960/ignore-error/1" alt="img" style="zoom:50%;" />
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210820162224027.png" alt="image-20210820162224027" loading="lazy"></figure>
+<p>https://github.com/aooy/blog/issues/5</p>
+<p>《从event loop规范探究javaScript异步及浏览器更新渲染时机》</p>
+<p>https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF</p>
+<p>《并发模型与事件循环 MDN》</p>
+<p>事件循环机制是为了协调事件，用户交互，脚本，渲染，网络等等这些与网页相关的一系列内容。JavaScript执行线程（也就是渲染进程主线程）开始运行的时候，产生堆（heap），执行上下文栈（stack），和消息队列。堆是存放对象内存的地方，执行上下文栈是函数调用形成了一个由若干帧组成的栈。代码中可以分成很多的任务，有<strong>同步任务和异步任务</strong>，同步任务直接放入主线程中执行，而当代码调用各种API时而产生异步任务时，如setTimeout函数，DOM操作触发了事件处理程序、进行了网络请求并得到响应等等任务时，它们会在&quot;宏任务队列&quot;（也就是之前提到的消息队列）后按时间顺序依次放入这些任务（click，load，done），并在之后的出队顺序中秉承队列的<strong>先进先出</strong>机制。若遇到Promise.then、MutationObserver此种回调函数而产生的异步任务，则会放入微任务队列中，当同步代码全部执行完成，此时执行上下文栈为空时，主线程就会去读取现存微任务队列中的所有微任务，将所有微任务依次放入主线程执行之后，执行一些<strong>必要的渲染和绘制操作</strong>，再从宏任务队列中移出最前的任务，并作为输入参数来调用与之关联的回调函数，push进入执行栈中执行。然后等待执行栈为空时，反复以上过程。</p>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210911162957569.png" alt="image-20210911162957569" style="zoom:80%;" />
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210911170129764.png" alt="image-20210911170129764" loading="lazy"></figure>
 <h2 id="微任务与宏任务">微任务与宏任务</h2>
 <p>事件循环的概念：一个在 JavaScript 引擎<strong>等待任务</strong>，<strong>执行任务</strong>和<strong>进入休眠状态等待更多任务</strong>这几个状态之间转换的无限循环。</p>
 <p>事件循环负责<strong>收集事件</strong>（包括用户事件以及其他非用户事件等）、<strong>对任务进行排队</strong>以便在合适的时候执行回调。然后它<strong>执行</strong>所有处于等待中的 <strong>一个JavaScript 任务（宏任务）</strong>，然后是<strong>所有微任务</strong>，然后执行一些<strong>必要的渲染和绘制操作</strong>。直到本次循环宏任务队列中的任务全部出队，一次循环结束。</p>
 <p><strong>任务示例：</strong></p>
-<ol>
-<li>当外部脚本 <code>&lt;script src=&quot;...&quot;&gt;</code> 加载完成时，任务就是执行它(第一个script标签是第一个宏任务)。</li>
-<li>当用户移动鼠标时，任务就是派生出 <code>mousemove</code> 事件和执行处理程序。<strong>事件</strong></li>
-<li>当安排的（scheduled）<code>setTimeout</code> 时间到达时，任务就是执行其回调。<strong><code>setTimeout</code>和<code>setInterval</code>函数</strong></li>
-<li>......诸如此类</li>
-</ol>
+<ul>
+<li>
+<p>渲染事件（如解析 DOM、计算布局、绘制）；</p>
+</li>
+<li>
+<p>用户交互事件（如鼠标点击click、鼠标移动mousemove、滚动页面、放大缩小等）；</p>
+</li>
+<li>
+<p>JavaScript 脚本执行事件（当外部脚本 <code>&lt;script src=&quot;...&quot;&gt;</code> 加载完成时，任务就是执行它，第一个script标签是第一个宏任务）；</p>
+</li>
+<li>
+<p>JavaScript 定时器（setTimeout。setIntervbal函数）；</p>
+</li>
+<li>
+<p>网络请求完成（XMLHttpRequest的onreadystatechange事件绑定的回调函数）、文件读写完成事件。</p>
+</li>
+</ul>
 <p>多个任务组成了一个队列，即所谓的<strong>宏任务队列</strong>。</p>
 <p>队列中的任务基于<strong>先进先出的</strong>原则执行。</p>
 <blockquote>
 <p>引擎执行任务时永远不会进行渲染（render）。如果任务执行需要很长一段时间也没关系。仅在任务完成后才会绘制对 DOM 的更改。(我们的函数可能会创建很多元素，将它们一个接一个地插入到文档中，并更改其样式 —— 访问者不会看到任何未完成的“中间态”内容)</p>
 <p>如果一项任务执行花费的时间过长，浏览器将无法执行其他任务，例如处理用户事件。因此，在一定时间后，浏览器会抛出一个如“页面未响应”之类的警报，建议你终止这个任务。这种情况常发生在有大量复杂的计算或导致死循环的程序错误时。</p>
 </blockquote>
-<p>**微任务实例：**原生Promise , process.nextTick , MutationObserver , Promise.resolve(11).then 后面的回调函数也丢进微任务队列</p>
+<p>**微任务实例：**原生Promise , process.nextTick , <strong>MutationObserver</strong> , Promise.resolve(11).then 后面的回调函数也丢进微任务队列</p>
 <p>宏任务队列和微任务队列的<strong>区别</strong>很简单，但却很重要：</p>
 <ul>
 <li>当执行来自任务队列中的任务时，在每一次新的事件循环开始迭代的时候运行时都会执行队列中的每个任务。在每次迭代开始之后加入到队列中的任务需要<strong>在下一次迭代开始之后才会被执行</strong>.</li>
 <li>每次当一个任务退出且执行上下文为空的时候，微任务队列中的每一个微任务会依次被执行。不同的是它会等到微任务队列为空才会停止执行——即使中途有微任务加入。换句话说，微任务可以添加新的微任务到队列中，并在下一个任务开始执行之前且当前事件循环结束之前执行完所有的微任务。</li>
 </ul>
-<figure data-type="image" tabindex="1"><img src="https://null-go.github.io/post-images/1622278085050.png" alt="" loading="lazy"></figure>
+<img src="C:\Users\huangzhehao\AppData\Roaming\Typora\typora-user-images\image-20210417204815996.png" alt="image-20210417204815996" style="zoom:80%;" />
 <pre><code class="language-javascript">let promise = Promise.resolve(&quot;微任务&quot;);
 setTimeout(() =&gt; {
   console.log(&quot;宏任务&quot;); // 宏任务。
@@ -177,86 +193,64 @@ setTimeout(function () {
 // timeout2_then
 // 6 6 6 6
 </code></pre>
-<pre><code class="language-javascript">
-</code></pre>
+<h2 id="微任务-mutationobserver">微任务 MutationObserver</h2>
+<p><strong>历史洪流</strong>，在 2000年时引入了 Mutation Event ， Mutation Event 采用了观察者的设计模式，当 DOM 有变动时就会立刻触发相应的事件，这种方式属于同步回调。采用 Mutation Event  解决了实时性的问题，因为 DOM 一旦发生变化，就会立即调用 JavaScript 接口。但也正是这种实时性造成了严重的性能问题，因为每次  DOM 变动，渲染引擎都会去调用 JavaScript，这样会产生较大的性能开销。比如利用 JavaScript 动态创建或动态修改 50  个节点内容，就会触发 50 次回调，而且每个回调函数都需要一定的执行时间，这里我们假设每次回调的执行时间是 4 毫秒，那么 50  次回调的执行时间就是 200 毫秒，若此时浏览器正在执行一个动画效果，由于 Mutation Event 触发回调事件，就会导致动画的卡顿。</p>
+<p>为了解决了 Mutation Event  由于同步调用 JavaScript 而造成的性能问题，从 DOM4 开始，推荐使用 MutationObserver 来代替 Mutation  Event。MutationObserver API 可以用来监视 DOM 的变化，包括属性的变化、节点的增减、内容的变化等。</p>
+<p>我们通过<strong>异步调用</strong>和减少触发次数来缓解了性能问题，那么如何保持消息通知的及时性呢？ --&gt; <strong>微任务</strong></p>
+<p>语法：https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220210151111455.png" alt="image-20220210151111455" loading="lazy"></figure>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li><a href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF">事件循环</a>
-<ul>
-<li><a href="#%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%AE%8F%E4%BB%BB%E5%8A%A1">微任务与宏任务</a></li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-yi-bu-jie-jue-fang-an-promise-generator/">
+            <a class="purple-link" href="https://null-go.github.io/post/js-shu-ju-lei-xing-ji-zhuan-huan/">
               <h3 class="post-title">
-                【JS】异步解决方案(Promise Generator)
+                下一篇：【JS】数据类型及转换
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>

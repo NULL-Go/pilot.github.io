@@ -1,99 +1,80 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】DOM | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】DOM | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="DOM
-文档对象模型（Document Object Model）
-document 对象是页面的主要入口点
-DOM树
-每个HTML标签都是一个对象，标签内的文本也是一个对象。
-标签称为元素节点，元素内的文本形成文本节点(一个文本节点只包含..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
         <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】DOM
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-03-18
-              </span>
-              <span>
-                11 min read
-              </span>
-              
-            </div>
+          
+          <h2 class="post-title">【JS】DOM</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-18</span>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h1 id="dom">DOM</h1>
+          </div>
+          <div class="post-content">
+            <h1 id="dom">DOM</h1>
 <p>文档对象模型（Document Object Model）</p>
 <p>document 对象是页面的主要入口点</p>
 <h1 id="dom树"><strong>DOM树</strong></h1>
@@ -381,114 +362,57 @@ getComputedSyle(element,null) = {}; 直接报错了
 <li>CSS属性中的width在不同的浏览器中对scroll的处理可能不一致（一些浏览器从width中抽取部分给scroll），而clientWidth总是不包括滚动条的。</li>
 </ol>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li><a href="#dom">DOM</a></li>
-<li><a href="#dom%E6%A0%91"><strong>DOM树</strong></a>
-<ul>
-<li><a href="#%E6%9F%A5%E6%89%BE"><strong>查找</strong></a></li>
-<li><a href="#dom%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">DOM集合(类数组的可迭代对象)</a></li>
-<li><a href="#dom%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB">DOM的继承关系</a></li>
-</ul>
-</li>
-<li><a href="#dom%E7%89%B9%E6%80%A7attributes%E5%92%8C%E5%B1%9E%E6%80%A7properties">DOM特性(attributes)和属性(properties)</a>
-<ul>
-<li><a href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84%E7%89%B9%E6%80%A7"><strong>非标准的特性</strong></a></li>
-</ul>
-</li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E6%A1%A3"><strong>修改文档</strong></a>
-<ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95"><strong>创建方法</strong></a></li>
-<li><a href="#%E6%8F%92%E5%85%A5%E6%96%B9%E6%B3%95"><strong>插入方法</strong></a></li>
-<li><a href="#eleinsertadjacenthtmltextelementwherecontent">ele.insertAdjacentHTML/Text/Element(where,content)</a></li>
-<li><a href="#%E7%A7%BB%E9%99%A4%E6%96%B9%E6%B3%95">移除方法</a></li>
-<li><a href="#%E5%85%8B%E9%9A%86%E8%8A%82%E7%82%B9">克隆节点</a></li>
-</ul>
-</li>
-<li><a href="#%E6%A0%B7%E5%BC%8F%E5%92%8C%E7%B1%BB"><strong>样式和类</strong></a>
-<ul>
-<li><a href="#classname%E5%92%8Cclasslist">className和classList</a></li>
-<li><a href="#%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F">元素样式</a></li>
-</ul>
-</li>
-<li><a href="#%E5%85%83%E7%B4%A0%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%BB%9A%E5%8A%A8">元素大小和滚动</a>
-<ul>
-<li><a href="#%E5%85%83%E7%B4%A0%E7%BB%93%E6%9E%84">元素结构</a></li>
-<li><a href="#%E5%87%A0%E4%BD%95">几何</a></li>
-<li><a href="#%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7%E9%99%A4-scrolltop%E5%92%8Cscrollleft%E5%A4%96%E5%85%B6%E4%BB%96%E5%9D%87%E5%8F%AA%E8%AF%BB">几何属性除 scrollTop和scrollLeft外，其他均只读</a></li>
-<li><a href="#css%E5%B1%9E%E6%80%A7%E4%B8%ADwidth-%E5%92%8C-%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7%E4%B8%ADclientwidth-%E7%9A%84%E5%8C%BA%E5%88%AB">CSS属性中width 和 几何属性中clientWidth 的区别</a></li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
 
         
           <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
+            <a class="purple-link" href="https://null-go.github.io/post/js-dui-xiang-yuan-xing-lian/">
               <h3 class="post-title">
-                【JS】对象、类与原型链
+                下一篇：【JS】对象、类与原型链
               </h3>
             </a>
           </div>
-        
+          
+      </div>
 
-        
+      
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-      </div>
+
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>

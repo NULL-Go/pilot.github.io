@@ -1,65 +1,212 @@
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>【JS】this 指向 | PILOT</title>
-<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1635145440039">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://null-go.github.io/favicon.ico?v=1645952268718">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://null-go.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【JS】this 指向 | PILOT - Atom Feed" href="https://null-go.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="this的指向问题的几个重点
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
-this可以用于任何函数或者方法。
-this是不受限制的。
-在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://null-go.github.io">
-  <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1635145440039" alt="">
-  </a>
-  <h1 class="site-title">
-    PILOT
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://null-go.github.io">
+        <img class="avatar" src="https://null-go.github.io/images/avatar.png?v=1645952268718" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://null-go.github.io">
+        <h1 class="site-title">PILOT</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">【JS】this 指向</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-03-13</span>
+            
+          </div>
+          <div class="post-content">
+            <h1 id="this">This</h1>
+<h2 id="this-是什么">this 是什么</h2>
+<p><strong>this</strong> 是 <strong>当前执行上下文</strong>（global、function 或 eval）的一个属性，在<strong>非严格模式</strong>下，总是指向一个对象，在<strong>严格模式</strong>下可以是任意值。</p>
+<h2 id="全局上下文">全局上下文</h2>
+<p>两种模式下，在全局执行环境下的 <strong>this</strong> 均指向全局对象（可用 globalThis 访问全局对象）。</p>
+<h2 id="函数上下文">函数上下文</h2>
+<p><strong>函数的调用方式决定了函数被调用时的this。除箭头函数外</strong></p>
+<p>this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对象。</p>
+<ul>
+<li>
+<p><strong>作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向全局对象(浏览器window)（在非严格模式下方法调用会发生自动装箱。若初始值是 <code>undefined</code>，<em>this</em> 值会被设为全局对象。）。</strong></p>
+</li>
+<li>
+<p><strong>作为对象的方法调用，this指向本对象，且this靠近最后一个对象。箭头函数作为对象方法例外</strong></p>
+</li>
+</ul>
+<pre><code class="language-javascript">function getThis() {
+  &quot;use strict&quot;;
+  console.log(this);
+}
+getThis(); // undefined
+window.getThis(); // window // 这里是作为window对象的方法调用的，所以指向window
+</code></pre>
+<pre><code class="language-javascript">// 箭头函数与方法
+function obj1() {
+  this.consoleThis = () =&gt; {
+    console.log(this);
+  };
+}
+let obj1_ = new obj1();
+obj1_.consoleThis(); // 打印 obj1_
+let obj2 = {
+  consoleThis: () =&gt; {
+    console.log(this);
+  },
+};
+obj2.consoleThis(); // 打印window
+</code></pre>
+<ul>
+<li>
+<p><strong>在对象的构造函数中，使用new方法，this指向构造的那个新对象</strong></p>
+</li>
+<li>
+<p><strong>箭头函数的this值来自闭合词法上下文(上一层作用域)的值(也就是说，箭头函数的this在函数创建时就已经绑定好了，这与其他函数情况不同，this传递给call、bind、或者apply来调用箭头函数，它将被忽略。)</strong></p>
+<pre><code class="language-javascript">// 全局的箭头函数在 严格模式下仍然指向全局对象
+&quot;use strict&quot;;
+const fn = () =&gt; {
+  console.log(this);
+};
+fn();
+</code></pre>
+</li>
+</ul>
+<h2 id="类上下文">类上下文</h2>
+<p><code>this</code> 在类中的表现与在函数中类似，因为类本质上也是函数。</p>
+<p>在类的<strong>构造函数</strong>中，<code>this</code> 是一个常规对象。类中所有<strong>非静态的方法</strong>都会被添加到 <code>this</code> 的<strong>原型</strong>中，即类对象(函数)的prototype：</p>
+<blockquote>
+<p>调用静态方法不需要 实例化 该类，但不能通过一个类实例调用静态方法。</p>
+</blockquote>
+<p>class内部的代码总是在严格模式下执行：</p>
+<pre><code class="language-javascript">// 当调用静态或原型方法时没有指定 this 的值，那么方法内的 this 值将被置为 undefined。
+// 因为是在严格模式下
+class Car {
+  getThis1() {
+    return this;
+  }
+  static getThis2() {
+    return this;
+  }
+}
+let car = new Car();
+console.log(car.getThis1()); // car {}
+let getThis1_ = car.getThis1;
+console.log(getThis1_()); // undefined
+
+console.log(Car.getThis2()); // Class Car {}
+let getThis2_ = Car.getThis2;
+console.log(getThis2_()); // undefined
+</code></pre>
+<h1 id="修改this指向"><strong>修改this指向</strong></h1>
+<p><strong>apply/call</strong>方法 立即执行 func.call(context, arg1, arg2, ...) func.apply(context, args)  <strong>数组或类数组对象</strong></p>
+<p>apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。</p>
+<p><strong>在非严格模式下使用 <code>call</code> 和 <code>apply</code> 时，如果用作 <code>this</code> 的值不是对象，则会被尝试转换为对象。<code>null</code> 和 <code>undefined</code> 被转换为全局对象。</strong></p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Chuangzhehao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210804181331854.png" alt="image-20210804181331854" loading="lazy"></figure>
+<p>bind(context,arg1,arg2,..) 除了绑定上下文，还能预定给函数传入参数，在复制后的函数调用时自动传入，<strong>同时调用时传入的参数在预定参数之后传入。</strong>（这种方式称为<strong>偏函数</strong>）。<strong>注意bind 函数用 new 操作符当做构造函数使用的特殊之处</strong>。</p>
+<p>已经bind过一次的函数之后的bind无效。</p>
+<p>它们的作用：减少重复代码，节省内存</p>
+<p>应用场景：</p>
+<ol>
+<li>
+<p>判断数据类型。利用 Object.prototype.toString.call()，要注意，如果传入基本数据类型会尝试转化为对象。</p>
+<p><code>Object.prototype.toString.call(123)</code> <code>[object Number]</code></p>
+<p><code>Object.prototype.toString.call(Symbol(111))</code> <code>[object Symbol]</code></p>
+</li>
+<li>
+<p>类数组对象借用数组方法。</p>
+<pre><code class="language-javascript">var arrayLike = {
+  0: &quot;first&quot;,
+  1: &quot;second&quot;,
+  length: 3,
+};
+Array.prototype.push.call(arrayLike, &quot;third&quot;, &quot;fourth&quot;);
+console.log(arrayLike);
+{
+    0: &quot;first&quot;
+    1: &quot;second&quot;
+    3: &quot;third&quot;
+    4: &quot;fourth&quot;
+    length: 5      
+}
+// 从侧面说明的 push 方法内部按照 length 的长度添加元素
+</code></pre>
+</li>
+</ol>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://null-go.github.io/post/ajax-tong-bu-he-yi-bu-http-qing-qiu-yi-hun-bian-mo-shi/">
+              <h3 class="post-title">
+                下一篇：【AJAX】混编模式与AJAX、Fetch
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
   <div class="social-container">
     
       
@@ -73,126 +220,26 @@ this是不受限制的。
       
     
   </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              【JS】this 指向
-            </h2>
-            <div class="post-info">
-              <span>
-                2021-03-13
-              </span>
-              <span>
-                2 min read
-              </span>
-              
-            </div>
-            
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="this的指向问题的几个重点">this的指向问题的几个重点</h2>
-<ol>
-<li>this可以用于任何函数或者方法。</li>
-<li>this是不受限制的。</li>
-<li>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于函数声明的位置，而是取决于在“点符号前”的是什么对象。</li>
-</ol>
-<h1 id="作为对象的方法调用this指向本对象且this靠近最后一个对象">作为对象的方法调用，this指向本对象，且this靠近最后一个对象</h1>
-<h1 id="对象原型上的方法中的this依然会指向new构造出来的对象实例上一条的拓展">对象原型上的方法中的this依然会指向new构造出来的对象实例(上一条的拓展)</h1>
-<h1 id="在对象的构造函数中使用new方法this指向构造的那个对象">在对象的构造函数中，使用new方法，this指向构造的那个对象</h1>
-<h1 id="作为普通的函数调用严格模式在this指向undefined非严格模式下指向全局函数浏览器window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向全局函数(浏览器window)</h1>
-<h1 id="匿名函数this指向window若在绑定事件处理函数时传递匿名函数作为参数则作为参数的匿名函数中的this指向绑定事件处理函数的元素">匿名函数this指向window，若在绑定事件处理函数时传递匿名函数作为参数，则作为参数的匿名函数中的this指向绑定事件处理函数的元素</h1>
-<h1 id="箭头函数的this值来自闭合词法上下文上一层执行上下文的值也就是说箭头函数的this在函数创建时就已经绑定好了这与其他函数情况不同this传递给call-bind-或者apply来调用箭头函数它将被忽略">箭头函数的this值来自闭合词法上下文(上一层执行上下文)的值(也就是说，箭头函数的this在函数创建时就已经绑定好了，这与其他函数情况不同，this传递给call、bind、或者apply来调用箭头函数，它将被忽略。)</h1>
-<p><strong>修改this指向</strong><br>
-<em>apply/call</em>方法 立即执行 func.call(context, arg1, arg2, ...) func.apply(context, args)类数组对象<br>
-apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。<br>
-<em>bind</em> 复制一份新的函数<br>
-bind(context,arg1,arg2,..) 除了绑定上下文，还能预定给函数传入参数，在复制后的函数调用时自动传入，同时调用时传入的参数在预定参数之后传入。（这种方式称为<em>偏函数</em>）</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E7%82%B9">this的指向问题的几个重点</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8this%E6%8C%87%E5%90%91%E6%9C%AC%E5%AF%B9%E8%B1%A1%E4%B8%94this%E9%9D%A0%E8%BF%91%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1">作为对象的方法调用，this指向本对象，且this靠近最后一个对象</a></li>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E5%8E%9F%E5%9E%8B%E4%B8%8A%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9A%84this%E4%BE%9D%E7%84%B6%E4%BC%9A%E6%8C%87%E5%90%91new%E6%9E%84%E9%80%A0%E5%87%BA%E6%9D%A5%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E4%B8%8A%E4%B8%80%E6%9D%A1%E7%9A%84%E6%8B%93%E5%B1%95">对象原型上的方法中的this依然会指向new构造出来的对象实例(上一条的拓展)</a></li>
-<li><a href="#%E5%9C%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8new%E6%96%B9%E6%B3%95this%E6%8C%87%E5%90%91%E6%9E%84%E9%80%A0%E7%9A%84%E9%82%A3%E4%B8%AA%E5%AF%B9%E8%B1%A1">在对象的构造函数中，使用new方法，this指向构造的那个对象</a></li>
-<li><a href="#%E4%BD%9C%E4%B8%BA%E6%99%AE%E9%80%9A%E7%9A%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E5%9C%A8this%E6%8C%87%E5%90%91undefined%E9%9D%9E%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%8C%87%E5%90%91%E5%85%A8%E5%B1%80%E5%87%BD%E6%95%B0%E6%B5%8F%E8%A7%88%E5%99%A8window">作为普通的函数调用，严格模式在this指向undefined，非严格模式下指向全局函数(浏览器window)</a></li>
-<li><a href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0this%E6%8C%87%E5%90%91window%E8%8B%A5%E5%9C%A8%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E6%97%B6%E4%BC%A0%E9%80%92%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E5%88%99%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84this%E6%8C%87%E5%90%91%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E7%9A%84%E5%85%83%E7%B4%A0">匿名函数this指向window，若在绑定事件处理函数时传递匿名函数作为参数，则作为参数的匿名函数中的this指向绑定事件处理函数的元素</a></li>
-<li><a href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84this%E5%80%BC%E6%9D%A5%E8%87%AA%E9%97%AD%E5%90%88%E8%AF%8D%E6%B3%95%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8A%E4%B8%80%E5%B1%82%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E5%80%BC%E4%B9%9F%E5%B0%B1%E6%98%AF%E8%AF%B4%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84this%E5%9C%A8%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E6%97%B6%E5%B0%B1%E5%B7%B2%E7%BB%8F%E7%BB%91%E5%AE%9A%E5%A5%BD%E4%BA%86%E8%BF%99%E4%B8%8E%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0%E6%83%85%E5%86%B5%E4%B8%8D%E5%90%8Cthis%E4%BC%A0%E9%80%92%E7%BB%99call-bind-%E6%88%96%E8%80%85apply%E6%9D%A5%E8%B0%83%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%AE%83%E5%B0%86%E8%A2%AB%E5%BF%BD%E7%95%A5">箭头函数的this值来自闭合词法上下文(上一层执行上下文)的值(也就是说，箭头函数的this在函数创建时就已经绑定好了，这与其他函数情况不同，this传递给call、bind、或者apply来调用箭头函数，它将被忽略。)</a></li>
-</ul>
-
-              </div>
-            </div>
-          </article>
-        </div>
-
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://null-go.github.io/post/es6-yu-fa-jie-xi/">
-              <h3 class="post-title">
-                【ES6】语法简学
-              </h3>
-            </a>
-          </div>
-        
-
-        
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://null-go.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
-
-      </div>
     </div>
+    <script type="application/javascript">
 
-    <script>
-      hljs.initHighlightingOnLoad()
+hljs.initHighlightingOnLoad()
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+</script>
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
 
-    </script>
+
   </body>
 </html>
